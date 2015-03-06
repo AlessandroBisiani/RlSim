@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class StateSpacePanel extends javax.swing.JPanel {
 
-    ArrayList<String> listOfStates = null;
+    ArrayList<String> listOfStates = new ArrayList<String>();
     /**
      * Creates new form NewJPanel
      */
@@ -46,7 +46,7 @@ public class StateSpacePanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("Enter the desired states below, one per line.");
+        jLabel1.setText("Enter the desired states below, separated by a space.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,16 +56,17 @@ public class StateSpacePanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(137, 137, 137)
+                                .addComponent(jButton1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel1)
-                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,33 +74,41 @@ public class StateSpacePanel extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     //Harvest JTextArea input and enter each state name in an ArrayList<String> for use.
+    //The states entered should be divided by a space.
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String states = stateSpace.getText();
-        int i = 0;
         String word = "";
-        CharSequence sepChar = System.getProperty("line.separator");
+        int lengthOfStates = states.length();
+        //CharSequence sepChar = System.getProperty("line.separator");
         
-        
-        /**
-         for(i=0; i<states.length(); i++){
-            if(states.charAt(i) != ){
-                word = word + states.charAt(i);
-            } else {
+        for(int i=0; i<lengthOfStates; i++){
+            
+            if(i==lengthOfStates-1 && states.charAt(i)==' '){
                 listOfStates.add(word);
+            } else if(i==lengthOfStates-1){
+                word = word + states.charAt(i);
+                listOfStates.add(word);
+            } else if(states.charAt(i) ==' '){
+                listOfStates.add(word);
+                System.out.println(word);                //A test to check whether the loop cycles through each word
                 word = "";
+            } else {
+                word = word + states.charAt(i);
             }
+            
         }
-        */
+        getListOfStates();
         
-        System.out.println(sepChar);
+        //Tests
+        System.out.println(states);
         System.out.println(states.length());
         System.out.println(listOfStates);
         
@@ -118,6 +127,9 @@ public class StateSpacePanel extends javax.swing.JPanel {
         }  */      
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public ArrayList<String> getListOfStates(){
+        return listOfStates;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

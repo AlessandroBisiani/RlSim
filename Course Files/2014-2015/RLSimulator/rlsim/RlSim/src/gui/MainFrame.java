@@ -8,18 +8,20 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/**
+/** 
  *
  * @author alessandrobisiani
  */
 public class MainFrame extends javax.swing.JFrame {
 
     private static JFrame tempLabelFrame;
+    private learning.Agent agent;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        agent = new learning.Agent();
     }
 
     /**
