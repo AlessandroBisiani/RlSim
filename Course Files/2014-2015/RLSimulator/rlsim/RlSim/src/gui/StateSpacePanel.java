@@ -5,21 +5,28 @@
  */
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
 /**
  *
  * @author alessandrobisiani
  */
-public class StateSpacePanel extends javax.swing.JPanel {
+public class StateSpacePanel extends javax.swing.JPanel implements ActionListener{
 
-    static ArrayList<String> listOfStates = new ArrayList<String>();
-    static String stringListOfStates;
+    private ArrayList<String> listOfStates = new ArrayList<String>();
+    //static String stringListOfStates;
+    private MainFrame parentCreator;
+    
     /**
      * Creates new form NewJPanel
      */
-    public StateSpacePanel() {
+    public StateSpacePanel(MainFrame parentFrame) {
         initComponents();
+        parentCreator = parentFrame;
+        createJButton.addActionListener(this);
     }
 
     /**
@@ -59,15 +66,14 @@ public class StateSpacePanel extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(137, 137, 137)
-                                .addComponent(createJButton)))
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addComponent(createJButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,8 +112,8 @@ public class StateSpacePanel extends javax.swing.JPanel {
                 word = word + states.charAt(i);
             }
         }
-        setStringListOfStates(states);
-        MainFrame.createMatrices(listOfStates);
+        
+        //MainFrame.createMatrices(listOfStates);
 
         //Tests of the state of the fields after harvesting the information from JTextArea
         System.out.println(states);
@@ -115,7 +121,8 @@ public class StateSpacePanel extends javax.swing.JPanel {
         System.out.println(listOfStates);
         
         //Create the matrices using static method and ArrayList<String> containing the state names. This method also calls dispose() on the instance of StateSpacePanel.
-        MainFrame.createMatrices(listOfStates);
+        parentCreator.createMatrices(listOfStates);
+        
         /**
         Window f = SwingUtilities.windowForComponent(this);
         f.removeAll();
@@ -130,14 +137,19 @@ public class StateSpacePanel extends javax.swing.JPanel {
         }  */      
     }//GEN-LAST:event_createJButtonActionPerformed
 
-    public  void setStringListOfStates(String s){
-        stringListOfStates = s;
+    
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("i hear ya");
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createJButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea stateSpace;
     // End of variables declaration//GEN-END:variables
+
+    
 }

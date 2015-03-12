@@ -17,7 +17,7 @@ public class QMatrix {
     
     //initialise 10x10 Q value matrix
     private String[] states;
-    private final double[][] matrix =  {{1,2,3,0,0,0,0,0,0,0}, 
+    private double[][] matrix =  {{1,2,3,0,0,0,0,0,0,0}, 
                                         {4,5,6,0,0,0,0,0,0,0}, 
                                         {7,8,9,0,0,0,0,0,0,0},
                                         {0,0,0,0,0,0,0,0,0,0},
@@ -29,6 +29,8 @@ public class QMatrix {
                                         {0,0,0,0,0,0,0,0,0,0}};
     public QMatrix(String[] states){
         this.states = states;
+        
+        System.out.println("Qmatrix reset");
     }
     
     

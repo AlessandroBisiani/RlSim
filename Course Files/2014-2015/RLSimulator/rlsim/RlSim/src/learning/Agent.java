@@ -5,16 +5,19 @@
  */
 package learning;
 
+import gui.MainFrame;
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import learning.RMatrix;
+import learning.QMatrix;
 /**
  *
  * @author alessandrobisiani
  */
 public class Agent {
     
-    private final learning.RMatrix rMatrix;
-    private final learning.QMatrix qMatrix;
+    private RMatrix rMatrix;
+    private QMatrix qMatrix;
     //where the agent finds itself
     private String location;
     private double epsilon;
@@ -60,6 +63,12 @@ public class Agent {
         
     }
     
+    
+    
+    public void setMatrices(String[] s){
+        rMatrix = new RMatrix(s);
+        qMatrix = new QMatrix(s);
+    }
     
     /**
     //what method is going to pull the agent through an entire episode, and coordinate it's restart/termination, and experiment termination?

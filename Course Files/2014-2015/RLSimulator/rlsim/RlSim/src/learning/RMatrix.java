@@ -28,8 +28,7 @@ public class RMatrix extends AbstractTableModel{
                                         {0,0,0,0,0,0,0,0,0,0}};
     public RMatrix(String[] states){
         this.states = states;
-        
-        System.out.println("Rmatrix created");
+        System.out.println("Rmatrix reset");
     }
     public RMatrix(){
         System.out.println("Rmatrix created");
