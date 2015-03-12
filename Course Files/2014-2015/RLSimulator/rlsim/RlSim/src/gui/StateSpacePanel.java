@@ -13,7 +13,8 @@ import java.util.ArrayList;
  */
 public class StateSpacePanel extends javax.swing.JPanel {
 
-    ArrayList<String> listOfStates = new ArrayList<String>();
+    static ArrayList<String> listOfStates = new ArrayList<String>();
+    static String stringListOfStates;
     /**
      * Creates new form NewJPanel
      */
@@ -32,17 +33,17 @@ public class StateSpacePanel extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         stateSpace = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        createJButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         stateSpace.setColumns(20);
         stateSpace.setRows(5);
         jScrollPane1.setViewportView(stateSpace);
 
-        jButton1.setText("Create");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        createJButton.setText("Create");
+        createJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                createJButtonActionPerformed(evt);
             }
         });
 
@@ -64,7 +65,7 @@ public class StateSpacePanel extends javax.swing.JPanel {
                                 .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(137, 137, 137)
-                                .addComponent(jButton1)))
+                                .addComponent(createJButton)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -76,14 +77,15 @@ public class StateSpacePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(createJButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     //Harvest JTextArea input and enter each state name in an ArrayList<String> for use.
     //The states entered should be divided by a space.
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void createJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createJButtonActionPerformed
+        listOfStates.clear();
         String states = stateSpace.getText();
         String word = "";
         int lengthOfStates = states.length();
@@ -103,16 +105,17 @@ public class StateSpacePanel extends javax.swing.JPanel {
             } else {
                 word = word + states.charAt(i);
             }
-            
         }
-        getListOfStates();
-        
-        //Tests
+        setStringListOfStates(states);
+        MainFrame.createMatrices(listOfStates);
+
+        //Tests of the state of the fields after harvesting the information from JTextArea
         System.out.println(states);
         System.out.println(states.length());
         System.out.println(listOfStates);
         
-        gui.MainFrame.closeLabelFrame();
+        //Create the matrices using static method and ArrayList<String> containing the state names. This method also calls dispose() on the instance of StateSpacePanel.
+        MainFrame.createMatrices(listOfStates);
         /**
         Window f = SwingUtilities.windowForComponent(this);
         f.removeAll();
@@ -125,14 +128,14 @@ public class StateSpacePanel extends javax.swing.JPanel {
                 temp.getParent().removeAll();
             }
         }  */      
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_createJButtonActionPerformed
 
-    public ArrayList<String> getListOfStates(){
-        return listOfStates;
+    public  void setStringListOfStates(String s){
+        stringListOfStates = s;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton createJButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea stateSpace;

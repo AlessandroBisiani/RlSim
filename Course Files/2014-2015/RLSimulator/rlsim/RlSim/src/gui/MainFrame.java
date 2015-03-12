@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -339,9 +340,24 @@ public class MainFrame extends javax.swing.JFrame {
         tempLabelFrame.pack();
         tempLabelFrame.setVisible(true);
     }//GEN-LAST:event_newMatrixButtonActionPerformed
-
+    
     public static void closeLabelFrame(){
         tempLabelFrame.dispose();
+    }
+    
+    //takes the states input as an ArrayList and calls the R and Q matrix constructors, discarding the old matrices and setting the new ones to be visible.
+    public static void createMatrices(ArrayList<String> statesList){
+        int s = statesList.size();
+        String[] states = new String[s];
+        for(int i=0 ; i<s ; i++){
+            states[i] = statesList.get(i);
+            System.out.println(states[i] + " THESE ARE THE DROIDS YOU'RE LOOKING FOR - " + i);
+            System.out.println(states.length);
+        }
+        
+        //System.out.println(states + " THESE ARE THE DROIDS YOU'RE LOOKING FOR");
+        
+        closeLabelFrame();
     }
     
     /**
