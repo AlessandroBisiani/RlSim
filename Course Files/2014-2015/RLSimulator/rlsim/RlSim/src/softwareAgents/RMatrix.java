@@ -27,7 +27,7 @@ public class RMatrix {
                                     {0,0,0,0,0,0,0,0,0,0}};
     
     public RMatrix(){
-        System.out.println(matrix[0][0]);
+        System.out.println(matrix[0][2] + "this test");
         System.out.println(matrix[1][1]);
         System.out.println(matrix[2][2]);
         System.out.println(getValueAt(0,0));

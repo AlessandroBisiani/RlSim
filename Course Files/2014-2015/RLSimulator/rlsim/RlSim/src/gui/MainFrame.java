@@ -309,9 +309,9 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_testTextField2ActionPerformed
 
-    //open temporary JFrame to allow matrix label insertion, then create new matrices with these labels.
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        
+        System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
+        System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
         //rMatrix.setModel(new RMatrix());
     }//GEN-LAST:event_testButtonActionPerformed
 
@@ -353,11 +353,11 @@ public class MainFrame extends javax.swing.JFrame {
             states[i] = statesList.get(i);
             System.out.println(states[i] + " THESE ARE THE DROIDS YOU'RE LOOKING FOR - " + i);
         }
-        agent.setMatrices(states);
+        
         //System.out.println(states.length);
         //System.out.println(states + " THESE ARE THE DROIDS YOU'RE LOOKING FOR");
-        
         MainFrame.closeLabelFrame();
+        agent.setMatrices(states);
     }
     
     /**

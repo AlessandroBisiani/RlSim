@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  *
  * @author alessandrobisiani
  */
-public class StateSpacePanel extends javax.swing.JPanel implements ActionListener{
+public class StateSpacePanel extends javax.swing.JPanel{
 
     private ArrayList<String> listOfStates = new ArrayList<String>();
     //static String stringListOfStates;
@@ -26,7 +26,6 @@ public class StateSpacePanel extends javax.swing.JPanel implements ActionListene
     public StateSpacePanel(MainFrame parentFrame) {
         initComponents();
         parentCreator = parentFrame;
-        createJButton.addActionListener(this);
     }
 
     /**
@@ -137,12 +136,6 @@ public class StateSpacePanel extends javax.swing.JPanel implements ActionListene
         }  */      
     }//GEN-LAST:event_createJButtonActionPerformed
 
-    
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("i hear ya");
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createJButton;
