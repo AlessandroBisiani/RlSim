@@ -8,6 +8,8 @@ package gui;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /** 
  *
@@ -22,7 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        agent = new learning.Agent();
+        agent = new learning.Agent(qMatrix, rMatrix);
     }
 
     /**
@@ -72,229 +74,244 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        rMatrix.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0}
-            },
-            new String [] {
-                "1", "2", "3", "4"
-            }
-        ));
-        jScrollPane1.setViewportView(rMatrix);
+        rMatrix.setModel(new DefaultTableModel(new Object[][] {{"state1",1,2,3,4,5,6,7,8,9},
+            {"state2",10,11,12,0,0,0,0,0,0},
+            {"state3",0,0,0,0,0,0,0,0,0},
+            {"state4",0,0,0,0,0,0,0,0,0},
+            {"state5",0,0,0,0,0,0,0,0,0},
+            {"state6",0,0,0,0,0,0,0,0,0},
+            {"state7",0,0,0,0,0,0,0,0,0},
+            {"state8",0,0,0,0,0,0,0,0,0},
+            {"state9",0,0,0,0,0,0,0,0,0},
+            {"state10",0,0,0,0,0,0,0,0,0}},
+        new String[] {"","state1","state2","state3","state4",
+            "state5","state6","state7","state8","state9","state10"}));
+/*
+rMatrix.setModel(new javax.swing.table.DefaultTableModel(
 
-        qMatrix.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0},
-                {0, 0, 0, 0}
-            },
-            new String [] {
-                "1", "2", "3", "4"
-            }
-        ));
-        jScrollPane2.setViewportView(qMatrix);
+    new Object[][]     {{0,0,0,0},
+        {0,0,0,0},
+        {0,0,0,0},
+        {0,0,0,0}},
 
-        jLabel1.setText("Reward Matrix");
+    new String[] {"1","2","3","4"}
 
-        jLabel2.setText("Q Matrix");
+    ));
+    */
+    jScrollPane1.setViewportView(rMatrix);
 
-        jLabel3.setText("Matrix Size");
+    qMatrix.setModel(new DefaultTableModel(new Object[][] {{"state1",0,0,0,0,0,0,0,0,0},
+        {"state2",0,0,0,0,0,0,0,0,0},
+        {"state3",0,0,0,0,0,0,0,0,0},
+        {"state4",0,0,0,0,0,0,0,0,0},
+        {"state5",0,0,0,0,0,0,0,0,0},
+        {"state6",0,0,0,0,0,0,0,0,0},
+        {"state7",0,0,0,0,0,0,0,0,0},
+        {"state8",0,0,0,0,0,0,0,0,0},
+        {"state9",0,0,0,0,0,0,0,0,0},
+        {"state10",0,0,0,0,0,0,0,0,0}},
+    new String[] {"","state1","state2","state3","state4",
+        "state5","state6","state7","state8","state9","state10"})
+);
+jScrollPane2.setViewportView(qMatrix);
 
-        jLabel4.setText("Number Of Episodes");
+jLabel1.setText("Reward Matrix");
 
-        jLabel5.setText("Learning Rate");
+jLabel2.setText("Q Matrix");
 
-        jLabel6.setText("Discount Factor");
+jLabel3.setText("Matrix Size");
 
-        jLabel7.setText("Policy");
+jLabel4.setText("Number Of Episodes");
 
-        jLabel8.setText("Algorithm");
+jLabel5.setText("Learning Rate");
 
-        matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                matrixSizeTextFieldActionPerformed(evt);
-            }
-        });
+jLabel6.setText("Discount Factor");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+jLabel7.setText("Policy");
 
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+jLabel8.setText("Algorithm");
 
-        jLabel9.setText("(Limit of 10)");
+matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        matrixSizeTextFieldActionPerformed(evt);
+    }
+    });
 
-        jButton2.setText("Display Graphs");
+    jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jTextField2ActionPerformed(evt);
+        }
+    });
 
-        jButton3.setText("Run");
+    jButton1.setText("Update");
+    jButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton1ActionPerformed(evt);
+        }
+    });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Q-Learning", "SARSA"}));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
+    jLabel9.setText("(Limit of 10)");
 
-        testButton.setText("test");
-        testButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testButtonActionPerformed(evt);
-            }
-        });
+    jButton2.setText("Display Graphs");
 
-        testTextField2.setText("matrix size");
-        testTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testTextField2ActionPerformed(evt);
-            }
-        });
+    jButton3.setText("Run");
 
-        newMatrixButton.setText("New Matrix");
-        newMatrixButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newMatrixButtonActionPerformed(evt);
-            }
-        });
+    jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Q-Learning", "SARSA"}));
+    jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jComboBox1ActionPerformed(evt);
+        }
+    });
 
-        jMenu1.setText("File");
+    testButton.setText("test");
+    testButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            testButtonActionPerformed(evt);
+        }
+    });
 
-        jMenuItemNew.setText("New");
-        jMenuItemNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemNewActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItemNew);
+    testTextField2.setText("matrix size");
+    testTextField2.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            testTextField2ActionPerformed(evt);
+        }
+    });
 
-        jMenuItemOpen.setText("Open");
-        jMenu1.add(jMenuItemOpen);
+    newMatrixButton.setText("New Matrix");
+    newMatrixButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            newMatrixButtonActionPerformed(evt);
+        }
+    });
 
-        jMenuItemSave.setText("Save");
-        jMenu1.add(jMenuItemSave);
+    jMenu1.setText("File");
 
-        jMenuItemExport.setText("Export");
-        jMenu1.add(jMenuItemExport);
+    jMenuItemNew.setText("New");
+    jMenuItemNew.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItemNewActionPerformed(evt);
+        }
+    });
+    jMenu1.add(jMenuItemNew);
 
-        jMenuItemQuit.setText("Quit");
-        jMenu1.add(jMenuItemQuit);
+    jMenuItemOpen.setText("Open");
+    jMenu1.add(jMenuItemOpen);
 
-        jMenuBar1.add(jMenu1);
+    jMenuItemSave.setText("Save");
+    jMenu1.add(jMenuItemSave);
 
-        setJMenuBar(jMenuBar1);
+    jMenuItemExport.setText("Export");
+    jMenu1.add(jMenuItemExport);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel9)
-                                .addGap(70, 70, 70)
-                                .addComponent(jButton2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                                    .addComponent(jTextField5))
-                                .addGap(30, 30, 30)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel5)
-                                    .addComponent(testButton))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                                    .addComponent(jTextField4)
-                                    .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(newMatrixButton)
-                        .addGap(105, 105, 105))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(72, Short.MAX_VALUE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel9)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(newMatrixButton))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
+    jMenuItemQuit.setText("Quit");
+    jMenu1.add(jMenuItemQuit);
+
+    jMenuBar1.add(jMenu1);
+
+    setJMenuBar(jMenuBar1);
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addGap(43, 43, 43)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel4)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel7))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel9)
+                            .addGap(70, 70, 70)
+                            .addComponent(jButton2))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                .addComponent(jTextField5))
+                            .addGap(30, 30, 30)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel5)
+                                .addComponent(testButton))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                                .addComponent(jTextField4)
+                                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGap(3, 3, 3)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addGap(18, 18, 18)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(newMatrixButton)
+                    .addGap(105, 105, 105))
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                    .addGap(100, 100, 100)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE))
+                    .addGap(72, 72, 72))))
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addGap(17, 17, 17)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3)
+                .addComponent(jButton1)
+                .addComponent(jLabel9)
+                .addComponent(jButton2)
+                .addComponent(jButton3)
+                .addComponent(newMatrixButton))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(45, 45, 45)
+                        .addComponent(jLabel4)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(testButton)
-                    .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69))
-        );
+                    .addComponent(jLabel8)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(47, 47, 47)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addGap(45, 45, 45)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(testButton)
+                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(69, 69, 69))
+    );
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewActionPerformed
@@ -310,8 +327,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
-        System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
+        rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
+        //System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
+        //System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
         //rMatrix.setModel(new RMatrix());
     }//GEN-LAST:event_testButtonActionPerformed
 
@@ -357,8 +375,43 @@ public class MainFrame extends javax.swing.JFrame {
         //System.out.println(states.length);
         //System.out.println(states + " THESE ARE THE DROIDS YOU'RE LOOKING FOR");
         MainFrame.closeLabelFrame();
-        agent.setMatrices(states);
+        resetMatrix(rMatrix, states);
+        resetMatrix(qMatrix, states);
+        //rMatrix.setModel(null);
     }
+    
+    public boolean resetMatrix(JTable table, String[] states){
+        int c = 0;
+        int r = 0;
+        boolean b = false;
+        //creates String[] beginning with null value followed by states input to the method.
+        int l = states.length;
+        String [] statesList = new String[l+1];
+        statesList[0] = "";
+        for(int i=1 ; i<=l ; i++){
+            statesList[i] = states[i-1];
+        }
+        //populates the matrix.
+        Object[][] matrix = new Object[l+1][l+1];
+        for(int i=0 ; i<l ; i++){
+            for(int j=0 ; j<=l ; j++){
+                if(j==0){
+                    matrix[i][0] = states[i];
+                    r++;
+                } else {
+                    matrix[i][j] = 0;
+                    c++;
+                } 
+            }
+        }
+        table.setModel(new DefaultTableModel(matrix, statesList));
+        System.out.println("Matrix reset");
+        if((c/l)==r){
+            b=true;
+        }
+        return b;
+    }
+    
     
     /**
      * @param args the command line arguments

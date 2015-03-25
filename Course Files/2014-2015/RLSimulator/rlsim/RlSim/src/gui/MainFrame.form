@@ -127,14 +127,14 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="386" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="386" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="100" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" pref="384" max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" pref="384" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="72" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -205,8 +205,8 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="rMatrix">
           <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {0, 0, 0, 0},&#xa;        {0, 0, 0, 0},&#xa;        {0, 0, 0, 0},&#xa;        {0, 0, 0, 0}&#xa;    },&#xa;    new String [] {&#xa;        &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;&#xa;    }&#xa;)" type="code"/>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="/*&#xa;rMatrix.setModel(new javax.swing.table.DefaultTableModel(&#xa;&#xa;    new Object[][]     {{0,0,0,0},&#xa;        {0,0,0,0},&#xa;        {0,0,0,0},&#xa;        {0,0,0,0}},&#xa;&#xa;    new String[] {&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;}&#xa;&#xa;));&#xa;*/">
+              <Connection code="new DefaultTableModel(new Object[][] {{&quot;state1&quot;,1,2,3,4,5,6,7,8,9},&#xa;    {&quot;state2&quot;,10,11,12,0,0,0,0,0,0},&#xa;    {&quot;state3&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state4&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state5&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state6&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state7&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state8&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state9&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state10&quot;,0,0,0,0,0,0,0,0,0}},&#xa;new String[] {&quot;&quot;,&quot;state1&quot;,&quot;state2&quot;,&quot;state3&quot;,&quot;state4&quot;,&#xa;    &quot;state5&quot;,&quot;state6&quot;,&quot;state7&quot;,&quot;state8&quot;,&quot;state9&quot;,&quot;state10&quot;})" type="code"/>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0"/>
@@ -228,7 +228,7 @@
         <Component class="javax.swing.JTable" name="qMatrix">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {0, 0, 0, 0},&#xa;        {0, 0, 0, 0},&#xa;        {0, 0, 0, 0},&#xa;        {0, 0, 0, 0}&#xa;    },&#xa;    new String [] {&#xa;        &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;&#xa;    }&#xa;)" type="code"/>
+              <Connection code="new DefaultTableModel(new Object[][] {{&quot;state1&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state2&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state3&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state4&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state5&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state6&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state7&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state8&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state9&quot;,0,0,0,0,0,0,0,0,0},&#xa;    {&quot;state10&quot;,0,0,0,0,0,0,0,0,0}},&#xa;new String[] {&quot;&quot;,&quot;state1&quot;,&quot;state2&quot;,&quot;state3&quot;,&quot;state4&quot;,&#xa;    &quot;state5&quot;,&quot;state6&quot;,&quot;state7&quot;,&quot;state8&quot;,&quot;state9&quot;,&quot;state10&quot;})&#xa;" type="code"/>
             </Property>
           </Properties>
         </Component>

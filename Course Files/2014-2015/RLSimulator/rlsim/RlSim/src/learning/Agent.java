@@ -5,19 +5,19 @@
  */
 package learning;
 
-import gui.MainFrame;
-import java.util.ArrayList;
 import java.util.HashMap;
-import learning.RMatrix;
-import learning.QMatrix;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author alessandrobisiani
  */
 public class Agent {
     
-    private RMatrix rMatrix;
-    private QMatrix qMatrix;
+    private DefaultTableModel rMatrixModel;
+    private DefaultTableModel qMatrixModel;
+    private JTable rMatrix;
+    private JTable qMatrix;
     //where the agent finds itself
     private String location;
     private double epsilon;
@@ -25,22 +25,37 @@ public class Agent {
     private HashMap actions;
     
     
-    public Agent(){
-        rMatrix = new RMatrix();
-        qMatrix = new QMatrix();
+    public Agent(JTable q, JTable r){
+        qMatrix = q;
+        rMatrix = r;
+        rMatrixModel = new DefaultTableModel(new Object[][] {{"state1",1,2,3,4,5,6,7,8,9}, 
+                                                            {"state2",10,11,12,0,0,0,0,0,0}, 
+                                                            {"state3",0,0,0,0,0,0,0,0,0},
+                                                            {"state4",0,0,0,0,0,0,0,0,0},
+                                                            {"state5",0,0,0,0,0,0,0,0,0},
+                                                            {"state6",0,0,0,0,0,0,0,0,0},
+                                                            {"state7",0,0,0,0,0,0,0,0,0},
+                                                            {"state8",0,0,0,0,0,0,0,0,0},
+                                                            {"state9",0,0,0,0,0,0,0,0,0},
+                                                            {"state10",0,0,0,0,0,0,0,0,0}}, 
+                                             new String[] {"","state1","state2","state3","state4",
+                                                 "state5","state6","state7","state8","state9","state10"});
         
-        location = "";
+        qMatrixModel = new DefaultTableModel(new Object[][] {{"state1",0,0,0,0,0,0,0,0,0}, 
+                                                            {"state2",0,0,0,0,0,0,0,0,0}, 
+                                                            {"state3",0,0,0,0,0,0,0,0,0},
+                                                            {"state4",0,0,0,0,0,0,0,0,0},
+                                                            {"state5",0,0,0,0,0,0,0,0,0},
+                                                            {"state6",0,0,0,0,0,0,0,0,0},
+                                                            {"state7",0,0,0,0,0,0,0,0,0},
+                                                            {"state8",0,0,0,0,0,0,0,0,0},
+                                                            {"state9",0,0,0,0,0,0,0,0,0},
+                                                            {"state10",0,0,0,0,0,0,0,0,0}}, 
+                                             new String[] {"","state1","state2","state3","state4",
+                                                 "state5","state6","state7","state8","state9","state10"});
+        
         
         epsilon = 1;
-        
-        actions = new HashMap(4,1);
-        
-        
-        System.out.println(actions);
-        findActions();
-        System.out.println(actions);
-        eGreedy();
-        System.out.println(actions);
     }
     
     public void move(){
@@ -63,11 +78,11 @@ public class Agent {
         
     }
     
-    
-    
-    public void setMatrices(String[] s){
-        rMatrix = new RMatrix(s);
-        qMatrix = new QMatrix(s);
+    public void resetMatrices(String[] s){
+        rMatrixModel.resetMatrix(s);
+        qMatrixModel.resetMatrix(s);
+        qMatrix.setModel(qMatrixModel);
+        rMatrix.setModel(rMatrixModel);
     }
     
     /**
