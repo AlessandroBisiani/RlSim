@@ -16,8 +16,11 @@ public class Controller implements Runnable{
     
     public static void main(String args[]) {
         //Court c = new Court();
-           Gang sharks = new Gang("Sharks");
-           Gang jets = new Gang("Jets");
+           GUI gui = new GUI();
+           gui.setVisible(true);
+           
+           Gang sharks = new Gang("Sharks", gui);
+           Gang jets = new Gang("Jets", gui);
            sharks.setOthers(jets);
            jets.setOthers(sharks);
            System.out.println("TEST");
