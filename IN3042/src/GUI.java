@@ -7,6 +7,6 @@
  *
  * @author Laura
  */
-public class Court {
+public class GUI {
     
 }
