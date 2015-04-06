@@ -18,54 +18,23 @@ public class Agent {
     private DefaultTableModel qMatrixModel;
     private JTable rMatrix;
     private JTable qMatrix;
+    private QLearner qLearner;
     //where the agent finds itself
     private String location;
-    private double epsilon;
+    
     //available actions mapped to binary value denoting their availability. 0 for unavailable, 1 for available.
     private HashMap actions;
     
     
-    public Agent(JTable q, JTable r){
-        qMatrix = q;
-        rMatrix = r;
-        rMatrixModel = new DefaultTableModel(new Object[][] {{"state1",1,2,3,4,5,6,7,8,9}, 
-                                                            {"state2",10,11,12,0,0,0,0,0,0}, 
-                                                            {"state3",0,0,0,0,0,0,0,0,0},
-                                                            {"state4",0,0,0,0,0,0,0,0,0},
-                                                            {"state5",0,0,0,0,0,0,0,0,0},
-                                                            {"state6",0,0,0,0,0,0,0,0,0},
-                                                            {"state7",0,0,0,0,0,0,0,0,0},
-                                                            {"state8",0,0,0,0,0,0,0,0,0},
-                                                            {"state9",0,0,0,0,0,0,0,0,0},
-                                                            {"state10",0,0,0,0,0,0,0,0,0}}, 
-                                             new String[] {"","state1","state2","state3","state4",
-                                                 "state5","state6","state7","state8","state9","state10"});
+    public Agent(QLearner ql){
+        qLearner = ql;
         
-        qMatrixModel = new DefaultTableModel(new Object[][] {{"state1",0,0,0,0,0,0,0,0,0}, 
-                                                            {"state2",0,0,0,0,0,0,0,0,0}, 
-                                                            {"state3",0,0,0,0,0,0,0,0,0},
-                                                            {"state4",0,0,0,0,0,0,0,0,0},
-                                                            {"state5",0,0,0,0,0,0,0,0,0},
-                                                            {"state6",0,0,0,0,0,0,0,0,0},
-                                                            {"state7",0,0,0,0,0,0,0,0,0},
-                                                            {"state8",0,0,0,0,0,0,0,0,0},
-                                                            {"state9",0,0,0,0,0,0,0,0,0},
-                                                            {"state10",0,0,0,0,0,0,0,0,0}}, 
-                                             new String[] {"","state1","state2","state3","state4",
-                                                 "state5","state6","state7","state8","state9","state10"});
-        
-        
-        epsilon = 1;
     }
     
     public void move(){
         
     }
-    
-    private void eGreedy(){
-        
-    }
-    
+   
     private String selectRandomAction(){
         return null;
     }
@@ -79,8 +48,8 @@ public class Agent {
     }
     
     public void resetMatrices(String[] s){
-        rMatrixModel.resetMatrix(s);
-        qMatrixModel.resetMatrix(s);
+       // rMatrixModel.resetMatrix(s);
+       // qMatrixModel.resetMatrix(s);
         qMatrix.setModel(qMatrixModel);
         rMatrix.setModel(rMatrixModel);
     }

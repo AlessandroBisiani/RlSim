@@ -105,7 +105,7 @@ public class RMatrixTest {
     @Test (expected=RuntimeException.class)
     public void testResetMatrix3() {
         System.out.println("resetMatrix");
-        String[] states = {"1",2,"3"};
+        String[] states = {"1","2","3"};
         RMatrix instance = new RMatrix();
         boolean expResult = true;
         boolean result = instance.resetMatrix(states);

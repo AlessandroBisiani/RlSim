@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import learning.Agent;
+import learning.QLearner;
 
 /** 
  *
@@ -18,13 +20,14 @@ import javax.swing.table.DefaultTableModel;
 public class MainFrame extends javax.swing.JFrame {
 
     private static JFrame tempLabelFrame;
-    private learning.Agent agent;
-    /**
-     * Creates new form MainFrame
-     */
+    private Agent agent;
+    private QLearner qLearner;
+    
+    
     public MainFrame() {
         initComponents();
-        agent = new learning.Agent(qMatrix, rMatrix);
+        qLearner = new QLearner(qMatrix,rMatrix);
+        agent = new Agent(qLearner);
     }
 
     /**
@@ -372,15 +375,12 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             System.out.println(states[i] + " THESE ARE THE DROIDS YOU'RE LOOKING FOR - " + i);
         }
         
-        //System.out.println(states.length);
-        //System.out.println(states + " THESE ARE THE DROIDS YOU'RE LOOKING FOR");
+        
         MainFrame.closeLabelFrame();
-        resetMatrix(rMatrix, states);
-        resetMatrix(qMatrix, states);
-        //rMatrix.setModel(null);
+        resetMatrices(qMatrix, rMatrix, states);
     }
     
-    public boolean resetMatrix(JTable table, String[] states){
+    public boolean resetMatrices(JTable qMatrix, JTable rMatrix, String[] states){
         int c = 0;
         int r = 0;
         boolean b = false;
@@ -391,8 +391,8 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         for(int i=1 ; i<=l ; i++){
             statesList[i] = states[i-1];
         }
-        //populates the matrix.
-        Object[][] matrix = new Object[l+1][l+1];
+        //populates the matrix with zeros and row headers.
+        Object[][] matrix = new Object[l][l+1];
         for(int i=0 ; i<l ; i++){
             for(int j=0 ; j<=l ; j++){
                 if(j==0){
@@ -404,14 +404,19 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 } 
             }
         }
-        table.setModel(new DefaultTableModel(matrix, statesList));
+        //Create new DefaultTableModel s, set them as models for Q and R matrices and as designated TableModels in qLearner.
+        //The purpose of this is to make sure there's a reference to DefaultTableModel objects due to their great methods.
+        DefaultTableModel qModel = new DefaultTableModel(matrix, statesList);
+        DefaultTableModel rModel = new DefaultTableModel(matrix, statesList);
+        qMatrix.setModel(qModel);
+        rMatrix.setModel(rModel);
+        qLearner.setModels(qModel, rModel);
         System.out.println("Matrix reset");
         if((c/l)==r){
             b=true;
         }
         return b;
     }
-    
     
     /**
      * @param args the command line arguments

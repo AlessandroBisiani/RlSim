@@ -1,4 +1,13 @@
 
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 /*
@@ -35,22 +44,8 @@ public class TestTable extends AbstractTableModel {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-}
 
 
-
-
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 
 
 /**
@@ -175,7 +170,6 @@ public class TestCustTableModel extends JPanel{
         f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        TestCustTableModel obj = new TestCustTableModel();
-        obj.display();
-    }
+    
+}
+}
