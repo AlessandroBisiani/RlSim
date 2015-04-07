@@ -78,7 +78,7 @@ public class QLearner implements Learner{
         currentState = stateSpace[i%stateSpace.length];
         System.out.println("starting position reset -" +currentState);
     }
-    //finds the current state String in the rMatirx and returns an String[] containing the available next state names.
+    //finds the current state String in the first rMatrix column and returns an ArrayList<String> containing the names of available next states.
     public ArrayList<String> getAvailableActions(){
         ArrayList<String> available = new ArrayList<>();
         for(int i=0;i<rMatrix.getRowCount();i++){

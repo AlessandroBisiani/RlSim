@@ -84,32 +84,6 @@ public class RMatrixTest {
     /**
      * Test of resetMatrix method, of class RMatrix.
      */
-    @Test
-    public void testResetMatrix() {
-        System.out.println("resetMatrix");
-        String[] states = {""};
-        RMatrix instance = new RMatrix();
-        boolean expResult = true;
-        boolean result = instance.resetMatrix(states);
-        assertEquals(expResult, result);
-    }
-    @Test
-    public void testResetMatrix2() {
-        System.out.println("resetMatrix");
-        String[] states = {"1","2","3"};
-        RMatrix instance = new RMatrix();
-        boolean expResult = true;
-        boolean result = instance.resetMatrix(states);
-        assertEquals(expResult, result);
-    }
-    @Test (expected=RuntimeException.class)
-    public void testResetMatrix3() {
-        System.out.println("resetMatrix");
-        String[] states = {"1","2","3"};
-        RMatrix instance = new RMatrix();
-        boolean expResult = true;
-        boolean result = instance.resetMatrix(states);
-        assertEquals(expResult, result);
-    }
+    
     
 }
