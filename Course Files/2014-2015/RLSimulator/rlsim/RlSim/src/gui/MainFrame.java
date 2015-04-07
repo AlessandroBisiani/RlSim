@@ -331,7 +331,9 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        System.out.println(rMatrix.getModel().getValueAt(0,0));
+        qLearner.episode();
+        
+        /*System.out.println(rMatrix.getModel().getValueAt(0,0));
         System.out.println(rMatrix.getModel().getValueAt(1,1));
         System.out.println(rMatrix.getModel().getValueAt(2,2));
         Object o = rMatrix.getModel().getValueAt(2,2);
@@ -345,6 +347,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             System.out.println(s);
         }
         System.out.println(o.getClass());
+        */
         
         //rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
         //System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.

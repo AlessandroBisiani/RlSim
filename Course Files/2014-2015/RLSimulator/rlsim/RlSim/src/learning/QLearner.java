@@ -5,6 +5,7 @@
  */
 package learning;
 
+import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -69,12 +70,31 @@ public class QLearner implements Learner{
     
     public void episode(){
         resetStartingPosition();
+        getAvailableActions();
     }
-
+    //sets startingPosition to a random position taken from stateSpace
     public void resetStartingPosition(){
         int i = (int)(Math.random()*100);
         currentState = stateSpace[i%stateSpace.length];
-        System.out.println("starting position reset");
+        System.out.println("starting position reset -" +currentState);
+    }
+    //finds the current state String in the rMatirx and returns an String[] containing the available next state names.
+    public ArrayList<String> getAvailableActions(){
+        ArrayList<String> available = new ArrayList<>();
+        for(int i=0;i<rMatrix.getRowCount();i++){
+            if(currentState.equals(rMatrix.getValueAt(i,0))){
+                System.out.println("currentStateFound");
+                for(int c=1;c<=rMatrix.getRowCount();c++){
+                    if(!rMatrix.getValueAt(i,c).equals("")){
+                        available.add(rMatrix.getColumnName(c));
+                        System.out.println(rMatrix.getColumnName(c));
+                    }
+                }
+                return available;
+            }
+        }
+        //Warning: no possible actions encountered for state: + currentState
+        return available;
     }
     
     public void setGamma(double g){
