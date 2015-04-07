@@ -4,40 +4,44 @@
  * and open the template in the editor.
  */
 package learning;
-
-import java.util.HashMap;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author alessandrobisiani
  */
 public class Agent {
     
-    private DefaultTableModel rMatrixModel;
-    private DefaultTableModel qMatrixModel;
-    private JTable rMatrix;
-    private JTable qMatrix;
+    
     private QLearner qLearner;
-    //where the agent finds itself
-    private String location;
-    
-    //available actions mapped to binary value denoting their availability. 0 for unavailable, 1 for available.
-    private HashMap actions;
+    private String currentState;
+    //private HashMap actions;
     
     
-    public Agent(QLearner ql){
-        qLearner = ql;
+    
+    public Agent(){
         
+        resetStartingPosition();
+    }
+    
+    
+    public String getState(){
+        return currentState;
+    }
+    public void setState(String s){
+        currentState = s;
     }
     
     public void move(){
         
     }
-   
-    private String selectRandomAction(){
-        return null;
+    
+    public void resetStartingPosition(){
+        int i = (int)(Math.random()*100);
+        //currentState = qLearner.stateSpace[i%qLearner.stateSpace.length];
+        System.out.println("starting position reset");
     }
+   
+    
+    
     
     private void findActions(){
         
@@ -47,12 +51,7 @@ public class Agent {
         
     }
     
-    public void resetMatrices(String[] s){
-       // rMatrixModel.resetMatrix(s);
-       // qMatrixModel.resetMatrix(s);
-        qMatrix.setModel(qMatrixModel);
-        rMatrix.setModel(rMatrixModel);
-    }
+    
     
     /**
     //what method is going to pull the agent through an entire episode, and coordinate it's restart/termination, and experiment termination?

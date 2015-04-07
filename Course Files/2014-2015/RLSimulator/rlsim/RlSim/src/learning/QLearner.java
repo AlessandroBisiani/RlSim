@@ -13,58 +13,72 @@ import javax.swing.table.TableModel;
  *
  * @author alessandrobisiani
  */
-public class QLearner {
+public class QLearner implements Learner{
+    private Agent agent;
+    public String currentState;
     
-    private double epsilon;
-    private double alpha;
-    //These are default table models because DefaultTableModel includes more methods for operating on the model and extracting table data
     private JTable qMatrix;
     private JTable rMatrix;
+    //These are default table models because DefaultTableModel includes more methods for operating on the model and extracting table data
     private TableModel qModel;
     private TableModel rModel;
     
-    public QLearner(JTable q, JTable r){
+    private double gamma;
+    private double alpha;
+    
+    public String[] stateSpace = {"state1","state2","state3","state4",
+                                                 "state5","state6","state7","state8","state9"};
+    
+    
+    public QLearner(JTable q, JTable r,Agent a){
+        agent = a;
         qMatrix = q;
         rMatrix = r;
-        qModel = new DefaultTableModel(new Object[][] {{"state1",0,0,0,0,0,0,0,0,0}, 
-                                                            {"state2",0,0,0,0,0,0,0,0,0}, 
-                                                            {"state3",0,0,0,0,0,0,0,0,0},
-                                                            {"state4",0,0,0,0,0,0,0,0,0},
-                                                            {"state5",0,0,0,0,0,0,0,0,0},
-                                                            {"state6",0,0,0,0,0,0,0,0,0},
-                                                            {"state7",0,0,0,0,0,0,0,0,0},
-                                                            {"state8",0,0,0,0,0,0,0,0,0},
-                                                            {"state9",0,0,0,0,0,0,0,0,0},
-                                                            {"state10",0,0,0,0,0,0,0,0,0}}, 
+        
+        currentState = stateSpace[0];
+        alpha = 0.5;
+        gamma = 1.0;
+        
+        qModel = new DefaultTableModel(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
+                                                            {"state2","0","0","0","0","0","0","0","0","0"}, 
+                                                            {"state3","0","0","0","0","0","0","0","0","0"},
+                                                            {"state4","0","0","0","0","0","0","0","0","0"},
+                                                            {"state5","0","0","0","0","0","0","0","0","0"},
+                                                            {"state6","0","0","0","0","0","0","0","0","0"},
+                                                            {"state7","0","0","0","0","0","0","0","0","0"},
+                                                            {"state8","0","0","0","0","0","0","0","0","0"},
+                                                            {"state9","0","0","0","0","0","0","0","0","0"},
+                                                            {"state10","0","0","0","0","0","0","0","0","0"}}, 
                                              new String[] {"","state1","state2","state3","state4",
                                                  "state5","state6","state7","state8","state9"});
-        rModel = new DefaultTableModel(new Object[][] {{"state1",1,2,3,4,5,6,7,8,9}, 
-                                                            {"state2",10,11,12,0,0,0,0,0,0}, 
-                                                            {"state3",0,0,0,0,0,0,0,0,0},
-                                                            {"state4",0,0,0,0,0,0,0,0,0},
-                                                            {"state5",0,0,0,0,0,0,0,0,0},
-                                                            {"state6",0,0,0,0,0,0,0,0,0},
-                                                            {"state7",0,0,0,0,0,0,0,0,0},
-                                                            {"state8",0,0,0,0,0,0,0,0,0},
-                                                            {"state9",0,0,0,0,0,0,0,0,0},
-                                                            {"state10",0,0,0,0,0,0,0,0,0}}, 
+        rModel = new DefaultTableModel(new String[][] {{"state1","","","","","","","","",""}, 
+                                                            {"state2","","","","","","","","",""}, 
+                                                            {"state3","","","","","","","","",""},
+                                                            {"state4","","","","","","","","",""},
+                                                            {"state5","","","","","","","","",""},
+                                                            {"state6","","","","","","","","",""},
+                                                            {"state7","","","","","","","","",""},
+                                                            {"state8","","","","","","","","",""},
+                                                            {"state9","","","","","","","","",""},
+                                                            {"state10","","","","","","","","",""}}, 
                                              new String[] {"","state1","state2","state3","state4",
                                                  "state5","state6","state7","state8","state9"});
         q.setModel(qModel);
         r.setModel(rModel);
-        
     }
     
     public void episode(){
-        
+        resetStartingPosition();
     }
 
-    public void eGreedy(){
-        
+    public void resetStartingPosition(){
+        int i = (int)(Math.random()*100);
+        currentState = stateSpace[i%stateSpace.length];
+        System.out.println("starting position reset");
     }
     
-    public void setEpsilon(double e){
-        epsilon = e;
+    public void setGamma(double g){
+        gamma = g;
     }
     public void setAlpha(double a){
         alpha = a;
@@ -74,4 +88,5 @@ public class QLearner {
         qModel = q;
         rModel = r;
     }
+    
 }

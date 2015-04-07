@@ -60,7 +60,7 @@ public class Agent {
             case "left":
                 left();
                 break;
-        }
+        } 
         /**
         if(actionSelected.equals("up")){
             up();

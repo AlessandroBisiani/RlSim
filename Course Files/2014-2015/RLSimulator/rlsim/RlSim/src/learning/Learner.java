@@ -9,10 +9,6 @@ package learning;
  *
  * @author alessandrobisiani
  */
-public interface Policy {
+public interface Learner {
     
-    
-    String next();
-
-    void setStateSpace();
 }

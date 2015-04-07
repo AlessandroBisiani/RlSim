@@ -26,8 +26,9 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame() {
         initComponents();
-        qLearner = new QLearner(qMatrix,rMatrix);
-        agent = new Agent(qLearner);
+        agent = new Agent();
+        qLearner = new QLearner(qMatrix,rMatrix,agent);
+        
     }
 
     /**
@@ -330,7 +331,22 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
+        System.out.println(rMatrix.getModel().getValueAt(0,0));
+        System.out.println(rMatrix.getModel().getValueAt(1,1));
+        System.out.println(rMatrix.getModel().getValueAt(2,2));
+        Object o = rMatrix.getModel().getValueAt(2,2);
+        String s = "";
+        int i = 0;
+        if(o instanceof Integer){
+            i = (Integer)rMatrix.getModel().getValueAt(2,2) + (Integer)rMatrix.getModel().getValueAt(2,2);
+            System.out.println(i);
+        } else if(o instanceof String){
+            s = (String)rMatrix.getModel().getValueAt(2,2) + (String)rMatrix.getModel().getValueAt(2,2);
+            System.out.println(s);
+        }
+        System.out.println(o.getClass());
+        
+        //rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
         //System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
         //System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
         //rMatrix.setModel(new RMatrix());
@@ -392,26 +408,41 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             statesList[i] = states[i-1];
         }
         //populates the matrix with zeros and row headers.
-        Object[][] matrix = new Object[l][l+1];
+        String[][] qmatrix = new String[l][l+1];
         for(int i=0 ; i<l ; i++){
             for(int j=0 ; j<=l ; j++){
                 if(j==0){
-                    matrix[i][0] = states[i];
+                    qmatrix[i][0] = states[i];
                     r++;
                 } else {
-                    matrix[i][j] = 0;
+                    qmatrix[i][j] = "0";
+                    c++;
+                } 
+            }
+        }
+        String[][] rmatrix = new String[l][l+1];
+        for(int i=0 ; i<l ; i++){
+            for(int j=0 ; j<=l ; j++){
+                if(j==0){
+                    rmatrix[i][0] = states[i];
+                    r++;
+                } else {
+                    rmatrix[i][j] = "";
                     c++;
                 } 
             }
         }
         //Create new DefaultTableModel s, set them as models for Q and R matrices and as designated TableModels in qLearner.
         //The purpose of this is to make sure there's a reference to DefaultTableModel objects due to their great methods.
-        DefaultTableModel qModel = new DefaultTableModel(matrix, statesList);
-        DefaultTableModel rModel = new DefaultTableModel(matrix, statesList);
+        DefaultTableModel qModel = new DefaultTableModel(qmatrix, statesList);
+        DefaultTableModel rModel = new DefaultTableModel(rmatrix, statesList);
         qMatrix.setModel(qModel);
         rMatrix.setModel(rModel);
         qLearner.setModels(qModel, rModel);
-        System.out.println("Matrix reset");
+        qLearner.stateSpace = states;
+        qLearner.resetStartingPosition();
+        System.out.println(qLearner.currentState);
+        System.out.println("Matrices reset");
         if((c/l)==r){
             b=true;
         }
