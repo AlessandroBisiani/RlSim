@@ -26,7 +26,7 @@ public class QLearner implements Learner{
     
     private double gamma;
     private double alpha;
-    
+    private double tdThreshold;
     
     
     public String[] stateSpace = {"state1","state2","state3","state4",
@@ -42,6 +42,7 @@ public class QLearner implements Learner{
         currentState = stateSpace[0];
         alpha = 0.5;
         gamma = 0.7;
+        tdThreshold = 0.005;
         
         qModel = new Matrix(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state2","0","0","0","0","0","0","0","0","0"}, 
@@ -108,7 +109,7 @@ public class QLearner implements Learner{
             currentState = nextState;
             
             iterations = iterations+1;
-            if(td!=0 && td<0.01){
+            if(td!=0 && td<tdThreshold){
                 System.out.println(iterations);
                 return;
             }
@@ -203,6 +204,9 @@ public class QLearner implements Learner{
     }
     public void setPolicy(Policy p){
         policy = p;
+    }
+    public void setTDThreshold(double td){
+        tdThreshold = td;
     }
     //Sets the pointers to QLearner's model fields to the parameters taken. Point of doing it manually is to maintain them as DefaultTableModels.
     public void setModels(Matrix q, Matrix r){

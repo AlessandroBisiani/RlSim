@@ -70,6 +70,9 @@ public class MainFrame extends javax.swing.JFrame {
         newMatrixButton = new javax.swing.JButton();
         epsilonJTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        tdThresholdJTextField = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemNew = new javax.swing.JMenuItem();
@@ -194,6 +197,15 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
 
     jLabel10.setText("Epsilon");
 
+    jLabel11.setText("TD Threshold");
+
+    jButton4.setText("set test");
+    jButton4.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton4ActionPerformed(evt);
+        }
+    });
+
     jMenu1.setText("File");
 
     jMenuItemNew.setText("New");
@@ -241,25 +253,30 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jButton1)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel9)
-                            .addGap(70, 70, 70)
-                            .addComponent(jButton2))
+                            .addComponent(jLabel9))
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(epsilonJTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(episodesJTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGap(30, 30, 30)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel5)
-                                .addComponent(testButton))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(epsilonJTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(episodesJTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addGap(30, 30, 30)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel11)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(testButton)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(alphaJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                                 .addComponent(gammaJTextField)
-                                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGap(3, 3, 3)
+                                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tdThresholdJTextField))))
+                    .addGap(57, 57, 57)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
@@ -270,13 +287,19 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                     .addComponent(newMatrixButton)
                     .addGap(105, 105, 105))
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
-                    .addGap(100, 100, 100)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                            .addGap(100, 100, 100)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jButton2)
+                            .addGap(330, 330, 330)))
                     .addGap(72, 72, 72))))
     );
     layout.setVerticalGroup(
@@ -311,7 +334,9 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel10))
+                .addComponent(jLabel10)
+                .addComponent(tdThresholdJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel11))
             .addGap(7, 7, 7)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -323,7 +348,8 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             .addGap(45, 45, 45)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(testButton)
-                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton4))
             .addGap(69, 69, 69))
     );
 
@@ -343,7 +369,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        
+        qLearner.setTDThreshold(Double.parseDouble(tdThresholdJTextField.getText()));
         qLearner.setPolicy(new EpsilonGreedy(qLearner,Double.parseDouble(epsilonJTextField.getText())));
         qLearner.setAlpha(Double.parseDouble(alphaJTextField.getText()));
         qLearner.setGamma(Double.parseDouble(gammaJTextField.getText()));
@@ -396,6 +422,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         tempLabelFrame.pack();
         tempLabelFrame.setVisible(true);
     }//GEN-LAST:event_newMatrixButtonActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        episodesJTextField.setText("1000");
+        gammaJTextField.setText("0.6");
+        alphaJTextField.setText("0.2");
+        epsilonJTextField.setText("0.5");
+        tdThresholdJTextField.setText("0.005");
+    }//GEN-LAST:event_jButton4ActionPerformed
     
     public static void closeLabelFrame(){
         tempLabelFrame.dispose();
@@ -439,6 +473,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 } 
             }
         }
+        //populates matrix w/ row headers only
         String[][] rmatrix = new String[l][l+1];
         for(int i=0 ; i<l ; i++){
             for(int j=0 ; j<=l ; j++){
@@ -510,9 +545,11 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -536,6 +573,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JButton newMatrixButton;
     private javax.swing.JTable qMatrix;
     private javax.swing.JTable rMatrix;
+    private javax.swing.JTextField tdThresholdJTextField;
     private javax.swing.JButton testButton;
     private javax.swing.JTextField testTextField2;
     // End of variables declaration//GEN-END:variables
