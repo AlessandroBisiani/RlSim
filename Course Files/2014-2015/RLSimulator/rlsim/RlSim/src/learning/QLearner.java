@@ -15,7 +15,7 @@ import javax.swing.table.TableModel;
  */
 public class QLearner implements Learner{
     private Agent agent;
-    public String currentState;
+    private String currentState;
     private Policy policy;
     
     private JTable qMatrix;
@@ -38,6 +38,7 @@ public class QLearner implements Learner{
         qMatrix = q;
         rMatrix = r;
         
+        policy = new EpsilonGreedy(this,0.3);
         currentState = stateSpace[0];
         alpha = 0.5;
         gamma = 0.7;
@@ -75,34 +76,46 @@ public class QLearner implements Learner{
     }
     
     public void episode(){
+        int iterations = 0;
         if(rMatrix.getRowCount()<2){
             return;
         }
-        policy = new EpsilonGreedy(this);
-        
         resetStartingPosition();
-        
-        HashMap m = getAvailableActions();
-        System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
-        
-        String nextState = policy.next(m);
-        
-        System.out.println("state selected by qlearner: " + nextState);
-        String r = (String) m.get(nextState);
-        double reward = Double.parseDouble(r);
-        
-        double maxQ = getMaxQ(nextState);
-        System.out.println("Max Q value found: "+maxQ);
-        
-        int nextStateIndex = qModel.findColumn(nextState);
-        double currentQ = getCurrentQ(currentState, nextStateIndex);
-        System.out.println("Current Q value found: "+currentQ);
-        
-        //double td = (reward*(gamma*maxQ))-currentQ;
-        double newQ = currentQ + (alpha*((reward+(gamma*maxQ))-currentQ));
-        System.out.println("New Q value found for "+currentState +": "+newQ);
-        
-        setQ(currentState,nextStateIndex,newQ);
+        while(true){
+            HashMap m = getAvailableActions();
+            System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
+
+            String nextState = policy.next(m);
+
+            System.out.println("state selected by qlearner: " + nextState);
+            String r = (String) m.get(nextState);
+            double reward = Double.parseDouble(r);
+
+            double maxQ = getMaxQ(nextState);
+            System.out.println("Max Q value found: "+maxQ);
+
+            int nextStateIndex = qModel.findColumn(nextState);
+            double currentQ = getCurrentQ(currentState, nextStateIndex);
+            System.out.println("Current Q value found: "+currentQ);
+
+            double td = (reward+(gamma*maxQ))-currentQ;
+            double newQ = currentQ + (alpha*(td));
+            
+            System.out.println("New Q value found for "+currentState +": "+newQ);
+
+            setQ(currentState,nextStateIndex,newQ);
+            
+            currentState = nextState;
+            
+            iterations = iterations+1;
+            if(td!=0 && td<0.01){
+                System.out.println(iterations);
+                return;
+            }
+        }
+    }
+    
+    public void agent(int moves){
         
     }
     //sets startingPosition to a random position taken from stateSpace
@@ -110,6 +123,7 @@ public class QLearner implements Learner{
         int i = (int)(Math.random()*100);
         currentState = stateSpace[i%stateSpace.length];
         System.out.println("starting position reset -" +currentState);
+        System.out.println(currentState);
     }
     
     //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
@@ -186,6 +200,9 @@ public class QLearner implements Learner{
     }
     public void setAlpha(double a){
         alpha = a;
+    }
+    public void setPolicy(Policy p){
+        policy = p;
     }
     //Sets the pointers to QLearner's model fields to the parameters taken. Point of doing it manually is to maintain them as DefaultTableModels.
     public void setModels(Matrix q, Matrix r){
