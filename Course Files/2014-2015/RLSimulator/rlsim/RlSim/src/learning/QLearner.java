@@ -5,10 +5,8 @@
  */
 package learning;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -23,8 +21,8 @@ public class QLearner implements Learner{
     private JTable qMatrix;
     private JTable rMatrix;
     //These are default table models because DefaultTableModel includes more methods for operating on the model and extracting table data
-    private TableModel qModel;
-    private TableModel rModel;
+    private Matrix qModel;
+    private Matrix rModel;
     
     private double gamma;
     private double alpha;
@@ -42,7 +40,7 @@ public class QLearner implements Learner{
         
         currentState = stateSpace[0];
         alpha = 0.5;
-        gamma = 1.0;
+        gamma = 0.7;
         
         qModel = new Matrix(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state2","0","0","0","0","0","0","0","0","0"}, 
@@ -88,6 +86,7 @@ public class QLearner implements Learner{
         System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
         
         String nextState = policy.next(m);
+        
         System.out.println("state selected by qlearner: " + nextState);
         String r = (String) m.get(nextState);
         double reward = Double.parseDouble(r);
@@ -95,8 +94,15 @@ public class QLearner implements Learner{
         double maxQ = getMaxQ(nextState);
         System.out.println("Max Q value found: "+maxQ);
         
-        double currentQ = getCurrentQ(currentState);
+        int nextStateIndex = qModel.findColumn(nextState);
+        double currentQ = getCurrentQ(currentState, nextStateIndex);
         System.out.println("Current Q value found: "+currentQ);
+        
+        //double td = (reward*(gamma*maxQ))-currentQ;
+        double newQ = currentQ + (alpha*((reward+(gamma*maxQ))-currentQ));
+        System.out.println("New Q value found for "+currentState +": "+newQ);
+        
+        setQ(currentState,nextStateIndex,newQ);
         
     }
     //sets startingPosition to a random position taken from stateSpace
@@ -150,15 +156,29 @@ public class QLearner implements Learner{
         return max;
     }
     
-    public double getCurrentQ(String state){
+    public double getCurrentQ(String state, int nextStateIndex){
+        int c = nextStateIndex;
         double q = 0;
         for(int i=0;i<qMatrix.getRowCount();i++){
             if(state.equals(qMatrix.getValueAt(i,0))){
-                String qS = (String) qMatrix.getValueAt(i, i+1);
+                String qS = (String) qMatrix.getValueAt(i, c);
                 q = Double.parseDouble(qS);
             }
         }
         return q;
+    }
+    
+    public void setQ(String state, int nextStateIndex, double q){
+        int c = nextStateIndex;
+        for(int i=0;i<qMatrix.getRowCount();i++){
+            if(state.equals(qMatrix.getValueAt(i,0))){
+                qMatrix.setValueAt(q, i, c);
+                System.out.println(qMatrix.getValueAt(i, i+1));
+                
+                qMatrix.repaint();
+                return;
+            }
+        }
     }
     
     public void setGamma(double g){

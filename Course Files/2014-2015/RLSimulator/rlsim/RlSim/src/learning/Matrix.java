@@ -72,10 +72,19 @@ public class Matrix extends AbstractTableModel{
     }
     @Override
     public void setValueAt(Object o, int rowIndex, int columnIndex){
-        if(o instanceof String){
-            String s = (String) o;
+            String s = String.valueOf(o);
             matrix[rowIndex][columnIndex] = s;
+    }
+    @Override
+    public int findColumn(String columnName){
+        int count = getColumnCount();
+        for(int i=0;i<count;i++){
+            String name = getColumnName(i);
+            if(columnName.equals(name)){
+                return i;
+            }
         }
+        return -1;
     }
     
     public double getDoubleAt(int rowIndex, int columnIndex){

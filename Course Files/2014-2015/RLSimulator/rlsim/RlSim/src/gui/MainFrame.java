@@ -333,7 +333,8 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         qLearner.episode();
-        
+        qLearner.setAlpha(1);
+        qLearner.setGamma(43);
         /*System.out.println(rMatrix.getModel().getValueAt(0,0));
         System.out.println(rMatrix.getModel().getValueAt(1,1));
         System.out.println(rMatrix.getModel().getValueAt(2,2));
