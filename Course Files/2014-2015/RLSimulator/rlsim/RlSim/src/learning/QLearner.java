@@ -78,7 +78,7 @@ public class QLearner implements Learner{
     
     public void episode(){
         if(rMatrix.getRowCount()<2){
-            //POPUP THERE IS A PROBLEM!
+            return;
         }
         policy = new EpsilonGreedy(this);
         
@@ -94,6 +94,9 @@ public class QLearner implements Learner{
         
         double maxQ = getMaxQ(nextState);
         System.out.println("Max Q value found: "+maxQ);
+        
+        double currentQ = getCurrentQ(currentState);
+        System.out.println("Current Q value found: "+currentQ);
         
     }
     //sets startingPosition to a random position taken from stateSpace
@@ -130,11 +133,13 @@ public class QLearner implements Learner{
         
         for(int i=0;i<qMatrix.getRowCount();i++){
             if(state.equals(qMatrix.getValueAt(i,0))){
+                
                 maxS = (String)qMatrix.getValueAt(i, 1);
                 max = Double.parseDouble(maxS);
-                for(int c=2;c<qMatrix.getRowCount();c++){
+                
+                for(int c=2;c<=qMatrix.getRowCount();c++){
                     String maxS2 = (String)qMatrix.getValueAt(i, c);
-                    double max2 = Double.parseDouble(maxS);
+                    double max2 = Double.parseDouble(maxS2);
                     if(max<max2){
                         max = max2;
                     }
@@ -143,6 +148,17 @@ public class QLearner implements Learner{
             }
         }            
         return max;
+    }
+    
+    public double getCurrentQ(String state){
+        double q = 0;
+        for(int i=0;i<qMatrix.getRowCount();i++){
+            if(state.equals(qMatrix.getValueAt(i,0))){
+                String qS = (String) qMatrix.getValueAt(i, i+1);
+                q = Double.parseDouble(qS);
+            }
+        }
+        return q;
     }
     
     public void setGamma(double g){
