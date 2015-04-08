@@ -38,12 +38,12 @@ public class RMatrixTest {
     }
 
     /**
-     * Test of getRowCount method, of class RMatrix.
+     * Test of getRowCount method, of class Matrix.
      */
     @Test
     public void testGetRowCount() {
         System.out.println("getRowCount");
-        RMatrix instance = new RMatrix();
+        Matrix instance = new Matrix();
         int expResult = 0;
         int result = instance.getRowCount();
         assertEquals(expResult, result);
@@ -52,12 +52,12 @@ public class RMatrixTest {
     }
 
     /**
-     * Test of getColumnCount method, of class RMatrix.
+     * Test of getColumnCount method, of class Matrix.
      */
     @Test
     public void testGetColumnCount() {
         System.out.println("getColumnCount");
-        RMatrix instance = new RMatrix();
+        Matrix instance = new Matrix();
         int expResult = 0;
         int result = instance.getColumnCount();
         assertEquals(expResult, result);
@@ -66,14 +66,14 @@ public class RMatrixTest {
     }
 
     /**
-     * Test of getValueAt method, of class RMatrix.
+     * Test of getValueAt method, of class Matrix.
      */
     @Test
     public void testGetValueAt() {
         System.out.println("getValueAt");
         int rowIndex = 0;
         int columnIndex = 0;
-        RMatrix instance = new RMatrix();
+        Matrix instance = new Matrix();
         Object expResult = null;
         Object result = instance.getValueAt(rowIndex, columnIndex);
         assertEquals(expResult, result);

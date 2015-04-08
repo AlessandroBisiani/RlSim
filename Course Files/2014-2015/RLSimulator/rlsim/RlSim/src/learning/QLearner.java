@@ -6,6 +6,7 @@
 package learning;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -17,6 +18,7 @@ import javax.swing.table.TableModel;
 public class QLearner implements Learner{
     private Agent agent;
     public String currentState;
+    private Policy policy;
     
     private JTable qMatrix;
     private JTable rMatrix;
@@ -26,6 +28,8 @@ public class QLearner implements Learner{
     
     private double gamma;
     private double alpha;
+    
+    
     
     public String[] stateSpace = {"state1","state2","state3","state4",
                                                  "state5","state6","state7","state8","state9"};
@@ -40,7 +44,7 @@ public class QLearner implements Learner{
         alpha = 0.5;
         gamma = 1.0;
         
-        qModel = new DefaultTableModel(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
+        qModel = new Matrix(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state2","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state3","0","0","0","0","0","0","0","0","0"},
                                                             {"state4","0","0","0","0","0","0","0","0","0"},
@@ -52,7 +56,7 @@ public class QLearner implements Learner{
                                                             {"state10","0","0","0","0","0","0","0","0","0"}}, 
                                              new String[] {"","state1","state2","state3","state4",
                                                  "state5","state6","state7","state8","state9"});
-        rModel = new DefaultTableModel(new String[][] {{"state1","","","","","","","","",""}, 
+        rModel = new Matrix(new String[][] {{"state1","","","","","","","","",""}, 
                                                             {"state2","","","","","","","","",""}, 
                                                             {"state3","","","","","","","","",""},
                                                             {"state4","","","","","","","","",""},
@@ -64,13 +68,29 @@ public class QLearner implements Learner{
                                                             {"state10","","","","","","","","",""}}, 
                                              new String[] {"","state1","state2","state3","state4",
                                                  "state5","state6","state7","state8","state9"});
+        /*
+        qModel = new Matrix(new String[][] {{}}, new String[] {});
+        rModel = new Matrix(new String[][] {{}}, new String[] {});
+        */
         q.setModel(qModel);
         r.setModel(rModel);
     }
     
     public void episode(){
+        policy = new EpsilonGreedy(this);
+        
         resetStartingPosition();
-        getAvailableActions();
+        
+        HashMap m = getAvailableActions();
+        System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
+        
+        String nextState = policy.next(m);
+        System.out.println("state selected by qlearner: " + nextState);
+        String r = (String) m.get(m);
+        double reward = Double.parseDouble(r);
+        
+        double maxQ = getMaxQ(nextState);
+        
     }
     //sets startingPosition to a random position taken from stateSpace
     public void resetStartingPosition(){
@@ -78,15 +98,18 @@ public class QLearner implements Learner{
         currentState = stateSpace[i%stateSpace.length];
         System.out.println("starting position reset -" +currentState);
     }
-    //finds the current state String in the first rMatrix column and returns an ArrayList<String> containing the names of available next states.
-    public ArrayList<String> getAvailableActions(){
-        ArrayList<String> available = new ArrayList<>();
+    
+    //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
+    public HashMap getAvailableActions(){
+        
+        HashMap available = new HashMap((rMatrix.getRowCount()),1);
+        
         for(int i=0;i<rMatrix.getRowCount();i++){
             if(currentState.equals(rMatrix.getValueAt(i,0))){
                 System.out.println("currentStateFound");
                 for(int c=1;c<=rMatrix.getRowCount();c++){
                     if(!rMatrix.getValueAt(i,c).equals("")){
-                        available.add(rMatrix.getColumnName(c));
+                        available.put(rMatrix.getColumnName(c) , rMatrix.getValueAt(i,c));
                         System.out.println(rMatrix.getColumnName(c));
                     }
                 }
@@ -97,6 +120,11 @@ public class QLearner implements Learner{
         return available;
     }
     
+    public double getMaxQ(String state){
+        
+        return 0;
+    }
+    
     public void setGamma(double g){
         gamma = g;
     }
@@ -104,7 +132,7 @@ public class QLearner implements Learner{
         alpha = a;
     }
     //Sets the pointers to QLearner's model fields to the parameters taken. Point of doing it manually is to maintain them as DefaultTableModels.
-    public void setModels(DefaultTableModel q, DefaultTableModel r){
+    public void setModels(Matrix q, Matrix r){
         qModel = q;
         rModel = r;
     }

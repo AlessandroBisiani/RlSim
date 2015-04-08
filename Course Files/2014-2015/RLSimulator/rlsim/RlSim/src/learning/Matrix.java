@@ -5,19 +5,16 @@
  */
 package learning;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author alessandrobisiani
  */
-public class RMatrix extends AbstractTableModel{
+public class Matrix extends AbstractTableModel{
     
-    private String[] states = {"state1","state2","state3","state4","state5","state6","state7","state8","state9","state10"};
-    private String[][] matrix =         {{"state1","0","0","0","0","0","0","0","0","0"}, 
+    private String[] states = {"state1","state2","state3","state4","state5","state6","state7","state8","state9"};
+    private String[][] matrix =                            {{"state1","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state2","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state3","0","0","0","0","0","0","0","0","0"},
                                                             {"state4","0","0","0","0","0","0","0","0","0"},
@@ -25,15 +22,14 @@ public class RMatrix extends AbstractTableModel{
                                                             {"state6","0","0","0","0","0","0","0","0","0"},
                                                             {"state7","0","0","0","0","0","0","0","0","0"},
                                                             {"state8","0","0","0","0","0","0","0","0","0"},
-                                                            {"state9","0","0","0","0","0","0","0","0","0"},
-                                                            {"state10","0","0","0","0","0","0","0","0","0"}};
+                                                            {"state9","0","0","0","0","0","0","0","0","0"}};
     
     
     
-    public RMatrix(){
-        System.out.println("Rmatrix created");
-        
-        
+    public Matrix(String[][] data, String[] states){
+        matrix = data;
+        this.states = states;
+        System.out.println("Custom model created");
     }
     
     /*
@@ -42,7 +38,7 @@ public class RMatrix extends AbstractTableModel{
         try {
             v = matrix[y][x];
         } catch(IndexOutOfBoundsException ex){
-            JOptionPane.showMessageDialog(new JFrame(), "RMatrix. getValueAt() trying to get values out of bounds.");
+            JOptionPane.showMessageDialog(new JFrame(), "Matrix. getValueAt() trying to get values out of bounds.");
             throw ex;
         }
         return v;
@@ -54,15 +50,32 @@ public class RMatrix extends AbstractTableModel{
     public int getRowCount() {
         return matrix.length;
     }
-
     @Override
     public int getColumnCount() {
         return matrix[0].length;
     }
-
+    @Override
+    public String getColumnName(int columnIndex){
+        return states[columnIndex];
+    }
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex){
+        if(columnIndex==0){
+            return false;
+        } else{
+            return true;
+        }
+    }
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return matrix[rowIndex][columnIndex];
+    }
+    @Override
+    public void setValueAt(Object o, int rowIndex, int columnIndex){
+        if(o instanceof String){
+            String s = (String) o;
+            matrix[rowIndex][columnIndex] = s;
+        }
     }
     
     public double getDoubleAt(int rowIndex, int columnIndex){

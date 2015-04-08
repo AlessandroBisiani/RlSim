@@ -5,6 +5,8 @@
  */
 package learning;
 
+import java.util.HashMap;
+
 /**
  *
  * @author alessandrobisiani
@@ -12,7 +14,7 @@ package learning;
 public interface Policy {
     
     
-    String next();
+    String next(HashMap m);
 
-    void setStateSpace();
+    void setStateSpace(String[] ss);
 }

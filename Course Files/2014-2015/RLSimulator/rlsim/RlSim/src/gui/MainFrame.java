@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import learning.Agent;
+import learning.Matrix;
 import learning.QLearner;
 
 /** 
@@ -437,8 +438,8 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
         //Create new DefaultTableModel s, set them as models for Q and R matrices and as designated TableModels in qLearner.
         //The purpose of this is to make sure there's a reference to DefaultTableModel objects due to their great methods.
-        DefaultTableModel qModel = new DefaultTableModel(qmatrix, statesList);
-        DefaultTableModel rModel = new DefaultTableModel(rmatrix, statesList);
+        Matrix qModel = new Matrix(qmatrix, statesList);
+        Matrix rModel = new Matrix(rmatrix, statesList);
         qMatrix.setModel(qModel);
         rMatrix.setModel(rModel);
         qLearner.setModels(qModel, rModel);
