@@ -5,9 +5,9 @@
  */
 package learning;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -15,8 +15,11 @@ import javax.swing.table.TableModel;
  */
 public class QLearner implements Learner{
     private Agent agent;
-    private String currentState;
+    
     private Policy policy;
+    private ExperimentData data;
+    private String currentState;
+    private String goalState;
     
     private JTable qMatrix;
     private JTable rMatrix;
@@ -29,12 +32,12 @@ public class QLearner implements Learner{
     private double tdThreshold;
     
     
-    public String[] stateSpace = {"state1","state2","state3","state4",
-                                                 "state5","state6","state7","state8","state9"};
+    public String[] stateSpace = {"Default"};
     
     
     public QLearner(JTable q, JTable r,Agent a){
         agent = a;
+        data = new ExperimentData();
         qMatrix = q;
         rMatrix = r;
         
@@ -43,7 +46,7 @@ public class QLearner implements Learner{
         alpha = 0.5;
         gamma = 0.7;
         tdThreshold = 0.005;
-        
+        /*
         qModel = new Matrix(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state2","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state3","0","0","0","0","0","0","0","0","0"},
@@ -68,16 +71,99 @@ public class QLearner implements Learner{
                                                             {"state10","","","","","","","","",""}}, 
                                              new String[] {"","state1","state2","state3","state4",
                                                  "state5","state6","state7","state8","state9"});
-        /*
+        */
         qModel = new Matrix(new String[][] {{}}, new String[] {});
         rModel = new Matrix(new String[][] {{}}, new String[] {});
-        */
+        
         q.setModel(qModel);
         r.setModel(rModel);
     }
     
+    public void experiment(int episodes){
+        data.resetData();
+        for(int i=0;i<episodes;i++){
+            saEpisode();
+            data.addReward(calculateCumulativeQ());
+        }
+        data.printSteps();
+        data.printCumulativeRewards();
+    }
+    
+    public void saEpisode(){
+        int steps = 0;
+        currentState = "1";
+        goalState = "9";
+        while(!currentState.equals(goalState)){
+            HashMap m = getAvailableActions();
+            //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
+
+            String nextState = policy.next(m);
+
+            //System.out.println("state selected by qlearner: " + nextState);
+            String r = (String) m.get(nextState);
+            double reward = Double.parseDouble(r);
+
+            double maxQ = getMaxQ(nextState);
+            //System.out.println("Max Q value found: "+maxQ);
+
+            int nextStateIndex = qModel.findColumn(nextState);
+            double currentQ = getCurrentQ(currentState, nextStateIndex);
+            //System.out.println("Current Q value found: "+currentQ);
+
+            double td = (reward+(gamma*maxQ))-currentQ;
+            double newQ = currentQ + (alpha*(td));
+            
+            //System.out.println("New Q value found for "+currentState +": "+newQ);
+
+            setQ(currentState,nextStateIndex,newQ);
+            
+            currentState = nextState;
+            
+            steps = steps+1;
+            /*
+            if(td!=0 && td<tdThreshold){
+                System.out.println(steps);
+                return;
+            }
+            */
+        }
+        if(currentState.equals(goalState)){
+            HashMap m = getAvailableActions();
+            //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
+
+            Policy p = new EpsilonGreedy(this,0);
+            String nextState = p.next(m);
+
+            //System.out.println("state selected by qlearner: " + nextState);
+            String r = (String) m.get(nextState);
+            double reward = Double.parseDouble(r);
+
+            double maxQ = getMaxQ(nextState);
+            //System.out.println("Max Q value found: "+maxQ);
+
+            int nextStateIndex = qModel.findColumn(nextState);
+            double currentQ = getCurrentQ(currentState, nextStateIndex);
+           // System.out.println("Current Q value found: "+currentQ);
+
+            double td = (reward+(gamma*maxQ))-currentQ;
+            double newQ = currentQ + (alpha*(td));
+            
+            //System.out.println("New Q value found for "+currentState +": "+newQ);
+
+            setQ(currentState,nextStateIndex,newQ);
+            
+            currentState = nextState;
+            
+            steps = steps+1;
+        }
+        qMatrix.repaint();
+        data.addSteps(steps);
+        System.out.println(steps);
+    }
+    
+    
     public void episode(){
-        int iterations = 0;
+        int steps = 0;
         if(rMatrix.getRowCount()<2){
             return;
         }
@@ -108,16 +194,50 @@ public class QLearner implements Learner{
             
             currentState = nextState;
             
-            iterations = iterations+1;
+            steps = steps+1;
             if(td!=0 && td<tdThreshold){
-                System.out.println(iterations);
+                System.out.println(steps);
                 return;
             }
         }
     }
     
-    public void agent(int moves){
+    //returns cumulative Q value per TableModel
+    //Takes all Q values, finds the largest, and divides each by that value and multiplies by 100. Adds them together and returns that value as double.
+    public double calculateCumulativeQ(){
+        double normalizedQ = 0;
+        double[] qS;
+        //get all non 0 Q values into ArrayList<> qValues
+        int size = qMatrix.getRowCount();
+        ArrayList<String> qValues = new ArrayList<>();
+        for(int i=0;i<size;i++){
+            for(int c=1;c<=size;c++){
+                if(!qMatrix.getValueAt(i,c).equals("0")){
+                    qValues.add((String) qMatrix.getValueAt(i,c));
+                }
+            }
+        }
         
+        qS = new double[qValues.size()];
+        
+        //Find max value
+        double maxQ = Double.parseDouble(qValues.get(0));
+        qS[0] = maxQ;
+        for(int x=1;x<qValues.size();x++){
+            double nextQ = Double.parseDouble(qValues.get(x));
+            qS[x] = nextQ;
+            if(maxQ<nextQ){
+                maxQ=nextQ;
+            }
+        }
+        //normalize and add to normalizedQs array
+        for(int q=0;q<qS.length;q++){
+            double normalized = ((qS[q])/maxQ)*100;
+            normalizedQ = normalizedQ + normalized;
+            //normalizedQs[q] = normalized;
+            System.out.println("Normalized Q value: "+normalized);
+        }
+        return normalizedQ;
     }
     //sets startingPosition to a random position taken from stateSpace
     public void resetStartingPosition(){
@@ -190,7 +310,7 @@ public class QLearner implements Learner{
                 qMatrix.setValueAt(q, i, c);
                 System.out.println(qMatrix.getValueAt(i, i+1));
                 
-                qMatrix.repaint();
+                //qMatrix.repaint();
                 return;
             }
         }
@@ -204,6 +324,9 @@ public class QLearner implements Learner{
     }
     public void setPolicy(Policy p){
         policy = p;
+    }
+    public void setGoalState(String gs){
+        goalState = gs;
     }
     public void setTDThreshold(double td){
         tdThreshold = td;
