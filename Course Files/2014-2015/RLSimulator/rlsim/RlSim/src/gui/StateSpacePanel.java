@@ -21,7 +21,7 @@ public class StateSpacePanel extends javax.swing.JPanel{
     private MainFrame parentCreator;
     
     /**
-     * Creates new form NewJPanel
+     *@param parentFrame    The MainFrame that created the panel
      */
     public StateSpacePanel(MainFrame parentFrame) {
         initComponents();

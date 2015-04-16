@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JTable;
 
-/**
+/** 
  *
  * @author alessandrobisiani
  */
@@ -20,6 +20,7 @@ public class QLearner implements Learner{
     private ExperimentData data;
     private String currentState;
     private String goalState;
+    private String initialState;
     
     private JTable qMatrix;
     private JTable rMatrix;
@@ -91,8 +92,7 @@ public class QLearner implements Learner{
     
     public void saEpisode(){
         int steps = 0;
-        currentState = "1";
-        goalState = "9";
+        currentState = initialState;
         while(!currentState.equals(goalState)){
             HashMap m = getAvailableActions();
             //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
@@ -328,6 +328,9 @@ public class QLearner implements Learner{
     public void setGoalState(String gs){
         goalState = gs;
     }
+    public void setInitialState(String is){
+        initialState = is;
+    }
     public void setTDThreshold(double td){
         tdThreshold = td;
     }
@@ -335,6 +338,10 @@ public class QLearner implements Learner{
     public void setModels(Matrix q, Matrix r){
         qModel = q;
         rModel = r;
+    }
+    
+    public String getGoalState(){
+        return goalState;
     }
     
 }
