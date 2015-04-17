@@ -39,8 +39,9 @@ public class EpsilonGreedy implements Policy{
         if(!m.isEmpty() && m.size()>1){
             
             if(Math.random()>epsilon){
-                //If there is more than one element in set take the first value to compare against.
-                String val = (String) m.get(set[0]);
+                //If there is more than one element in set take random value to compare against.
+                int rand = (int)(Math.random()*100);
+                String val = (String) m.get(set[rand%set.length]);
                 double reward = Double.parseDouble(val);;
                 nextState = set[0];
                 
