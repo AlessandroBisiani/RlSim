@@ -744,9 +744,11 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         rMatrix.setPreferredScrollableViewportSize(new Dimension(400,400));
         qMatrix.setPreferredScrollableViewportSize(new Dimension(400,400));
         
-        jScrollPane1.createHorizontalScrollBar();
-        jScrollPane2.createHorizontalScrollBar();
-        /*
+        //jScrollPane1.createHorizontalScrollBar();
+        //jScrollPane2.createHorizontalScrollBar();
+        
+        //Resize events trigger an evaluation of whether to use AUTO_RESIZE or not. 
+        //The result is he table fills the JScrollPane until it won't fit, then assumes the preferred size and creates a scroll bar.
         rMatrix.getParent().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(final ComponentEvent e) {
@@ -767,7 +769,8 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 }
             }
         });
-        */
+        
+        //When first creating the matrices also evaluate whether either should use AUTO_RESIZE.
         if (qMatrix.getPreferredSize().width < qMatrix.getParent().getWidth()) {
                     qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                 } else {
