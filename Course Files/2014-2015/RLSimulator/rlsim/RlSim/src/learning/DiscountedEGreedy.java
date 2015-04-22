@@ -59,9 +59,6 @@ public class DiscountedEGreedy implements Policy{
         }
     }
 
-    @Override
-    public void setStateSpace(String[] ss) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     
 }

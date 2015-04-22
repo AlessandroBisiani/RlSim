@@ -14,7 +14,6 @@ import java.util.HashMap;
 public interface Policy {
     
     
-    String next(HashMap m);
+    String next(HashMap stateRewardMap);
 
-    void setStateSpace(String[] ss);
 }

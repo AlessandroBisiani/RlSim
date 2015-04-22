@@ -5,7 +5,16 @@
  */
 package gui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -13,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import learning.Agent;
 import learning.EpsilonGreedy;
+import learning.ExperimentData;
 import learning.Matrix;
 import learning.QLearner;
 
@@ -251,6 +261,11 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     jMenu1.add(jMenuItemOpen);
 
     jMenuItemSave.setText("Save");
+    jMenuItemSave.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jMenuItemSaveActionPerformed(evt);
+        }
+    });
     jMenu1.add(jMenuItemSave);
 
     jMenuItemExport.setText("Export");
@@ -268,19 +283,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jLabel1)
-                    .addGap(0, 0, 0)
-                    .addComponent(jLabel2)
-                    .addGap(538, 538, 538))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(104, 104, 104))))
-        .addGroup(layout.createSequentialGroup()
             .addGap(250, 250, 250)
             .addComponent(jButton4)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -295,58 +297,69 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(166, 166, 166)
-                    .addComponent(newMatrixButton)
-                    .addGap(133, 133, 133))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel3)
-                    .addGap(18, 18, 18)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4)
-                        .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel10))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel1)
+                            .addGap(0, 0, 0)
+                            .addComponent(jLabel2))
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(epsilonJTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(episodesJTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(30, 30, 30)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel11))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(alphaJTextField)
-                                .addComponent(gammaJTextField)
-                                .addComponent(tdThresholdJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGap(57, 57, 57)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel13))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(goalStateJTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1133, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jButton2)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(166, 166, 166)
+                            .addComponent(newMatrixButton)
+                            .addGap(133, 133, 133))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4)
+                                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel10))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel9))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(epsilonJTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(episodesJTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(30, 30, 30)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel11))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(alphaJTextField)
+                                        .addComponent(gammaJTextField)
+                                        .addComponent(tdThresholdJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(57, 57, 57)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel12)
+                                        .addComponent(jLabel13))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(goalStateJTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING))))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,37 +439,45 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-        qLearner.setTDThreshold(Double.parseDouble(tdThresholdJTextField.getText()));
-        qLearner.setPolicy(new EpsilonGreedy(qLearner,Double.parseDouble(epsilonJTextField.getText())));
-        qLearner.setAlpha(Double.parseDouble(alphaJTextField.getText()));
-        qLearner.setGamma(Double.parseDouble(gammaJTextField.getText()));
-        int ep = Integer.parseInt(episodesJTextField.getText());
-        for(int i=0;i<ep;i++){
+       
+            File f = new File(".");
+            System.out.println(f.getAbsolutePath());
+        
+        
+        
+        
+            /*
+            qLearner.setTDThreshold(Double.parseDouble(tdThresholdJTextField.getText()));
+            qLearner.setPolicy(new EpsilonGreedy(qLearner,Double.parseDouble(epsilonJTextField.getText())));
+            qLearner.setAlpha(Double.parseDouble(alphaJTextField.getText()));
+            qLearner.setGamma(Double.parseDouble(gammaJTextField.getText()));
+            int ep = Integer.parseInt(episodesJTextField.getText());
+            for(int i=0;i<ep;i++){
             resetQMatrix();
             qLearner.episode();
-        }
-        
-        
-        /*System.out.println(rMatrix.getModel().getValueAt(0,0));
-        System.out.println(rMatrix.getModel().getValueAt(1,1));
-        System.out.println(rMatrix.getModel().getValueAt(2,2));
-        Object o = rMatrix.getModel().getValueAt(2,2);
-        String s = "";
-        int i = 0;
-        if(o instanceof Integer){
+            }
+            
+            System.out.println(rMatrix.getModel().getValueAt(0,0));
+            System.out.println(rMatrix.getModel().getValueAt(1,1));
+            System.out.println(rMatrix.getModel().getValueAt(2,2));
+            Object o = rMatrix.getModel().getValueAt(2,2);
+            String s = "";
+            int i = 0;
+            if(o instanceof Integer){
             i = (Integer)rMatrix.getModel().getValueAt(2,2) + (Integer)rMatrix.getModel().getValueAt(2,2);
             System.out.println(i);
-        } else if(o instanceof String){
+            } else if(o instanceof String){
             s = (String)rMatrix.getModel().getValueAt(2,2) + (String)rMatrix.getModel().getValueAt(2,2);
             System.out.println(s);
-        }
-        System.out.println(o.getClass());
-        */
+            }
+            System.out.println(o.getClass());
+            */
+            
+            //rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
+            //System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
+            //System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
+            //rMatrix.setModel(new RMatrix());
         
-        //rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
-        //System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
-        //System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
-        //rMatrix.setModel(new RMatrix());
     }//GEN-LAST:event_testButtonActionPerformed
 
     private void episodesJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_episodesJTextFieldActionPerformed
@@ -508,7 +529,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_runSAJButtonActionPerformed
 
     private void setSAJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setSAJButtonActionPerformed
-        episodesJTextField.setText("100");
+        episodesJTextField.setText("10");
         gammaJTextField.setText("0.6");
         alphaJTextField.setText("0.2");
         epsilonJTextField.setText("0.35");
@@ -521,6 +542,40 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private void initialStateJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initialStateJTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_initialStateJTextFieldActionPerformed
+
+    private void jMenuItemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSaveActionPerformed
+        FileOutputStream out = null;
+        FileInputStream in = null;
+        try {
+            out = new FileOutputStream("testfile.txt");
+            ObjectOutputStream objectOut = new ObjectOutputStream(out);
+            objectOut.writeObject(qLearner.getExperimentData());
+            
+            in = new FileInputStream("testfile.txt");
+            ObjectInputStream objectIn = new ObjectInputStream(in);
+            Object o = objectIn.readObject();
+            if(o instanceof ExperimentData){
+                System.out.println("shit, it actually sorta works.");
+                ExperimentData data = (ExperimentData) o;
+                data.printSteps();
+            } else {
+                System.out.println("try again");
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jMenuItemSaveActionPerformed
     
     public static void closeLabelFrame(){
         tempLabelFrame.dispose();

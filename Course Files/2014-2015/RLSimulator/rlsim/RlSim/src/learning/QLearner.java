@@ -30,7 +30,6 @@ public class QLearner implements Learner{
     
     private double gamma;
     private double alpha;
-    private double tdThreshold;
     
     
     public String[] stateSpace = {"Default"};
@@ -46,7 +45,6 @@ public class QLearner implements Learner{
         currentState = stateSpace[0];
         alpha = 0.5;
         gamma = 0.7;
-        tdThreshold = 0.005;
         /*
         qModel = new Matrix(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
                                                             {"state2","0","0","0","0","0","0","0","0","0"}, 
@@ -83,14 +81,15 @@ public class QLearner implements Learner{
     public void experiment(int episodes){
         data.resetData();
         for(int i=0;i<episodes;i++){
-            saEpisode();
+            episode();
             data.addReward(calculateCumulativeQ());
         }
         data.printSteps();
         data.printCumulativeRewards();
     }
     
-    public void saEpisode(){
+    
+    public void episode(){
         int steps = 0;
         currentState = initialState;
         while(!currentState.equals(goalState)){
@@ -120,12 +119,7 @@ public class QLearner implements Learner{
             currentState = nextState;
             
             steps = steps+1;
-            /*
-            if(td!=0 && td<tdThreshold){
-                System.out.println(steps);
-                return;
-            }
-            */
+            
         }
         if(currentState.equals(goalState)){
             HashMap m = getAvailableActions();
@@ -159,47 +153,6 @@ public class QLearner implements Learner{
         qMatrix.repaint();
         data.addSteps(steps);
         System.out.println(steps);
-    }
-    
-    
-    public void episode(){
-        int steps = 0;
-        if(rMatrix.getRowCount()<2){
-            return;
-        }
-        resetStartingPosition();
-        while(true){
-            HashMap m = getAvailableActions();
-            System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
-
-            String nextState = policy.next(m);
-
-            System.out.println("state selected by qlearner: " + nextState);
-            String r = (String) m.get(nextState);
-            double reward = Double.parseDouble(r);
-
-            double maxQ = getMaxQ(nextState);
-            System.out.println("Max Q value found: "+maxQ);
-
-            int nextStateIndex = qModel.findColumn(nextState);
-            double currentQ = getCurrentQ(currentState, nextStateIndex);
-            System.out.println("Current Q value found: "+currentQ);
-
-            double td = (reward+(gamma*maxQ))-currentQ;
-            double newQ = currentQ + (alpha*(td));
-            
-            System.out.println("New Q value found for "+currentState +": "+newQ);
-
-            setQ(currentState,nextStateIndex,newQ);
-            
-            currentState = nextState;
-            
-            steps = steps+1;
-            if(td!=0 && td<tdThreshold){
-                System.out.println(steps);
-                return;
-            }
-        }
     }
     
     //returns cumulative Q value per TableModel
@@ -331,9 +284,6 @@ public class QLearner implements Learner{
     public void setInitialState(String is){
         initialState = is;
     }
-    public void setTDThreshold(double td){
-        tdThreshold = td;
-    }
     //Sets the pointers to QLearner's model fields to the parameters taken. Point of doing it manually is to maintain them as DefaultTableModels.
     public void setModels(Matrix q, Matrix r){
         qModel = q;
@@ -342,6 +292,11 @@ public class QLearner implements Learner{
     
     public String getGoalState(){
         return goalState;
+    }
+
+    @Override
+    public ExperimentData getExperimentData() {
+        return data;
     }
     
 }

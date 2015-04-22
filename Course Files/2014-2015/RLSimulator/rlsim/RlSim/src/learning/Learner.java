@@ -11,4 +11,5 @@ package learning;
  */
 public interface Learner {
     
+    ExperimentData getExperimentData();
 }

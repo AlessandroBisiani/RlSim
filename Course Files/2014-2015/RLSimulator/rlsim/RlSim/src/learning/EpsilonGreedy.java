@@ -14,19 +14,19 @@ import java.util.HashMap;
 public class EpsilonGreedy implements Policy{
 
     private double epsilon;
-    private QLearner qLearner;
+    private Learner learner;
     
-    public EpsilonGreedy(QLearner l){
+    public EpsilonGreedy(QLearner learner){
         epsilon = 0.5;
-        qLearner = l;
+        this.learner = learner;
     }
-    public EpsilonGreedy(QLearner l, double epsilon){
+    public EpsilonGreedy(Learner learner, double epsilon){
         this.epsilon = epsilon;
-        qLearner = l;
+        this.learner = learner;
     }
     
-    public void setEpsilon(double e){
-        epsilon = e;
+    public void setEpsilon(double epsilon){
+        this.epsilon = epsilon;
     }
            
     //With HashMap of available actions and their rewards in String form, decides whether to choose randomly or greedily and returns name of next action.
@@ -36,27 +36,37 @@ public class EpsilonGreedy implements Policy{
         String[] set = new String[m.size()];
         m.keySet().toArray(set);
         
+        //If there is more than one element in set take random value to compare against.
         if(!m.isEmpty() && m.size()>1){
-            
+            int rand = (int)(Math.random()*100);
             if(Math.random()>epsilon){
-                //If there is more than one element in set take random value to compare against.
-                int rand = (int)(Math.random()*100);
-                String val = (String) m.get(set[rand%set.length]);
-                double reward = Double.parseDouble(val);;
-                nextState = set[0];
                 
-                for(int i=1;i<set.length;i++){
-                        String v = (String) m.get(set[i]);
-                        if(Double.parseDouble(v) > reward){
-                            reward = Double.parseDouble(v);
-                            nextState = set[i];
-                        }
+                int randIndex = rand%set.length;
+                
+                String val = (String) m.get(set[randIndex]);
+                double reward = Double.parseDouble(val);;
+                nextState = set[randIndex];
+                
+                //String[] equivalentVals = new String[set.length];
+                
+                for(int i=0;i<set.length;i++){
+                    String v = (String) m.get(set[i]);
+                    double tempV = Double.parseDouble(v);
+                    if(tempV > reward){
+                        reward = tempV;
+                        nextState = set[i];
+                       // for(int y=0;y<equivalentVals.length;y++){
+                       //     equivalentVals[y]="";
+                    }
+                  //  } else if(tempV==reward){
+                  //      equivalentVals[i] = set[i];
+                  //  }
                 }
+                
                 System.out.println("Greedy action selected" + reward);
                 return nextState;
             } else{
-                int i = (int)(Math.random()*100);
-                nextState = set[i%set.length];
+                nextState = set[rand%set.length];
                 //nextState = qLearner.stateSpace[i%qLearner.stateSpace.length];
             }
             return nextState;
@@ -70,9 +80,6 @@ public class EpsilonGreedy implements Policy{
     }
         
     
-    @Override
-    public void setStateSpace(String[] ss) {
-        //stateSpace = ss;    
-    }
+    
     
 }

@@ -5,14 +5,14 @@
  */
 package learning;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
  * @author alessandrobisiani
  */
-public class ExperimentData {
+public class ExperimentData implements Serializable{
     
     //size is the number of episodes, it relates the number of the episode with the number of steps it took.
     private ArrayList<Integer> stepsXEpisode;

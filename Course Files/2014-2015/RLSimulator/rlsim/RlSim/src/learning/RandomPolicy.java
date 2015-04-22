@@ -16,7 +16,6 @@ public class RandomPolicy implements Policy{
     private double epsilon;
     private Learner learner;
     
-    
     public RandomPolicy(QLearner l, double epsilon){
         this.epsilon = epsilon;
     }
@@ -31,10 +30,4 @@ public class RandomPolicy implements Policy{
             
         return nextState;
     }
-
-    @Override
-    public void setStateSpace(String[] ss) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
