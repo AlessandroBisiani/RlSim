@@ -14,7 +14,7 @@ import javax.swing.JTable;
  * @author alessandrobisiani
  */
 public class QLearner implements Learner{
-    private Agent agent;
+    
     
     private Policy policy;
     private ExperimentData data;
@@ -24,53 +24,25 @@ public class QLearner implements Learner{
     
     private JTable qMatrix;
     private JTable rMatrix;
-    //These are default table models because DefaultTableModel includes more methods for operating on the model and extracting table data
+    
     private Matrix qModel;
     private Matrix rModel;
     
     private double gamma;
     private double alpha;
     
+    //public String[] stateSpace = {"s1", "s2"};
     
-    public String[] stateSpace = {"Default"};
-    
-    
-    public QLearner(JTable q, JTable r,Agent a){
-        agent = a;
+    public QLearner(JTable q, JTable r){
         data = new ExperimentData();
         qMatrix = q;
         rMatrix = r;
         
         policy = new EpsilonGreedy(this,0.3);
-        currentState = stateSpace[0];
+        
         alpha = 0.5;
         gamma = 0.7;
-        /*
-        qModel = new Matrix(new String[][] {{"state1","0","0","0","0","0","0","0","0","0"}, 
-                                                            {"state2","0","0","0","0","0","0","0","0","0"}, 
-                                                            {"state3","0","0","0","0","0","0","0","0","0"},
-                                                            {"state4","0","0","0","0","0","0","0","0","0"},
-                                                            {"state5","0","0","0","0","0","0","0","0","0"},
-                                                            {"state6","0","0","0","0","0","0","0","0","0"},
-                                                            {"state7","0","0","0","0","0","0","0","0","0"},
-                                                            {"state8","0","0","0","0","0","0","0","0","0"},
-                                                            {"state9","0","0","0","0","0","0","0","0","0"},
-                                                            {"state10","0","0","0","0","0","0","0","0","0"}}, 
-                                             new String[] {"","state1","state2","state3","state4",
-                                                 "state5","state6","state7","state8","state9"});
-        rModel = new Matrix(new String[][] {{"state1","","","","","","","","",""}, 
-                                                            {"state2","","","","","","","","",""}, 
-                                                            {"state3","","","","","","","","",""},
-                                                            {"state4","","","","","","","","",""},
-                                                            {"state5","","","","","","","","",""},
-                                                            {"state6","","","","","","","","",""},
-                                                            {"state7","","","","","","","","",""},
-                                                            {"state8","","","","","","","","",""},
-                                                            {"state9","","","","","","","","",""},
-                                                            {"state10","","","","","","","","",""}}, 
-                                             new String[] {"","state1","state2","state3","state4",
-                                                 "state5","state6","state7","state8","state9"});
-        */
+        
         qModel = new Matrix(new String[][] {{}}, new String[] {});
         rModel = new Matrix(new String[][] {{}}, new String[] {});
         
@@ -78,6 +50,7 @@ public class QLearner implements Learner{
         r.setModel(rModel);
     }
     
+    @Override
     public void experiment(int episodes){
         data.resetData();
         for(int i=0;i<episodes;i++){
@@ -86,10 +59,11 @@ public class QLearner implements Learner{
         }
         data.printSteps();
         data.printCumulativeRewards();
+                
     }
     
     
-    public void episode(){
+    private void episode(){
         int steps = 0;
         currentState = initialState;
         while(!currentState.equals(goalState)){
@@ -192,13 +166,7 @@ public class QLearner implements Learner{
         }
         return normalizedQ;
     }
-    //sets startingPosition to a random position taken from stateSpace
-    public void resetStartingPosition(){
-        int i = (int)(Math.random()*100);
-        currentState = stateSpace[i%stateSpace.length];
-        System.out.println("starting position reset -" +currentState);
-        System.out.println(currentState);
-    }
+    
     
     //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
     public HashMap getAvailableActions(){
@@ -275,28 +243,30 @@ public class QLearner implements Learner{
     public void setAlpha(double a){
         alpha = a;
     }
+    @Override
     public void setPolicy(Policy p){
         policy = p;
     }
+    @Override
     public void setGoalState(String gs){
         goalState = gs;
     }
+    @Override
     public void setInitialState(String is){
         initialState = is;
     }
-    //Sets the pointers to QLearner's model fields to the parameters taken. Point of doing it manually is to maintain them as DefaultTableModels.
+    //Sets the pointers to QLearner's model fields to the parameters taken
+    @Override
     public void setModels(Matrix q, Matrix r){
         qModel = q;
         rModel = r;
     }
-    
-    public String getGoalState(){
-        return goalState;
-    }
-
     @Override
     public ExperimentData getExperimentData() {
         return data;
+    }
+    public String getGoalState(){
+        return goalState;
     }
     
 }

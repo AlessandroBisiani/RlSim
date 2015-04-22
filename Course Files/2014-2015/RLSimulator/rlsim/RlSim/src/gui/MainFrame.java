@@ -5,6 +5,9 @@
  */
 package gui;
 
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import learning.Agent;
 import learning.EpsilonGreedy;
 import learning.ExperimentData;
 import learning.Matrix;
@@ -33,14 +35,13 @@ import learning.QLearner;
 public class MainFrame extends javax.swing.JFrame {
 
     private static JFrame tempLabelFrame;
-    private Agent agent;
+    private String[] stateSpace;
     private QLearner qLearner;
     
     
     public MainFrame() {
         initComponents();
-        agent = new Agent();
-        qLearner = new QLearner(qMatrix,rMatrix,agent);
+        qLearner = new QLearner(qMatrix,rMatrix);
         
     }
 
@@ -52,6 +53,7 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -60,7 +62,6 @@ public class MainFrame extends javax.swing.JFrame {
         qMatrix = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -73,7 +74,6 @@ public class MainFrame extends javax.swing.JFrame {
         alphaJTextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         testButton = new javax.swing.JButton();
@@ -81,8 +81,6 @@ public class MainFrame extends javax.swing.JFrame {
         newMatrixButton = new javax.swing.JButton();
         epsilonJTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        tdThresholdJTextField = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         runSAJButton = new javax.swing.JButton();
         setSAJButton = new javax.swing.JButton();
@@ -101,6 +99,9 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane1.setBorder(null);
 
         rMatrix.setModel(new DefaultTableModel(new Object[][] {{"state1",1,2,3,4,5,6,7,8,9},
             {"state2",10,11,12,0,0,0,0,0,0},
@@ -126,7 +127,24 @@ rMatrix.setModel(new javax.swing.table.DefaultTableModel(
 
     ));
     */
+    rMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+    rMatrix.setColumnSelectionAllowed(true);
     jScrollPane1.setViewportView(rMatrix);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 37;
+    gridBagConstraints.gridwidth = 16;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.ipadx = 431;
+    gridBagConstraints.ipady = 340;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.weighty = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+    getContentPane().add(jScrollPane1, gridBagConstraints);
+
+    jScrollPane2.setBorder(null);
 
     qMatrix.setModel(new DefaultTableModel(new Object[][] {{"state1",0,0,0,0,0,0,0,0,0},
         {"state2",0,0,0,0,0,0,0,0,0},
@@ -141,35 +159,142 @@ rMatrix.setModel(new javax.swing.table.DefaultTableModel(
     new String[] {"","state1","state2","state3","state4",
         "state5","state6","state7","state8","state9","state10"})
 );
+qMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+qMatrix.setColumnSelectionAllowed(true);
+qMatrix.setGridColor(new java.awt.Color(102, 153, 255));
 jScrollPane2.setViewportView(qMatrix);
 
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 16;
+gridBagConstraints.gridy = 37;
+gridBagConstraints.gridwidth = 13;
+gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+gridBagConstraints.ipadx = 454;
+gridBagConstraints.ipady = 340;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.weightx = 1.0;
+gridBagConstraints.weighty = 1.0;
+gridBagConstraints.insets = new java.awt.Insets(6, 28, 0, 15);
+getContentPane().add(jScrollPane2, gridBagConstraints);
+
 jLabel1.setText("Reward Matrix");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 0;
+gridBagConstraints.gridy = 36;
+gridBagConstraints.gridwidth = 3;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
+getContentPane().add(jLabel1, gridBagConstraints);
 
 jLabel2.setText("Q Matrix");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 16;
+gridBagConstraints.gridy = 36;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(12, 28, 0, 0);
+getContentPane().add(jLabel2, gridBagConstraints);
 
-jLabel3.setText("Matrix Size");
-
-jLabel4.setText("Number Of Episodes");
+jLabel4.setText("Episodes");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 0;
+gridBagConstraints.gridy = 0;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(18, 20, 0, 0);
+getContentPane().add(jLabel4, gridBagConstraints);
 
 jLabel5.setText("Learning Rate");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 9;
+gridBagConstraints.gridy = 5;
+gridBagConstraints.gridwidth = 2;
+gridBagConstraints.gridheight = 2;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(1, 18, 0, 0);
+getContentPane().add(jLabel5, gridBagConstraints);
 
 jLabel6.setText("Discount Factor");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 9;
+gridBagConstraints.gridy = 0;
+gridBagConstraints.gridwidth = 2;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(18, 3, 0, 0);
+getContentPane().add(jLabel6, gridBagConstraints);
 
 jLabel7.setText("Policy");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 0;
+gridBagConstraints.gridy = 5;
+gridBagConstraints.gridheight = 2;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(1, 39, 0, 0);
+getContentPane().add(jLabel7, gridBagConstraints);
 
 jLabel8.setText("Algorithm");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 16;
+gridBagConstraints.gridy = 0;
+gridBagConstraints.gridwidth = 2;
+gridBagConstraints.gridheight = 3;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(29, 36, 0, 0);
+getContentPane().add(jLabel8, gridBagConstraints);
 
 matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         matrixSizeTextFieldActionPerformed(evt);
     }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 23;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridheight = 5;
+    gridBagConstraints.ipadx = 40;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(1, 29, 0, 0);
+    getContentPane().add(matrixSizeTextField, gridBagConstraints);
 
     episodesJTextField.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             episodesJTextFieldActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.ipadx = 73;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 6, 0, 0);
+    getContentPane().add(episodesJTextField, gridBagConstraints);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 11;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.ipadx = 83;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 6, 0, 0);
+    getContentPane().add(gammaJTextField, gridBagConstraints);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 6;
+    gridBagConstraints.ipadx = 73;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(2, 6, 0, 0);
+    getContentPane().add(jTextField5, gridBagConstraints);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 11;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 6;
+    gridBagConstraints.ipadx = 83;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(2, 6, 0, 0);
+    getContentPane().add(alphaJTextField, gridBagConstraints);
 
     jButton1.setText("Update");
     jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -177,12 +302,33 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             jButton1ActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 24;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.gridheight = 8;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(2, 6, 0, 0);
+    getContentPane().add(jButton1, gridBagConstraints);
 
     jLabel9.setText("(Limit of 10)");
-
-    jButton2.setText("Display Graphs");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 27;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
+    getContentPane().add(jLabel9, gridBagConstraints);
 
     jButton3.setText("Run");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 23;
+    gridBagConstraints.gridy = 14;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 11;
+    gridBagConstraints.ipadx = 64;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(2, 29, 0, 0);
+    getContentPane().add(jButton3, gridBagConstraints);
 
     jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Q-Learning", "SARSA"}));
     jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +336,15 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             jComboBox1ActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 18;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 4;
+    gridBagConstraints.ipadx = 42;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(25, 12, 0, 0);
+    getContentPane().add(jComboBox1, gridBagConstraints);
 
     testButton.setText("test");
     testButton.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +352,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             testButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 4;
+    gridBagConstraints.gridy = 38;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 2, 0, 0);
+    getContentPane().add(testButton, gridBagConstraints);
 
     testTextField2.setText("matrix size");
     testTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -204,6 +367,13 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             testTextField2ActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 38;
+    gridBagConstraints.ipadx = 70;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(22, 6, 0, 0);
+    getContentPane().add(testTextField2, gridBagConstraints);
 
     newMatrixButton.setText("New Matrix");
     newMatrixButton.addActionListener(new java.awt.event.ActionListener() {
@@ -211,10 +381,31 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             newMatrixButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 16;
+    gridBagConstraints.gridy = 38;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 17, 0, 0);
+    getContentPane().add(newMatrixButton, gridBagConstraints);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 14;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 11;
+    gridBagConstraints.ipadx = 73;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(3, 6, 0, 0);
+    getContentPane().add(epsilonJTextField, gridBagConstraints);
 
     jLabel10.setText("Epsilon");
-
-    jLabel11.setText("TD Threshold");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 23;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(3, 30, 0, 0);
+    getContentPane().add(jLabel10, gridBagConstraints);
 
     jButton4.setText("set test");
     jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -222,6 +413,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             jButton4ActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 38;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 6, 0, 0);
+    getContentPane().add(jButton4, gridBagConstraints);
 
     runSAJButton.setText("Run SA");
     runSAJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -229,6 +428,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             runSAJButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 12;
+    gridBagConstraints.gridy = 38;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 6, 0, 0);
+    getContentPane().add(runSAJButton, gridBagConstraints);
 
     setSAJButton.setText("set SA");
     setSAJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -236,16 +443,57 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             setSAJButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 11;
+    gridBagConstraints.gridy = 38;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 5, 0, 0);
+    getContentPane().add(setSAJButton, gridBagConstraints);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 18;
+    gridBagConstraints.gridy = 23;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.gridheight = 13;
+    gridBagConstraints.ipadx = 81;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+    getContentPane().add(goalStateJTextField, gridBagConstraints);
 
     jLabel12.setText("Goal State");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 16;
+    gridBagConstraints.gridy = 23;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 12;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 36, 0, 0);
+    getContentPane().add(jLabel12, gridBagConstraints);
 
     initialStateJTextField.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             initialStateJTextFieldActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 18;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 10;
+    gridBagConstraints.ipadx = 80;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+    getContentPane().add(initialStateJTextField, gridBagConstraints);
 
     jLabel13.setText("Initial State");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 16;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 9;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 28, 0, 0);
+    getContentPane().add(jLabel13, gridBagConstraints);
 
     jMenu1.setText("File");
 
@@ -277,151 +525,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     jMenuBar1.add(jMenu1);
 
     setJMenuBar(jMenuBar1);
-
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGap(250, 250, 250)
-            .addComponent(jButton4)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(testButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(setSAJButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(runSAJButton)
-            .addGap(0, 0, Short.MAX_VALUE))
-        .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(0, 0, 0)
-                            .addComponent(jLabel2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1133, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(166, 166, 166)
-                            .addComponent(newMatrixButton)
-                            .addGap(133, 133, 133))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel3)
-                            .addGap(18, 18, 18)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4)
-                                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel10))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButton1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel9))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(epsilonJTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(episodesJTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(30, 30, 30)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel11))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(alphaJTextField)
-                                        .addComponent(gammaJTextField)
-                                        .addComponent(tdThresholdJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGap(57, 57, 57)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel8)
-                                        .addComponent(jLabel12)
-                                        .addComponent(jLabel13))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(goalStateJTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING))))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGap(17, 17, 17)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel3)
-                .addComponent(jButton1)
-                .addComponent(jLabel9)
-                .addComponent(jButton2)
-                .addComponent(jButton3))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(episodesJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)
-                        .addComponent(gammaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(newMatrixButton)
-                            .addGap(15, 15, 15))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tdThresholdJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(goalStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)))
-            .addGap(7, 7, 7)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
-                .addComponent(jLabel2))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                .addComponent(jScrollPane2))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButton4)
-                .addComponent(testButton)
-                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(runSAJButton)
-                .addComponent(setSAJButton))
-            .addGap(22, 22, 22))
-    );
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -511,7 +614,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         gammaJTextField.setText("0.6");
         alphaJTextField.setText("0.2");
         epsilonJTextField.setText("0.5");
-        tdThresholdJTextField.setText("0.005");
         resetQMatrix();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -606,7 +708,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         for(int i=1 ; i<=l ; i++){
             statesList[i] = states[i-1];
         }
-        //populates the matrix with zeros and row headers.
+        //populates the Q matrix with zeros and row headers.
         String[][] qmatrix = new String[l][l+1];
         for(int i=0 ; i<l ; i++){
             for(int j=0 ; j<=l ; j++){
@@ -619,7 +721,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 } 
             }
         }
-        //populates matrix w/ row headers only
+        //populates R matrix w/ row headers only
         String[][] rmatrix = new String[l][l+1];
         for(int i=0 ; i<l ; i++){
             for(int j=0 ; j<=l ; j++){
@@ -632,14 +734,60 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 } 
             }
         }
+        
         //Create new DefaultTableModel s, set them as models for Q and R matrices and as designated TableModels in qLearner.
         //The purpose of this is to make sure there's a reference to DefaultTableModel objects due to their great methods.
         Matrix qModel = new Matrix(qmatrix, statesList);
         Matrix rModel = new Matrix(rmatrix, statesList);
         qMatrix.setModel(qModel);
         rMatrix.setModel(rModel);
+        rMatrix.setPreferredScrollableViewportSize(new Dimension(400,400));
+        qMatrix.setPreferredScrollableViewportSize(new Dimension(400,400));
+        
+        jScrollPane1.createHorizontalScrollBar();
+        jScrollPane2.createHorizontalScrollBar();
+        /*
+        rMatrix.getParent().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e) {
+                if (rMatrix.getPreferredSize().width < rMatrix.getParent().getWidth()) {
+                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+            }
+        });
+        qMatrix.getParent().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e) {
+                if (qMatrix.getPreferredSize().width < qMatrix.getParent().getWidth()) {
+                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+            }
+        });
+        */
+        if (qMatrix.getPreferredSize().width < qMatrix.getParent().getWidth()) {
+                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+        if (rMatrix.getPreferredSize().width < rMatrix.getParent().getWidth()) {
+                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+        
+        for(int y=0 ; y<=l ; y++){
+                rMatrix.getColumnModel().getColumn(y).setMinWidth(40);
+                rMatrix.getColumnModel().getColumn(y).setPreferredWidth(40);
+                qMatrix.getColumnModel().getColumn(y).setMinWidth(40);
+                qMatrix.getColumnModel().getColumn(y).setPreferredWidth(40);
+        }
+        
         qLearner.setModels(qModel, rModel);
-        qLearner.stateSpace = states;
+        stateSpace = states;
         //qLearner.resetStartingPosition();
         System.out.println("Matrices reset");
         if((c/l)==r){
@@ -649,7 +797,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }
     
     public void resetQMatrix(){
-        String[] states = qLearner.stateSpace;
+        String[] states = stateSpace;
         int l = states.length;
         TableModel tm = qMatrix.getModel();
         //String[][] qmatrix = new String[l][l+1];
@@ -904,17 +1052,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JTextField goalStateJTextField;
     private javax.swing.JTextField initialStateJTextField;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -938,7 +1083,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JTable rMatrix;
     private javax.swing.JButton runSAJButton;
     private javax.swing.JButton setSAJButton;
-    private javax.swing.JTextField tdThresholdJTextField;
     private javax.swing.JButton testButton;
     private javax.swing.JTextField testTextField2;
     // End of variables declaration//GEN-END:variables

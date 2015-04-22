@@ -16,4 +16,5 @@ public interface Policy {
     
     String next(HashMap stateRewardMap);
 
+    
 }
