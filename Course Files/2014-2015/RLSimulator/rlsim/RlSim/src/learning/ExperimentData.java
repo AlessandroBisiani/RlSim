@@ -20,9 +20,12 @@ public class ExperimentData implements Serializable{
     //size is number of ep. Relates the episode w the normalized cumulative reward.
     private ArrayList<Double> ratioOfCumulativeRewards;
     
-    public ExperimentData(){
+    private double[][][] allData;
+    
+    public ExperimentData(int numStates, int numEpisodes){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
+        allData = new double[numStates][numStates][numEpisodes];
     }
     
     public void addSteps(int steps){

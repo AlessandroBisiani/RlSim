@@ -8,7 +8,6 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,7 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.WindowConstants;
 import javax.swing.table.TableModel;
 import learning.EpsilonGreedy;
 import learning.ExperimentData;
@@ -35,14 +34,14 @@ import learning.QLearner;
 public class MainFrame extends javax.swing.JFrame {
 
     private static JFrame tempLabelFrame;
-    private String[] stateSpace;
+    private String[] stateSpace = {"state1","state2","state3","state4","state5"};
     private QLearner qLearner;
+    
     
     
     public MainFrame() {
         initComponents();
-        qLearner = new QLearner(qMatrix,rMatrix);
-        
+        qLearner = null;
     }
 
     /**
@@ -103,18 +102,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
 
-        rMatrix.setModel(new DefaultTableModel(new Object[][] {{"state1",1,2,3,4,5,6,7,8,9},
-            {"state2",10,11,12,0,0,0,0,0,0},
-            {"state3",0,0,0,0,0,0,0,0,0},
-            {"state4",0,0,0,0,0,0,0,0,0},
-            {"state5",0,0,0,0,0,0,0,0,0},
-            {"state6",0,0,0,0,0,0,0,0,0},
-            {"state7",0,0,0,0,0,0,0,0,0},
-            {"state8",0,0,0,0,0,0,0,0,0},
-            {"state9",0,0,0,0,0,0,0,0,0},
-            {"state10",0,0,0,0,0,0,0,0,0}},
+        rMatrix.setModel(new Matrix(new String[][] {{"state1","","","","",""},
+            {"state2","","","","",""},
+            {"state3","","","","",""},
+            {"state4","","","","",""},
+            {"state5","","","","",""}},
         new String[] {"","state1","state2","state3","state4",
-            "state5","state6","state7","state8","state9","state10"}));
+            "state5"}));
 /*
 rMatrix.setModel(new javax.swing.table.DefaultTableModel(
 
@@ -146,18 +140,13 @@ rMatrix.setModel(new javax.swing.table.DefaultTableModel(
 
     jScrollPane2.setBorder(null);
 
-    qMatrix.setModel(new DefaultTableModel(new Object[][] {{"state1",0,0,0,0,0,0,0,0,0},
-        {"state2",0,0,0,0,0,0,0,0,0},
-        {"state3",0,0,0,0,0,0,0,0,0},
-        {"state4",0,0,0,0,0,0,0,0,0},
-        {"state5",0,0,0,0,0,0,0,0,0},
-        {"state6",0,0,0,0,0,0,0,0,0},
-        {"state7",0,0,0,0,0,0,0,0,0},
-        {"state8",0,0,0,0,0,0,0,0,0},
-        {"state9",0,0,0,0,0,0,0,0,0},
-        {"state10",0,0,0,0,0,0,0,0,0}},
+    qMatrix.setModel(new Matrix(new String[][] {{"state1","0","0","0","0","0"},
+        {"state2","0","0","0","0","0"},
+        {"state3","0","0","0","0","0"},
+        {"state4","0","0","0","0","0"},
+        {"state5","0","0","0","0","0"}},
     new String[] {"","state1","state2","state3","state4",
-        "state5","state6","state7","state8","state9","state10"})
+        "state5"})
 );
 qMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 qMatrix.setColumnSelectionAllowed(true);
@@ -542,14 +531,17 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
-       
+        Thread.currentThread().interrupt();
+        /*
+        if(tempLabelFrame != null){
+           System.out.println("still ref");
+        } else {
+           System.out.println("nothing to see here");
+        }
+        
             File f = new File(".");
             System.out.println(f.getAbsolutePath());
         
-        
-        
-        
-            /*
             qLearner.setTDThreshold(Double.parseDouble(tdThresholdJTextField.getText()));
             qLearner.setPolicy(new EpsilonGreedy(qLearner,Double.parseDouble(epsilonJTextField.getText())));
             qLearner.setAlpha(Double.parseDouble(alphaJTextField.getText()));
@@ -603,12 +595,22 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void newMatrixButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMatrixButtonActionPerformed
+        if(tempLabelFrame != null && tempLabelFrame.isVisible()){
+            //do nothing
+        } else if (tempLabelFrame != null && !tempLabelFrame.isVisible()){
+            createStateSpaceFrame();
+        } else {
+            createStateSpaceFrame();
+        }
+    }//GEN-LAST:event_newMatrixButtonActionPerformed
+
+    private void createStateSpaceFrame(){
         tempLabelFrame = new JFrame("State Space");
+        tempLabelFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         tempLabelFrame.getContentPane().add(new StateSpacePanel(this));
         tempLabelFrame.pack();
         tempLabelFrame.setVisible(true);
-    }//GEN-LAST:event_newMatrixButtonActionPerformed
-
+    }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         episodesJTextField.setText("10");
         gammaJTextField.setText("0.6");
@@ -618,14 +620,20 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void runSAJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runSAJButtonActionPerformed
-       
+        
+        //create a fresh learner with ref to the JTables and the experiment size
+        qLearner = new QLearner(qMatrix, rMatrix, stateSpace.length,Integer.parseInt(episodesJTextField.getText()));
         qLearner.setPolicy(new EpsilonGreedy(qLearner,Double.parseDouble(epsilonJTextField.getText())));
         qLearner.setAlpha(Double.parseDouble(alphaJTextField.getText()));
         qLearner.setGamma(Double.parseDouble(gammaJTextField.getText()));
         qLearner.setGoalState(goalStateJTextField.getText());
         qLearner.setInitialState(initialStateJTextField.getText());
         
-        qLearner.experiment(Integer.parseInt(episodesJTextField.getText()));
+        try {
+            qLearner.experiment();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         System.out.println(qLearner.getGoalState());
     }//GEN-LAST:event_runSAJButtonActionPerformed
@@ -694,6 +702,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         
         
         MainFrame.closeLabelFrame();
+        tempLabelFrame = null;
         resetMatrices(qMatrix, rMatrix, states);
     }
     
@@ -789,7 +798,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 qMatrix.getColumnModel().getColumn(y).setPreferredWidth(40);
         }
         
-        qLearner.setModels(qModel, rModel);
+        //qLearner.setModels(qModel, rModel);
         stateSpace = states;
         //qLearner.resetStartingPosition();
         System.out.println("Matrices reset");

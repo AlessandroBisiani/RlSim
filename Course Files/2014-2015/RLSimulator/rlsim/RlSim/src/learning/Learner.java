@@ -11,23 +11,30 @@ import javax.swing.JTable;
  *
  * @author alessandrobisiani
  */
-public interface Learner {
+public abstract class Learner implements Runnable{
     
+    public Learner(){
+        
+    }
     
-    
-    public void experiment(int episodes);
+    public abstract void experiment() throws InterruptedException;
     
     //public abstract void episode();
     
-    public double calculateCumulativeQ();
+    public abstract double calculateCumulativeQ();
     
-    public void setPolicy(Policy p);
+    public abstract void setPolicy(Policy p);
     
-    public void setGoalState(String gs);
+    public abstract void setGoalState(String gs);
     
-    public void setInitialState(String is);
+    public abstract void setInitialState(String is);
     //Sets the pointers to QLearner's model fields to the parameters taken
-    public void setModels(Matrix q, Matrix r);
+    public abstract void setModels(Matrix q, Matrix r);
     
-    public ExperimentData getExperimentData();
+    public abstract ExperimentData getExperimentData();
+    
+    @Override
+    public void run(){
+        
+    };
 }

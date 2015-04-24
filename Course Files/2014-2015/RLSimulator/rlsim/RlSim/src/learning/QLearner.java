@@ -13,7 +13,7 @@ import javax.swing.JTable;
  *
  * @author alessandrobisiani
  */
-public class QLearner implements Learner{
+public class QLearner implements Learner, Runnable {
     
     
     private Policy policy;
@@ -31,10 +31,13 @@ public class QLearner implements Learner{
     private double gamma;
     private double alpha;
     
+    private int numEpisodes;
+    
     //public String[] stateSpace = {"s1", "s2"};
     
-    public QLearner(JTable q, JTable r){
-        data = new ExperimentData();
+    public QLearner(JTable q, JTable r, int numStates, int numEpisodes){
+        data = new ExperimentData(numStates, numEpisodes);
+        this.numEpisodes = numEpisodes;
         qMatrix = q;
         rMatrix = r;
         
@@ -43,17 +46,15 @@ public class QLearner implements Learner{
         alpha = 0.5;
         gamma = 0.7;
         
-        qModel = new Matrix(new String[][] {{}}, new String[] {});
-        rModel = new Matrix(new String[][] {{}}, new String[] {});
+        qModel = (Matrix) q.getModel();
+        rModel = (Matrix) r.getModel();
         
-        q.setModel(qModel);
-        r.setModel(rModel);
     }
     
     @Override
-    public void experiment(int episodes){
+    public void experiment() throws InterruptedException{
         data.resetData();
-        for(int i=0;i<episodes;i++){
+        for(int i=0;i<numEpisodes;i++){
             episode();
             data.addReward(calculateCumulativeQ());
         }
@@ -131,6 +132,7 @@ public class QLearner implements Learner{
     
     //returns cumulative Q value per TableModel
     //Takes all Q values, finds the largest, and divides each by that value and multiplies by 100. Adds them together and returns that value as double.
+    @Override
     public double calculateCumulativeQ(){
         double normalizedQ = 0;
         double[] qS;
@@ -267,6 +269,11 @@ public class QLearner implements Learner{
     }
     public String getGoalState(){
         return goalState;
+    }
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
