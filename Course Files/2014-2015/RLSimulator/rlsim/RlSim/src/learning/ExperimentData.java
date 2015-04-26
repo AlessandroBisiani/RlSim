@@ -20,6 +20,7 @@ public class ExperimentData implements Serializable{
     //size is number of ep. Relates the episode w the normalized cumulative reward.
     private ArrayList<Double> ratioOfCumulativeRewards;
     
+    //all q matrix data for every episode. Should probably not include the zeros.
     private ArrayList<double[][]> allData;
     
     private Policy policy;
@@ -104,4 +105,22 @@ public class ExperimentData implements Serializable{
         initialState = iState;
     }
     
+    public Policy getPolicy(){
+        return policy;
+    }
+    public double getGamma(){
+        return gamma;
+    }
+    public double getAlpha(){
+        return alpha;
+    }
+    public Matrix getRModel(){
+        return rModel;
+    }
+    public String getGoalState(){
+        return goalState;
+    }
+    public String getInitialState(){
+        return initialState;
+    }
 }

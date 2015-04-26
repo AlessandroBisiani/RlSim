@@ -468,6 +468,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
         
         learningThread.interrupt();
+        
         /*
         if(tempLabelFrame != null){
            System.out.println("still ref");
@@ -696,15 +697,32 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 StringBuilder sb = new StringBuilder();
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
+                //add experiment parameters
+                sb.append("Policy : ");         sb.append(data.getPolicy().getClass()); sb.append(","+nl);
+                sb.append("Initial State : ");  sb.append(data.getInitialState());      sb.append(","+nl);
+                sb.append("Goal State : ");     sb.append(data.getGoalState());         sb.append(","+nl);
+                sb.append("Alpha : ");          sb.append(data.getAlpha());             sb.append(","+nl);
+                switch(getPolicy()){
+                    case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
+                                        
+                    case "Softmax": //TODO
+                }
+                sb.append("States:,");
+                for(String state : stateSpace){
+                    sb.append(state); sb.append(",");
+                }
+                sb.append(nl+nl);
                 
-                for(double[][] matrix : expData){
+                sb.append("Episode #," + nl);
+                for(int i=0;i<expData.size();i++){
+                    sb.append((i+1)+",");
                     for(int row=0;row<matrixSize;row++){
                         for(int column=0;column<matrixSize;column++){
-                            sb.append(matrix[row][column]);
+                            sb.append(expData.get(i)[row][column]);
                             sb.append(",");
                         }
-                        sb.append(nl);
                     }
+                    sb.append(nl);
                 }
                 br.write(sb.toString());
             }
@@ -742,15 +760,31 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 StringBuilder sb = new StringBuilder();
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
+                //add experiment parameters
+                sb.append("Policy : ");         sb.append(data.getPolicy().getClass()); sb.append(","+nl);
+                sb.append("Initial State : ");  sb.append(data.getInitialState());      sb.append(","+nl);
+                sb.append("Goal State : ");     sb.append(data.getGoalState());         sb.append(","+nl);
+                switch(getPolicy()){
+                    case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
+                                        sb.append("Alpha : "); sb.append(data.getAlpha()); sb.append(","+nl);
+                    case "Softmax": //TODO
+                }
                 
-                for(double[][] matrix : expData){
+                for(int i=0;i<expData.size();i++){
+                    sb.append("Episode # "); sb.append(i+1); sb.append(",");
+                    for(String state : stateSpace){
+                        sb.append(state); sb.append(",");
+                    }   sb.append(nl);
+                    
                     for(int row=0;row<matrixSize;row++){
+                        sb.append(stateSpace[row]); sb.append(",");
                         for(int column=0;column<matrixSize;column++){
-                            sb.append(matrix[row][column]);
+                            sb.append(expData.get(i)[row][column]);
                             sb.append(",");
                         }
+                        sb.append(nl);
                     }
-                    sb.append(nl); sb.append(nl);
+                    sb.append(nl);
                 }
                 br.write(sb.toString());
             }
