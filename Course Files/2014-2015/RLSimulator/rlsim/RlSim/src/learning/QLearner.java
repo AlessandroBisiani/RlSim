@@ -5,19 +5,21 @@
  */
 package learning;
 
+import gui.MainFrame;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /** 
  *
  * @author alessandrobisiani
  */
-public class QLearner implements Learner, Runnable {
-    
+public class QLearner extends Learner {
     
     private Policy policy;
-    private ExperimentData data;
+    //private ExperimentData data;
     private String currentState;
     private String goalState;
     private String initialState;
@@ -31,41 +33,37 @@ public class QLearner implements Learner, Runnable {
     private double gamma;
     private double alpha;
     
-    private int numEpisodes;
+    private int stepsPerEpisode;
+    
+    //private int numEpisodes;
+    
+    //private MainFrame mainFrame;
     
     //public String[] stateSpace = {"s1", "s2"};
     
-    public QLearner(JTable q, JTable r, int numStates, int numEpisodes){
-        data = new ExperimentData(numStates, numEpisodes);
-        this.numEpisodes = numEpisodes;
+    public QLearner(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
+        super(numEpisodes,mFrame);
+        //mainFrame = mFrame;
+        //data = new ExperimentData(r.getRowCount(), numEpisodes);
+        //this.numEpisodes = numEpisodes;
         qMatrix = q;
         rMatrix = r;
         
-        policy = new EpsilonGreedy(this,0.3);
+        //policy = new EpsilonGreedy(this,0.3);
         
         alpha = 0.5;
         gamma = 0.7;
         
         qModel = (Matrix) q.getModel();
         rModel = (Matrix) r.getModel();
-        
     }
+    
+    
+    
     
     @Override
-    public void experiment() throws InterruptedException{
-        data.resetData();
-        for(int i=0;i<numEpisodes;i++){
-            episode();
-            data.addReward(calculateCumulativeQ());
-        }
-        data.printSteps();
-        data.printCumulativeRewards();
-                
-    }
-    
-    
-    private void episode(){
-        int steps = 0;
+    public void episode(){
+        stepsPerEpisode = 0;
         currentState = initialState;
         while(!currentState.equals(goalState)){
             HashMap m = getAvailableActions();
@@ -93,7 +91,7 @@ public class QLearner implements Learner, Runnable {
             
             currentState = nextState;
             
-            steps = steps+1;
+            stepsPerEpisode = stepsPerEpisode+1;
             
         }
         if(currentState.equals(goalState)){
@@ -123,11 +121,16 @@ public class QLearner implements Learner, Runnable {
             
             currentState = nextState;
             
-            steps = steps+1;
+            stepsPerEpisode = stepsPerEpisode+1;
         }
         qMatrix.repaint();
-        data.addSteps(steps);
-        System.out.println(steps);
+        //data.addSteps(stepsPerEpisode);
+        System.out.println(stepsPerEpisode);
+    }
+    
+    @Override
+    public int getStepsPerEpisode(){
+        return stepsPerEpisode;
     }
     
     //returns cumulative Q value per TableModel
@@ -168,6 +171,7 @@ public class QLearner implements Learner, Runnable {
         }
         return normalizedQ;
     }
+    
     
     
     //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
@@ -263,17 +267,27 @@ public class QLearner implements Learner, Runnable {
         qModel = q;
         rModel = r;
     }
-    @Override
-    public ExperimentData getExperimentData() {
-        return data;
-    }
+    
     public String getGoalState(){
         return goalState;
     }
+    @Override
+    public double[][] getEpisodeData(){
+        double[][] epData = new double[rMatrix.getRowCount()][rMatrix.getRowCount()];
+        for(int row=0;row<epData.length;row++){
+            for(int column=1;column<=epData.length;column++){
+                epData[row][column-1] = qModel.getDoubleAt(row, column);
+            }
+        }
+        return epData;
+    } 
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            experiment();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(QLearner.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
 }

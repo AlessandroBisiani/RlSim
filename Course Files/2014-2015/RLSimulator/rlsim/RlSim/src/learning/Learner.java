@@ -5,21 +5,46 @@
  */
 package learning;
 
+import gui.MainFrame;
+import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
  *
  * @author alessandrobisiani
  */
+
+   
 public abstract class Learner implements Runnable{
+   
     
-    public Learner(){
-        
+    private MainFrame mainFrame;
+    private int numOfEpisodes;
+    
+    public Learner(int numEpisodes, MainFrame mFrame){
+        mainFrame = mFrame;
+        numOfEpisodes = numEpisodes;
     }
     
-    public abstract void experiment() throws InterruptedException;
+    
+    public  void experiment() throws InterruptedException{
+        for(int i=0;i<numOfEpisodes;i++){
+            episode();
+            mainFrame.data.addSteps(getStepsPerEpisode());
+            mainFrame.data.addEpisode(getEpisodeData());
+            mainFrame.data.addReward(calculateCumulativeQ());
+            Thread.sleep(1);
+        }
+        mainFrame.data.printSteps();
+        mainFrame.data.printCumulativeRewards();
+        System.out.println(mainFrame.data.getAllDataArraySize());
+    };
     
     //public abstract void episode();
+    
+    public abstract int getStepsPerEpisode();
+    
+    public abstract void episode();
     
     public abstract double calculateCumulativeQ();
     
@@ -31,10 +56,9 @@ public abstract class Learner implements Runnable{
     //Sets the pointers to QLearner's model fields to the parameters taken
     public abstract void setModels(Matrix q, Matrix r);
     
-    public abstract ExperimentData getExperimentData();
     
+    public abstract double[][] getEpisodeData();
+   
     @Override
-    public void run(){
-        
-    };
+    public abstract void run();
 }

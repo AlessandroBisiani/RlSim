@@ -5,6 +5,7 @@
  */
 package learning;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -39,41 +40,48 @@ public class EpsilonGreedy implements Policy{
         //If there is more than one element in set take random value to compare against.
         if(!m.isEmpty() && m.size()>1){
             int rand = (int)(Math.random()*100);
+            //pick greedily or in the case that multiple keys have the same reward equal to the max reward, pick randomly between them.
             if(Math.random()>epsilon){
                 
-                int randIndex = rand%set.length;
+                String val = (String) m.get(set[0]);
+                double maxReward = Double.parseDouble(val);
                 
-                String val = (String) m.get(set[randIndex]);
-                double reward = Double.parseDouble(val);;
-                nextState = set[randIndex];
+                ArrayList<String> equivalentKeys = new ArrayList<>();
+                equivalentKeys.add(set[0]);
                 
-                //String[] equivalentVals = new String[set.length];
-                
-                for(int i=0;i<set.length;i++){
+                for(int i=1;i<set.length;i++){
                     String v = (String) m.get(set[i]);
-                    double tempV = Double.parseDouble(v);
-                    if(tempV > reward){
-                        reward = tempV;
-                        nextState = set[i];
-                       // for(int y=0;y<equivalentVals.length;y++){
-                       //     equivalentVals[y]="";
+                    double tempR = Double.parseDouble(v);
+                    
+                    if(tempR > maxReward){
+                        maxReward = tempR;
+                        //nextState = set[i];
+                        equivalentKeys = new ArrayList<>();
+                        equivalentKeys.add(set[i]);
+                    } else if(tempR==maxReward){
+                        equivalentKeys.add(set[i]);
                     }
-                  //  } else if(tempV==reward){
-                  //      equivalentVals[i] = set[i];
-                  //  }
                 }
-                
-                System.out.println("Greedy action selected" + reward);
+                //if there are multiple keys with the reward maxReward, pick randomly between them.
+                if(equivalentKeys.size() > 1){
+                    int randIndex = rand%equivalentKeys.size();
+                    nextState = equivalentKeys.get(randIndex);
+                } else if(equivalentKeys.size()==1){
+                    nextState = equivalentKeys.get(0);
+                }
+                System.out.println("Greedy action selected" + maxReward);
                 return nextState;
+            //Else pick randomly
             } else{
                 nextState = set[rand%set.length];
-                //nextState = qLearner.stateSpace[i%qLearner.stateSpace.length];
             }
+            //returns null, throwing NullPointException down the line.
             return nextState;
-            
+        //if there is only one action    
         } else if(m.size()==1){
                 nextState = set[0];
                 return nextState;
+        //returns null throing NullPointerException down the line.
         } else{
             return nextState;
         }

@@ -20,12 +20,15 @@ public class ExperimentData implements Serializable{
     //size is number of ep. Relates the episode w the normalized cumulative reward.
     private ArrayList<Double> ratioOfCumulativeRewards;
     
-    private double[][][] allData;
+    private ArrayList<double[][]> allData;
+    private int numberOfStates;
+    
     
     public ExperimentData(int numStates, int numEpisodes){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
-        allData = new double[numStates][numStates][numEpisodes];
+        allData = new ArrayList<>();//double[numStates][numStates][numEpisodes];
+        numberOfStates = numStates;
     }
     
     public void addSteps(int steps){
@@ -34,11 +37,35 @@ public class ExperimentData implements Serializable{
     public void addReward(double reward){
         ratioOfCumulativeRewards.add(reward);
     }
+    public void addEpisode(double[][] episode){
+        allData.add(episode);
+        /*for(int r=0;r<numberOfStates;r++){
+            for(int c=0;c<numberOfStates;c++){
+                
+            }
+        }
+        episodeIndex++;
+                */
+    }
+    
+    public ArrayList<Integer> getStepsXEpisode(){
+        return stepsXEpisode;
+    }
+    public ArrayList<Double> getRatioOfCumulativeRewards(){
+        return ratioOfCumulativeRewards;
+    }
+    public ArrayList<double[][]> getAllData(){
+        return allData;
+    }
+    public int getAllDataArraySize(){
+        return allData.size();
+    }
     
     
     public void resetData(){
         ratioOfCumulativeRewards.removeAll(ratioOfCumulativeRewards);
         stepsXEpisode.removeAll(stepsXEpisode);
+        allData = new ArrayList<>();
     }
     
     
