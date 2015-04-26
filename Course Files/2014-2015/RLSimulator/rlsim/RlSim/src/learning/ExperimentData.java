@@ -21,14 +21,18 @@ public class ExperimentData implements Serializable{
     private ArrayList<Double> ratioOfCumulativeRewards;
     
     private ArrayList<double[][]> allData;
-    private int numberOfStates;
     
+    private Policy policy;
+    private double gamma;
+    private double alpha;
+    private Matrix rModel;
+    private String goalState;
+    private String initialState;
     
     public ExperimentData(int numStates, int numEpisodes){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
-        allData = new ArrayList<>();//double[numStates][numStates][numEpisodes];
-        numberOfStates = numStates;
+        allData = new ArrayList<>();
     }
     
     public void addSteps(int steps){
@@ -39,13 +43,6 @@ public class ExperimentData implements Serializable{
     }
     public void addEpisode(double[][] episode){
         allData.add(episode);
-        /*for(int r=0;r<numberOfStates;r++){
-            for(int c=0;c<numberOfStates;c++){
-                
-            }
-        }
-        episodeIndex++;
-                */
     }
     
     public ArrayList<Integer> getStepsXEpisode(){
@@ -86,6 +83,25 @@ public class ExperimentData implements Serializable{
             System.out.println(rewards[i]);
         }
         System.out.println("# Cumulative rewards: "+s);
+    }
+    
+    public void setPolicy(Policy policy){
+        this.policy = policy;
+    }
+    public void setGamma(double gamma){
+        this.gamma = gamma;
+    }
+    public void setAlpha(double alpha){
+        this.alpha = alpha;
+    }
+    public void setRModel(Matrix rModel){
+        this.rModel = rModel;
+    }
+    public void setGoalState(String gState){
+        goalState = gState;
+    }
+    public void setInitialState(String iState){
+        initialState = iState;
     }
     
 }

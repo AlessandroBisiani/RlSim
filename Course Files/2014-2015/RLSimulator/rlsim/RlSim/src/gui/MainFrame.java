@@ -28,6 +28,7 @@ import learning.EpsilonGreedy;
 import learning.ExperimentData;
 import learning.Learner;
 import learning.Matrix;
+import learning.Policy;
 import learning.QLearner;
 
 /** 
@@ -546,6 +547,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         tempLabelFrame.pack();
         tempLabelFrame.setVisible(true);
     }
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         episodesJTextField.setText("10");
         gammaJTextField.setText("0.6");
@@ -557,10 +559,10 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private String getPolicy(){
         return (String) policyComboBox.getSelectedItem();
     }
+    
     private String getAlgorithm(){
         return (String) algorithmComboBox.getSelectedItem();
     }
-    
     
     private void runSAJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runSAJButtonActionPerformed
         //create a fresh learner with ref to the JTables and the experiment size
@@ -571,12 +573,21 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             case "Q-Learning":  QLearner qL =new QLearner(qMatrix, rMatrix,Integer.parseInt(episodesJTextField.getText()),this);
                                 qL.setAlpha(Double.parseDouble(alphaJTextField.getText()));
                                 qL.setGamma(Double.parseDouble(gammaJTextField.getText()));
+                                data.setAlpha(Double.parseDouble(alphaJTextField.getText()));
+                                data.setGamma(Double.parseDouble(gammaJTextField.getText()));
                                 learner = qL;
             case "SARSA": //TODO
-        }   
-        learner.setPolicy(new EpsilonGreedy(learner,Double.parseDouble(epsilonJTextField.getText())));
+        }
+        switch(getPolicy()){
+            case "ɛ-Greedy":    Policy eG = new EpsilonGreedy(learner,Double.parseDouble(epsilonJTextField.getText()));
+                                learner.setPolicy(eG); 
+                                data.setPolicy(eG);
+            case "Softmax":
+        }
         learner.setGoalState(goalStateJTextField.getText());
         learner.setInitialState(initialStateJTextField.getText());
+        data.setGoalState(goalStateJTextField.getText());
+        data.setInitialState(initialStateJTextField.getText());
         
         learningThread = new Thread(learner);
         learningThread.start();
@@ -621,6 +632,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         try {
             out = new FileOutputStream(uri);
             ObjectOutputStream objectOut = new ObjectOutputStream(out);
+            //data.setPolicy(null);
             objectOut.writeObject(data);
             
             in = new FileInputStream(uri);
@@ -655,7 +667,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
     }//GEN-LAST:event_policyComboBoxActionPerformed
 
-    
     private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
         if(tempExportFrame != null && tempExportFrame.isVisible()){
             //do nothing
