@@ -12,79 +12,95 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 
-/** 
+/**
  *
  * @author alessandrobisiani
  */
-public class QLearner extends Learner {
-    
-    private Policy policy;
-    //private ExperimentData data;
-    private String currentState;
-    private String goalState;
-    private String initialState;
+public class SARSA extends Learner{
     
     private JTable qMatrix;
     private JTable rMatrix;
-    
     private Matrix qModel;
     private Matrix rModel;
-    
-    private double gamma;
-    private double alpha;
-    
     private int stepsPerEpisode;
-    
-    //private int numEpisodes;
-    
-    //private MainFrame mainFrame;
-    
-    //public String[] stateSpace = {"s1", "s2"};
-    
-    public QLearner(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
-        super(numEpisodes,mFrame);
-        //mainFrame = mFrame;
-        //data = new ExperimentData(r.getRowCount(), numEpisodes);
-        //this.numEpisodes = numEpisodes;
+    private Policy policy;
+    private String currentState;
+    private String goalState;
+    private String initialState;
+    private double alpha;
+    private double gamma;
+
+    public SARSA(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
+        super(numEpisodes, mFrame);
         qMatrix = q;
         rMatrix = r;
-        
-        //policy = new EpsilonGreedy(this,0.3);
-        
-        alpha = 0.5;
-        gamma = 0.7;
-        
-        qModel = (Matrix) q.getModel();
-        rModel = (Matrix) r.getModel();
+        qModel = (Matrix) qMatrix.getModel();
+        rModel = (Matrix) rMatrix.getModel();
     }
     
+    
+
     @Override
-    public void episode(){
+    public void episode() {
         stepsPerEpisode = 0;
         currentState = initialState;
+        HashMap m = getAvailableActions();
+        String nextState = policy.next(m);
+        
         while(!currentState.equals(goalState)){
-            step();
-            stepsPerEpisode = stepsPerEpisode+1;
+            nextState = step(nextState);
+            stepsPerEpisode++;// = stepsPerEpisode+1;
         }
         if(currentState.equals(goalState)){
-            step();
-            stepsPerEpisode = stepsPerEpisode+1;
+            step(nextState);
+            stepsPerEpisode++;// = stepsPerEpisode+1;
         }
         qMatrix.repaint();
         System.out.println(stepsPerEpisode);
     }
-    
-    public void step(){
-        HashMap m = getAvailableActions();
+    public String step(String s){
+        //HashMap m = getAvailableActions();
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
+        
+        String stateS = null;
+    //Pick next state
+        String nextState = s;
+    //Move there and save previous state
+        stateS = currentState;
+        currentState = nextState;
+    //pick the next action
+        HashMap m = getAvailableActions();
+        nextState = policy.next(m);
+        //System.out.println("state selected by qlearner: " + nextState);
+    //Get reward for the transition from stateS to currentState
+        String r = (String) m.get(currentState);
+        double reward = Double.parseDouble(r);
+    //Get the Q to update
+        int currentStateIndex = qModel.findColumn(currentState);
+        double qOfTransitionS = getCurrentQ(stateS, currentStateIndex);
+        //System.out.println("Current Q value found: "+currentQ);
+    //Get the Q of the next action
+        int nextStateIndex = qModel.findColumn(nextState);
+        double qCurrentTransition = getCurrentQ(currentState, nextStateIndex);
 
+        double td = (reward+(gamma*qCurrentTransition))-qOfTransitionS;
+        double newQ = qOfTransitionS + (alpha*(td));
+
+        //System.out.println("New Q value found for "+currentState +": "+newQ);
+
+        setQ(stateS,currentStateIndex,newQ);
+        
+        return nextState;
+
+        //currentState = nextState;
+        
+        /*//Pick next state
         String nextState = policy.next(m);
-
         //System.out.println("state selected by qlearner: " + nextState);
         String r = (String) m.get(nextState);
         double reward = Double.parseDouble(r);
 
-        double maxQ = getMaxQ(nextState);
+        //double maxQ = getMaxQ(nextState);
         //System.out.println("Max Q value found: "+maxQ);
 
         int nextStateIndex = qModel.findColumn(nextState);
@@ -98,18 +114,63 @@ public class QLearner extends Learner {
 
         setQ(currentState,nextStateIndex,newQ);
 
-        currentState = nextState;
+        currentState = nextState;*/
+    }
+    
+
+    //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
+    public HashMap getAvailableActions(){
+        
+        HashMap available = new HashMap((rMatrix.getRowCount()),1);
+        
+        for(int i=0;i<rMatrix.getRowCount();i++){
+            if(currentState.equals(rMatrix.getValueAt(i,0))){
+                System.out.println("currentStateFound");
+                for(int c=1;c<=rMatrix.getRowCount();c++){
+                    if(!rMatrix.getValueAt(i,c).equals("")){
+                        available.put(rMatrix.getColumnName(c) , rMatrix.getValueAt(i,c));
+                        System.out.println(rMatrix.getColumnName(c));
+                    }
+                }
+                return available;
+            }
+        }
+        //Warning: no possible actions encountered for state: + currentState
+        return available;
+    }
+    
+    public double getCurrentQ(String state, int followingStateIndex){
+        int c = followingStateIndex;
+        double q = 0;
+        for(int i=0;i<qMatrix.getRowCount();i++){
+            if(state.equals(qMatrix.getValueAt(i,0))){
+                String qS = (String) qMatrix.getValueAt(i, c);
+                q = Double.parseDouble(qS);
+            }
+        }
+        return q;
+    }
+    
+    public void setQ(String state, int nextStateIndex, double q){
+        int c = nextStateIndex;
+        for(int i=0;i<qMatrix.getRowCount();i++){
+            if(state.equals(qMatrix.getValueAt(i,0))){
+                qMatrix.setValueAt(q, i, c);
+                System.out.println(qMatrix.getValueAt(i, i+1));
+                
+                //qMatrix.repaint();
+                return;
+            }
+        }
     }
     
     @Override
-    public int getStepsPerEpisode(){
+    public int getStepsPerEpisode() {
         return stepsPerEpisode;
     }
-    
-    //returns cumulative Q value per TableModel
-    //Takes all Q values, finds the largest, and divides each by that value and multiplies by 100. Adds them together and returns that value as double.
+
     @Override
-    public double calculateCumulativeQ(){
+    public double calculateCumulativeQ() {
         double normalizedQ = 0;
         double[] qS;
         //get all non 0 Q values into ArrayList<> qValues
@@ -145,87 +206,11 @@ public class QLearner extends Learner {
         return normalizedQ;
     }
     
-    
-    
-    //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
-    public HashMap getAvailableActions(){
-        
-        HashMap available = new HashMap((rMatrix.getRowCount()),1);
-        
-        for(int i=0;i<rMatrix.getRowCount();i++){
-            if(currentState.equals(rMatrix.getValueAt(i,0))){
-                System.out.println("currentStateFound");
-                for(int c=1;c<=rMatrix.getRowCount();c++){
-                    if(!rMatrix.getValueAt(i,c).equals("")){
-                        available.put(rMatrix.getColumnName(c) , rMatrix.getValueAt(i,c));
-                        System.out.println(rMatrix.getColumnName(c));
-                    }
-                }
-                return available;
-            }
-        }
-        //Warning: no possible actions encountered for state: + currentState
-        return available;
-    }
-    
-    public double getMaxQ(String state){
-        double max = 0;
-        String maxS = "";
-        
-        for(int i=0;i<qMatrix.getRowCount();i++){
-            if(state.equals(qMatrix.getValueAt(i,0))){
-                
-                maxS = (String)qMatrix.getValueAt(i, 1);
-                max = Double.parseDouble(maxS);
-                
-                for(int c=2;c<=qMatrix.getRowCount();c++){
-                    String maxS2 = (String)qMatrix.getValueAt(i, c);
-                    double max2 = Double.parseDouble(maxS2);
-                    if(max<max2){
-                        max = max2;
-                    }
-                }
-                return max;
-            }
-        }            
-        return max;
-    }
-    
-    public double getCurrentQ(String state, int nextStateIndex){
-        int c = nextStateIndex;
-        double q = 0;
-        for(int i=0;i<qMatrix.getRowCount();i++){
-            if(state.equals(qMatrix.getValueAt(i,0))){
-                String qS = (String) qMatrix.getValueAt(i, c);
-                q = Double.parseDouble(qS);
-            }
-        }
-        return q;
-    }
-    
-    public void setQ(String state, int nextStateIndex, double q){
-        int c = nextStateIndex;
-        for(int i=0;i<qMatrix.getRowCount();i++){
-            if(state.equals(qMatrix.getValueAt(i,0))){
-                qMatrix.setValueAt(q, i, c);
-                System.out.println(qMatrix.getValueAt(i, i+1));
-                
-                //qMatrix.repaint();
-                return;
-            }
-        }
-    }
-    
-    public void setGamma(double g){
-        gamma = g;
-    }
-    public void setAlpha(double a){
-        alpha = a;
-    }
     @Override
-    public void setPolicy(Policy p){
+    public void setPolicy(Policy p) {
         policy = p;
     }
+
     @Override
     public void setGoalState(String gs){
         goalState = gs;
@@ -241,11 +226,15 @@ public class QLearner extends Learner {
         rModel = r;
     }
     
-    public String getGoalState(){
-        return goalState;
+    public void setAlpha(double alpha){
+        this.alpha = alpha;
     }
+    public void setGamma(double gamma){
+        this.gamma = gamma;
+    }
+    
     @Override
-    public double[][] getAllEpisodeData(){
+    public double[][] getAllEpisodeData() {
         double[][] epData = new double[rMatrix.getRowCount()][rMatrix.getRowCount()];
         for(int row=0;row<epData.length;row++){
             for(int column=1;column<=epData.length;column++){
@@ -253,7 +242,7 @@ public class QLearner extends Learner {
             }
         }
         return epData;
-    } 
+    }
     
     @Override
     public double[] getQValues() {
@@ -266,7 +255,7 @@ public class QLearner extends Learner {
                 }
             }
         }
-        double[] epData = null;//data.toArray(new Double[data.size()]);
+        double[] epData = new double[data.size()];//data.toArray(new Double[data.size()]);
         for(int i=0;i<data.size();i++){
             epData[i] = data.get(i);
         }
@@ -278,7 +267,10 @@ public class QLearner extends Learner {
         try {
             experiment();
         } catch (InterruptedException ex) {
-            Logger.getLogger(QLearner.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SARSA.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
+    
 }

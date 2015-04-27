@@ -23,17 +23,22 @@ public class ExperimentData implements Serializable{
     //all q matrix data for every episode. Should probably not include the zeros.
     private ArrayList<double[][]> allData;
     
+    private ArrayList<double[]> qValuesPerEpisode;
+    
     private Policy policy;
     private double gamma;
     private double alpha;
     private Matrix rModel;
     private String goalState;
     private String initialState;
+    private double temperature;
+    private Learner learner;
     
     public ExperimentData(int numStates, int numEpisodes){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
         allData = new ArrayList<>();
+        qValuesPerEpisode = new ArrayList<>();
     }
     
     public void addSteps(int steps){
@@ -44,6 +49,9 @@ public class ExperimentData implements Serializable{
     }
     public void addEpisode(double[][] episode){
         allData.add(episode);
+    }
+    public void addQValues(double[] episodeQs){
+        qValuesPerEpisode.add(episodeQs);
     }
     
     public ArrayList<Integer> getStepsXEpisode(){
@@ -57,6 +65,9 @@ public class ExperimentData implements Serializable{
     }
     public int getAllDataArraySize(){
         return allData.size();
+    }
+    public ArrayList<double[]> getQValuesPerEpisode(){
+        return qValuesPerEpisode;
     }
     
     
@@ -104,6 +115,12 @@ public class ExperimentData implements Serializable{
     public void setInitialState(String iState){
         initialState = iState;
     }
+    public void setTemperature(double temp){
+        temperature = temp;
+    }
+    public void setLearner(Learner learner){
+        this.learner = learner;
+    }
     
     public Policy getPolicy(){
         return policy;
@@ -122,5 +139,11 @@ public class ExperimentData implements Serializable{
     }
     public String getInitialState(){
         return initialState;
+    }
+    public double getTemperature(){
+        return temperature;
+    }
+    public Learner getLearner(){
+        return learner;
     }
 }

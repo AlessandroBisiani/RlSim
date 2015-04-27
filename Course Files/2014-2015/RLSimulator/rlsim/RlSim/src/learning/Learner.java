@@ -31,7 +31,8 @@ public abstract class Learner implements Runnable{
         for(int i=0;i<numOfEpisodes;i++){
             episode();
             mainFrame.data.addSteps(getStepsPerEpisode());
-            mainFrame.data.addEpisode(getEpisodeData());
+            mainFrame.data.addEpisode(getAllEpisodeData());
+            mainFrame.data.addQValues(getQValues());
             mainFrame.data.addReward(calculateCumulativeQ());
             Thread.sleep(1);
         }
@@ -40,11 +41,9 @@ public abstract class Learner implements Runnable{
         System.out.println(mainFrame.data.getAllDataArraySize());
     };
     
-    //public abstract void episode();
+    public abstract void episode();
     
     public abstract int getStepsPerEpisode();
-    
-    public abstract void episode();
     
     public abstract double calculateCumulativeQ();
     
@@ -57,7 +56,9 @@ public abstract class Learner implements Runnable{
     public abstract void setModels(Matrix q, Matrix r);
     
     
-    public abstract double[][] getEpisodeData();
+    public abstract double[][] getAllEpisodeData();
+    
+    public abstract double[] getQValues();
    
     @Override
     public abstract void run();

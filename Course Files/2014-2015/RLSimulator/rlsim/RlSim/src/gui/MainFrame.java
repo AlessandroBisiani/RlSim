@@ -30,6 +30,8 @@ import learning.Learner;
 import learning.Matrix;
 import learning.Policy;
 import learning.QLearner;
+import learning.SARSA;
+import learning.Softmax;
 
 /** 
  *
@@ -100,6 +102,8 @@ public class MainFrame extends javax.swing.JFrame {
         initialStateJTextField = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         policyComboBox = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        temperatureJTextField = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemNew = new javax.swing.JMenuItem();
@@ -250,12 +254,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
 
     jLabel13.setText("Initial State");
 
-    policyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ɛ-Greedy" }));
+    policyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ɛ-Greedy", "Softmax" }));
     policyComboBox.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             policyComboBoxActionPerformed(evt);
         }
     });
+
+    jLabel3.setText("Temperature");
 
     jMenu1.setText("File");
 
@@ -321,15 +327,18 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(policyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel6)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(15, 15, 15)
-                    .addComponent(jLabel5)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel5)))
+                .addComponent(jLabel3))
             .addGap(6, 6, 6)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(gammaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(gammaJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                .addComponent(alphaJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                .addComponent(temperatureJTextField))
             .addGap(107, 107, 107)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jLabel13)
@@ -392,7 +401,10 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                     .addGap(12, 12, 12)
                     .addComponent(episodesJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(43, 43, 43)
-                    .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
+                        .addComponent(temperatureJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(18, 18, 18)
                     .addComponent(jLabel6)
@@ -577,13 +589,25 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                                 data.setAlpha(Double.parseDouble(alphaJTextField.getText()));
                                 data.setGamma(Double.parseDouble(gammaJTextField.getText()));
                                 learner = qL;
-            case "SARSA": //TODO
+                                break;
+            case "SARSA":       SARSA sa = new SARSA(qMatrix, rMatrix,Integer.parseInt(episodesJTextField.getText()),this);
+                                sa.setAlpha(Double.parseDouble(alphaJTextField.getText()));
+                                sa.setGamma(Double.parseDouble(gammaJTextField.getText()));
+                                data.setAlpha(Double.parseDouble(alphaJTextField.getText()));
+                                data.setGamma(Double.parseDouble(gammaJTextField.getText()));
+                                learner = sa;
+                                break;
         }
         switch(getPolicy()){
-            case "ɛ-Greedy":    Policy eG = new EpsilonGreedy(learner,Double.parseDouble(epsilonJTextField.getText()));
+            case "ɛ-Greedy":    Policy eG = new EpsilonGreedy(Double.parseDouble(epsilonJTextField.getText()));
                                 learner.setPolicy(eG); 
                                 data.setPolicy(eG);
-            case "Softmax":
+                                break;
+            case "Softmax":     Policy sM = new Softmax(Double.parseDouble(temperatureJTextField.getText()));
+                                learner.setPolicy(sM);
+                                data.setTemperature(Double.parseDouble(temperatureJTextField.getText()));
+                                data.setPolicy(sM);
+                                break;
         }
         learner.setGoalState(goalStateJTextField.getText());
         learner.setInitialState(initialStateJTextField.getText());
@@ -601,6 +625,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         epsilonJTextField.setText("0.35");
         goalStateJTextField.setText("25");
         initialStateJTextField.setText("1");
+        temperatureJTextField.setText("0");
         setSAExperimentMatrices();
         
     }//GEN-LAST:event_setSAJButtonActionPerformed
@@ -688,7 +713,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     //Exports all q value data to a .csv file
     //episode data is added to the same line. New line after every episode data is written
     protected void exportData(String uri){
-        ArrayList<double[][]> expData = data.getAllData();
+        ArrayList<double[]> expData = data.getQValuesPerEpisode();
         
         try {
             FileWriter writer = new FileWriter(uri+".csv");
@@ -698,15 +723,18 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Policy : ");         sb.append(data.getPolicy().getClass()); sb.append(","+nl);
-                sb.append("Initial State : ");  sb.append(data.getInitialState());      sb.append(","+nl);
-                sb.append("Goal State : ");     sb.append(data.getGoalState());         sb.append(","+nl);
-                sb.append("Alpha : ");          sb.append(data.getAlpha());             sb.append(","+nl);
+                sb.append("Algorithm : ");      sb.append(data.getLearner().getClass()); sb.append(","+nl);
+                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","+nl);
                 switch(getPolicy()){
                     case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
-                                        
-                    case "Softmax": //TODO
+                                        break;
+                    case "Softmax":     sb.append("Temperature : "); sb.append(data.getTemperature()); sb.append(","+nl);
+                                        break;
                 }
+                sb.append("Alpha : ");          sb.append(data.getAlpha());              sb.append(","+nl);
+                sb.append("Initial State : ");  sb.append(data.getInitialState());       sb.append(","+nl);
+                sb.append("Goal State : ");     sb.append(data.getGoalState());          sb.append(","+nl);
+                
                 sb.append("States:,");
                 for(String state : stateSpace){
                     sb.append(state); sb.append(",");
@@ -716,11 +744,10 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 sb.append("Episode #," + nl);
                 for(int i=0;i<expData.size();i++){
                     sb.append((i+1)+",");
-                    for(int row=0;row<matrixSize;row++){
-                        for(int column=0;column<matrixSize;column++){
-                            sb.append(expData.get(i)[row][column]);
-                            sb.append(",");
-                        }
+                    double[] ep = expData.get(i);
+                    for(int j=0;j<ep.length;j++){
+                        sb.append(ep[j]);
+                        sb.append(",");
                     }
                     sb.append(nl);
                 }
@@ -761,14 +788,17 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Policy : ");         sb.append(data.getPolicy().getClass()); sb.append(","+nl);
-                sb.append("Initial State : ");  sb.append(data.getInitialState());      sb.append(","+nl);
-                sb.append("Goal State : ");     sb.append(data.getGoalState());         sb.append(","+nl);
+                sb.append("Algorithm : ");      sb.append(data.getLearner().getClass()); sb.append(","+nl);
+                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","+nl);
                 switch(getPolicy()){
                     case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
-                                        sb.append("Alpha : "); sb.append(data.getAlpha()); sb.append(","+nl);
-                    case "Softmax": //TODO
+                                        break;
+                    case "Softmax":     sb.append("Temperature : "); sb.append(data.getTemperature()); sb.append(","+nl);
+                                        break;
                 }
+                sb.append("Alpha : ");          sb.append(data.getAlpha());              sb.append(","+nl);
+                sb.append("Initial State : ");  sb.append(data.getInitialState());       sb.append(","+nl);
+                sb.append("Goal State : ");     sb.append(data.getGoalState());          sb.append(","+nl); sb.append(nl);
                 
                 for(int i=0;i<expData.size();i++){
                     sb.append("Episode # "); sb.append(i+1); sb.append(",");
@@ -1185,6 +1215,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1207,6 +1238,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JTable rMatrix;
     private javax.swing.JButton runSAJButton;
     private javax.swing.JButton setSAJButton;
+    private javax.swing.JTextField temperatureJTextField;
     private javax.swing.JButton testButton;
     private javax.swing.JTextField testTextField2;
     // End of variables declaration//GEN-END:variables
