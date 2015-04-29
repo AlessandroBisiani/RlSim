@@ -59,26 +59,26 @@ public class QLearner extends Learner {
     }
     
     @Override
-    public void episode(){
+    public void episode(int episodeNumber){
         stepsPerEpisode = 0;
         currentState = initialState;
         while(!currentState.equals(goalState)){
-            step();
+            step(episodeNumber);
             stepsPerEpisode = stepsPerEpisode+1;
         }
         if(currentState.equals(goalState)){
-            step();
+            step(episodeNumber);
             stepsPerEpisode = stepsPerEpisode+1;
         }
         qMatrix.repaint();
         System.out.println(stepsPerEpisode);
     }
     
-    public void step(){
+    public void step(int episodeNumber){
         HashMap m = getAvailableActions();
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
 
-        String nextState = policy.next(m);
+        String nextState = policy.next(m, episodeNumber);
 
         //System.out.println("state selected by qlearner: " + nextState);
         String r = (String) m.get(nextState);
@@ -266,7 +266,7 @@ public class QLearner extends Learner {
                 }
             }
         }
-        double[] epData = null;//data.toArray(new Double[data.size()]);
+        double[] epData = new double[data.size()];;//data.toArray(new Double[data.size()]);
         for(int i=0;i<data.size();i++){
             epData[i] = data.get(i);
         }
@@ -275,10 +275,6 @@ public class QLearner extends Learner {
 
     @Override
     public void run() {
-        try {
-            experiment();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(QLearner.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        super.run();
     }
 }

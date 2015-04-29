@@ -41,24 +41,24 @@ public class SARSA extends Learner{
     
 
     @Override
-    public void episode() {
+    public void episode(int episodeNumber) {
         stepsPerEpisode = 0;
         currentState = initialState;
         HashMap m = getAvailableActions();
-        String nextState = policy.next(m);
+        String nextState = policy.next(m, episodeNumber);
         
         while(!currentState.equals(goalState)){
-            nextState = step(nextState);
+            nextState = step(nextState, episodeNumber);
             stepsPerEpisode++;// = stepsPerEpisode+1;
         }
         if(currentState.equals(goalState)){
-            step(nextState);
+            step(nextState,episodeNumber);
             stepsPerEpisode++;// = stepsPerEpisode+1;
         }
         qMatrix.repaint();
         System.out.println(stepsPerEpisode);
     }
-    public String step(String s){
+    public String step(String s, int episodeNumber){
         //HashMap m = getAvailableActions();
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
         
@@ -70,7 +70,7 @@ public class SARSA extends Learner{
         currentState = nextState;
     //pick the next action
         HashMap m = getAvailableActions();
-        nextState = policy.next(m);
+        nextState = policy.next(m, episodeNumber);
         //System.out.println("state selected by qlearner: " + nextState);
     //Get reward for the transition from stateS to currentState
         String r = (String) m.get(currentState);
@@ -264,11 +264,7 @@ public class SARSA extends Learner{
 
     @Override
     public void run() {
-        try {
-            experiment();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SARSA.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        super.run();
     }
 
     

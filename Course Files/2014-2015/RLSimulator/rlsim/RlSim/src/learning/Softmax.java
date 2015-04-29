@@ -5,22 +5,27 @@
  */
 package learning;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  *
  * @author alessandrobisiani
  */
-public class Softmax implements Policy{
+public class Softmax implements Policy, Serializable{
 
     private double temperature;
+    private double temperatureDecreaseRate;
+    private int episodeNum;
     
-    public Softmax(double temperature){
-        this.temperature = (temperature);
+    public Softmax(double temperatureRate){
+        temperature = 0;
+       
+        this.temperatureDecreaseRate = (temperatureRate);
     }
     
     @Override
-    public String next(HashMap stateRewardMap) {
+    public String next(HashMap stateRewardMap, int episodeNum) {
         String nextState = null;
         String[] keySet = new String[stateRewardMap.size()];
         stateRewardMap.keySet().toArray(keySet);
@@ -43,11 +48,15 @@ public class Softmax implements Policy{
             String v = (String) stateRewardMap.get(keySet[i]);
             double value = Double.parseDouble(v);
             
-            prob[i] = Math.exp(value);
-            //prob[i] = (Math.exp(value))/temperature;
+            //Vary temperature
+            temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNum,0.0));
+            
+            //prob[i] = Math.exp(value);
+            prob[i] = (Math.exp(value))/temperature;
             denominator += prob[i];
-        }
-        //System.out.println(denominator + " DENOMINATOR");
+        } 
+        System.out.println(temperature + " Find Temp");
+       //System.out.println(denominator + " DENOMINATOR");
         
         for(int i=0;i<keySet.length;i++) {
             prob[i] /= denominator;
@@ -55,21 +64,23 @@ public class Softmax implements Policy{
         }
         //pick an action based on the prob just calculated.
         double rand = Math.random();
-        double tempMaxProb = 0.0;
-        double tempProb = 0.0;
+        double lowerBound = 0.0;
         for(int i=0;i<prob.length;i++){
             //if the random number is between the bounds of the previous prob max value and the current (i) max value, select that state.
-            if(tempProb<rand && rand<(tempProb+prob[i])){
+            if(lowerBound<rand && rand<(lowerBound+prob[i])){
                 nextState = keySet[i];
             }
             //The prob are added as the loop executes so they are distributed b/w 0 and 1.
             //e.g. if three actions carry prob 0.333, rand between 0-0.333 will select action 1, 
             //between 0.333-0.666 selects action 2, between 0.666-0.999 selects action 3
-            tempProb += prob[i];
+            lowerBound += prob[i];
         }
         return nextState;
     }
     public void setTemperature(double temperature){
         this.temperature = temperature;
+    }
+    public double getTemperature(){
+        return temperature;
     }
 }

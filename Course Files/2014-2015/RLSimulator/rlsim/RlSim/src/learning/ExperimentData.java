@@ -31,7 +31,7 @@ public class ExperimentData implements Serializable{
     private Matrix rModel;
     private String goalState;
     private String initialState;
-    private double temperature;
+    private double temperatureRate;
     private Learner learner;
     
     public ExperimentData(int numStates, int numEpisodes){
@@ -75,6 +75,7 @@ public class ExperimentData implements Serializable{
         ratioOfCumulativeRewards.removeAll(ratioOfCumulativeRewards);
         stepsXEpisode.removeAll(stepsXEpisode);
         allData = new ArrayList<>();
+        qValuesPerEpisode = new ArrayList<>();
     }
     
     
@@ -115,8 +116,8 @@ public class ExperimentData implements Serializable{
     public void setInitialState(String iState){
         initialState = iState;
     }
-    public void setTemperature(double temp){
-        temperature = temp;
+    public void setTemperatureRate(double temp){
+        temperatureRate = temp;
     }
     public void setLearner(Learner learner){
         this.learner = learner;
@@ -140,8 +141,8 @@ public class ExperimentData implements Serializable{
     public String getInitialState(){
         return initialState;
     }
-    public double getTemperature(){
-        return temperature;
+    public double getTemperatureRate(){
+        return temperatureRate;
     }
     public Learner getLearner(){
         return learner;

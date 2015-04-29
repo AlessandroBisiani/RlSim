@@ -11,10 +11,10 @@ import java.util.HashMap;
  *
  * @author alessandrobisiani
  */
-public interface Policy {
+public interface Policy{
     
     
-    String next(HashMap stateRewardMap);
+    String next(HashMap stateRewardMap, int episodeNumber);
 
     
 }

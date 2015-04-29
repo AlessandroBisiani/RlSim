@@ -6,8 +6,9 @@
 package learning;
 
 import gui.MainFrame;
-import java.util.ArrayList;
-import javax.swing.JTable;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +16,7 @@ import javax.swing.JTable;
  */
 
    
-public abstract class Learner implements Runnable{
+public abstract class Learner implements Runnable, Serializable{
    
     
     private MainFrame mainFrame;
@@ -29,7 +30,7 @@ public abstract class Learner implements Runnable{
     
     public  void experiment() throws InterruptedException{
         for(int i=0;i<numOfEpisodes;i++){
-            episode();
+            episode(mainFrame.data.getStepsXEpisode().size()+1);
             mainFrame.data.addSteps(getStepsPerEpisode());
             mainFrame.data.addEpisode(getAllEpisodeData());
             mainFrame.data.addQValues(getQValues());
@@ -39,9 +40,17 @@ public abstract class Learner implements Runnable{
         mainFrame.data.printSteps();
         mainFrame.data.printCumulativeRewards();
         System.out.println(mainFrame.data.getAllDataArraySize());
+        //temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNum,0.0));
+        
+        double t = 1 - (Math.max((double)mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0));
+        
+        System.out.println(t +" FINAL TEMPERATURE");//1-(Math.max(mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0)) + " THE TEMPERATURE");
+        System.out.println(mainFrame.data.getTemperatureRate());
+        System.out.println(numOfEpisodes);
+        mainFrame.setRunningJLabel("");
     };
     
-    public abstract void episode();
+    public abstract void episode(int episodeNumber);
     
     public abstract int getStepsPerEpisode();
     
@@ -59,7 +68,14 @@ public abstract class Learner implements Runnable{
     public abstract double[][] getAllEpisodeData();
     
     public abstract double[] getQValues();
+    
    
     @Override
-    public abstract void run();
+    public void run(){
+        try {
+            experiment();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(QLearner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -5,6 +5,7 @@
  */
 package learning;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
  *
  * @author alessandrobisiani
  */
-public class EpsilonGreedy implements Policy{
+public class EpsilonGreedy implements Policy, Serializable{
 
     private double epsilon;
     private Learner learner;
@@ -27,7 +28,7 @@ public class EpsilonGreedy implements Policy{
            
     //With HashMap of available actions and their rewards in String form, decides whether to choose randomly or greedily and returns name of next action.
     @Override
-    public String next(HashMap stateRewardMap) {
+    public String next(HashMap stateRewardMap, int episodeNumber) {
         String nextState = null;
         String[] set = new String[stateRewardMap.size()];
         stateRewardMap.keySet().toArray(set);
