@@ -45,6 +45,18 @@ public class Matrix extends AbstractTableModel{
     
     }
     */
+    public String[] getStates(){
+        return states;
+    }
+    public String[][] getData(){
+        return matrix;
+    }
+    public void setStates(String[] states){
+        this.states = states;
+    }
+    public void setData(String[][] data){
+        matrix = data;
+    }
 
     @Override
     public int getRowCount() {

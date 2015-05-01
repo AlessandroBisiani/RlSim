@@ -21,8 +21,7 @@ public class DiscountedEGreedy implements Policy{
         this.epsilon = epsilon;
     }
     
-    @Override
-    public String next(HashMap m) {
+    public String next(HashMap m, int episodeNum) {
         String nextState = null;
         String[] set = new String[m.size()];
         m.keySet().toArray(set);

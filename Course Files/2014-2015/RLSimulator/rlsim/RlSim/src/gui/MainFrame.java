@@ -8,7 +8,6 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,7 +48,6 @@ public class MainFrame extends javax.swing.JFrame {
     private Thread learningThread;
     public ExperimentData data;
     private String[] POLICIES = {"ɛ-Greedy","Softmax"};
-    private boolean running;
     private String[] LEARNING_ALGORITHMS;
     
     
@@ -73,6 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -91,11 +90,10 @@ public class MainFrame extends javax.swing.JFrame {
         gammaJTextField = new javax.swing.JTextField();
         alphaJTextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         algorithmComboBox = new javax.swing.JComboBox();
-        testButton = new javax.swing.JButton();
         testTextField2 = new javax.swing.JTextField();
+        interruptButton = new javax.swing.JButton();
         newMatrixButton = new javax.swing.JButton();
         epsilonJTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -112,8 +110,8 @@ public class MainFrame extends javax.swing.JFrame {
         runningJLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        OpenMenuItem = new javax.swing.JMenuItem();
-        jMenuItemSave = new javax.swing.JMenuItem();
+        openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
         exportMenuItem = new javax.swing.JMenuItem();
         exportMatricesMenuItem = new javax.swing.JMenuItem();
         quitMenuItem = new javax.swing.JMenuItem();
@@ -121,6 +119,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setBorder(null);
 
@@ -147,6 +146,19 @@ rMatrix.setModel(new javax.swing.table.DefaultTableModel(
     rMatrix.setColumnSelectionAllowed(true);
     jScrollPane1.setViewportView(rMatrix);
 
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 421;
+    gridBagConstraints.gridwidth = 26;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.ipadx = 428;
+    gridBagConstraints.ipady = 309;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.weighty = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(6, 2, 0, 0);
+    getContentPane().add(jScrollPane1, gridBagConstraints);
+
     jScrollPane2.setBorder(null);
 
     qMatrix.setModel(new Matrix(new String[][] {{"state1","0","0","0","0","0"},
@@ -161,37 +173,139 @@ qMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
 qMatrix.setColumnSelectionAllowed(true);
 jScrollPane2.setViewportView(qMatrix);
 
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 58;
+gridBagConstraints.gridy = 421;
+gridBagConstraints.gridwidth = 12;
+gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+gridBagConstraints.ipadx = 495;
+gridBagConstraints.ipady = 309;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.weightx = 1.0;
+gridBagConstraints.weighty = 1.0;
+gridBagConstraints.insets = new java.awt.Insets(6, 4, 0, 35);
+getContentPane().add(jScrollPane2, gridBagConstraints);
+
 jLabel1.setText("Reward Matrix");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 0;
+gridBagConstraints.gridy = 420;
+gridBagConstraints.gridwidth = 3;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(18, 2, 0, 0);
+getContentPane().add(jLabel1, gridBagConstraints);
 
 jLabel2.setText("Q Matrix");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 58;
+gridBagConstraints.gridy = 420;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(18, 4, 0, 0);
+getContentPane().add(jLabel2, gridBagConstraints);
 
 jLabel4.setText("Episodes");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 0;
+gridBagConstraints.gridy = 0;
+gridBagConstraints.gridheight = 2;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(18, 10, 0, 0);
+getContentPane().add(jLabel4, gridBagConstraints);
 
 jLabel5.setText("Learning Rate");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 12;
+gridBagConstraints.gridy = 10;
+gridBagConstraints.gridwidth = 2;
+gridBagConstraints.gridheight = 23;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(0, 85, 0, 0);
+getContentPane().add(jLabel5, gridBagConstraints);
 
 jLabel6.setText("Discount Factor");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 12;
+gridBagConstraints.gridy = 0;
+gridBagConstraints.gridwidth = 2;
+gridBagConstraints.gridheight = 2;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(18, 70, 0, 0);
+getContentPane().add(jLabel6, gridBagConstraints);
 
 jLabel7.setText("Policy");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 0;
+gridBagConstraints.gridy = 10;
+gridBagConstraints.gridheight = 23;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(0, 29, 0, 0);
+getContentPane().add(jLabel7, gridBagConstraints);
 
 jLabel8.setText("Algorithm");
+gridBagConstraints = new java.awt.GridBagConstraints();
+gridBagConstraints.gridx = 58;
+gridBagConstraints.gridy = 0;
+gridBagConstraints.gridwidth = 2;
+gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+gridBagConstraints.insets = new java.awt.Insets(16, 30, 0, 0);
+getContentPane().add(jLabel8, gridBagConstraints);
 
 matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
         matrixSizeTextFieldActionPerformed(evt);
     }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 64;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridheight = 6;
+    gridBagConstraints.ipadx = 40;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(25, 56, 0, 0);
+    getContentPane().add(matrixSizeTextField, gridBagConstraints);
 
+    episodesJTextField.setText("10");
     episodesJTextField.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             episodesJTextFieldActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 4;
+    gridBagConstraints.ipadx = 99;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 6, 0, 0);
+    getContentPane().add(episodesJTextField, gridBagConstraints);
 
+    gammaJTextField.setText("0.6");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 19;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 32;
+    gridBagConstraints.gridheight = 4;
+    gridBagConstraints.ipadx = 91;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 6, 0, 0);
+    getContentPane().add(gammaJTextField, gridBagConstraints);
+
+    alphaJTextField.setText("0.2");
     alphaJTextField.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             alphaJTextFieldActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 19;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridwidth = 32;
+    gridBagConstraints.gridheight = 51;
+    gridBagConstraints.ipadx = 91;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
+    getContentPane().add(alphaJTextField, gridBagConstraints);
 
     jButton1.setText("Update");
     jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -199,10 +313,25 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             jButton1ActionPerformed(evt);
         }
     });
-
-    jLabel9.setText("(Limit of 10)");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 65;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.gridheight = 11;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(26, 6, 0, 0);
+    getContentPane().add(jButton1, gridBagConstraints);
 
     jButton3.setText("Run");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 64;
+    gridBagConstraints.gridy = 20;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 67;
+    gridBagConstraints.ipadx = 64;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(6, 56, 0, 0);
+    getContentPane().add(jButton3, gridBagConstraints);
 
     algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Q-Learning", "SARSA"}));
     algorithmComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -210,13 +339,15 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             algorithmComboBoxActionPerformed(evt);
         }
     });
-
-    testButton.setText("test");
-    testButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            testButtonActionPerformed(evt);
-        }
-    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 60;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 3;
+    gridBagConstraints.ipadx = 52;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
+    getContentPane().add(algorithmComboBox, gridBagConstraints);
 
     testTextField2.setText("matrix size");
     testTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -224,6 +355,28 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             testTextField2ActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 12;
+    gridBagConstraints.gridy = 422;
+    gridBagConstraints.ipadx = 70;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(22, 6, 0, 0);
+    getContentPane().add(testTextField2, gridBagConstraints);
+
+    interruptButton.setText("Interrupt");
+    interruptButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            interruptButtonActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 4;
+    gridBagConstraints.gridy = 422;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 2, 0, 0);
+    getContentPane().add(interruptButton, gridBagConstraints);
 
     newMatrixButton.setText("New Matrix");
     newMatrixButton.addActionListener(new java.awt.event.ActionListener() {
@@ -231,8 +384,34 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             newMatrixButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 58;
+    gridBagConstraints.gridy = 422;
+    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 17, 0, 0);
+    getContentPane().add(newMatrixButton, gridBagConstraints);
+
+    epsilonJTextField.setText("0.35");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 266;
+    gridBagConstraints.ipadx = 99;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(7, 6, 0, 0);
+    getContentPane().add(epsilonJTextField, gridBagConstraints);
 
     jLabel10.setText("Epsilon");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridheight = 133;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(13, 20, 0, 0);
+    getContentPane().add(jLabel10, gridBagConstraints);
 
     jButton4.setText("set test");
     jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -240,6 +419,15 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             jButton4ActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 422;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.ipadx = -4;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 0, 0, 0);
+    getContentPane().add(jButton4, gridBagConstraints);
 
     runSAJButton.setText("Run SA");
     runSAJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -247,6 +435,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             runSAJButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 25;
+    gridBagConstraints.gridy = 422;
+    gridBagConstraints.gridwidth = 33;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 6, 0, 0);
+    getContentPane().add(runSAJButton, gridBagConstraints);
 
     setSAJButton.setText("set SA");
     setSAJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -254,16 +450,61 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             setSAJButtonActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 13;
+    gridBagConstraints.gridy = 422;
+    gridBagConstraints.gridwidth = 7;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(23, 18, 0, 0);
+    getContentPane().add(setSAJButton, gridBagConstraints);
+
+    goalStateJTextField.setText("state5");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 60;
+    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 199;
+    gridBagConstraints.ipadx = 90;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(3, 12, 0, 0);
+    getContentPane().add(goalStateJTextField, gridBagConstraints);
 
     jLabel12.setText("Goal State");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 58;
+    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 68;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(9, 30, 0, 0);
+    getContentPane().add(jLabel12, gridBagConstraints);
 
+    initialStateJTextField.setText("state1");
     initialStateJTextField.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             initialStateJTextFieldActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 60;
+    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 37;
+    gridBagConstraints.ipadx = 90;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
+    getContentPane().add(initialStateJTextField, gridBagConstraints);
 
     jLabel13.setText("Initial State");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 58;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 16;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(4, 22, 0, 0);
+    getContentPane().add(jLabel13, gridBagConstraints);
 
     policyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ɛ-Greedy", "Softmax" }));
     policyComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -271,28 +512,64 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             policyComboBoxActionPerformed(evt);
         }
     });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridwidth = 4;
+    gridBagConstraints.gridheight = 66;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(2, 6, 0, 0);
+    getContentPane().add(policyComboBox, gridBagConstraints);
 
     jLabel3.setText("Temperature Decrease Rate");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 8;
+    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridwidth = 6;
+    gridBagConstraints.gridheight = 133;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(13, 6, 0, 0);
+    getContentPane().add(jLabel3, gridBagConstraints);
+
+    temperatureRateJTextField.setText("0.005");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 19;
+    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridwidth = 32;
+    gridBagConstraints.gridheight = 266;
+    gridBagConstraints.ipadx = 91;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(7, 6, 0, 0);
+    getContentPane().add(temperatureRateJTextField, gridBagConstraints);
 
     runningJLabel.setText(" ");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 64;
+    gridBagConstraints.gridy = 153;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 267;
+    gridBagConstraints.ipadx = 129;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(6, 62, 0, 0);
+    getContentPane().add(runningJLabel, gridBagConstraints);
 
     jMenu1.setText("File");
 
-    OpenMenuItem.setText("Open");
-    OpenMenuItem.addActionListener(new java.awt.event.ActionListener() {
+    openMenuItem.setText("Open");
+    openMenuItem.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            OpenMenuItemActionPerformed(evt);
+            openMenuItemActionPerformed(evt);
         }
     });
-    jMenu1.add(OpenMenuItem);
+    jMenu1.add(openMenuItem);
 
-    jMenuItemSave.setText("Save");
-    jMenuItemSave.addActionListener(new java.awt.event.ActionListener() {
+    saveMenuItem.setText("Save");
+    saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItemSaveActionPerformed(evt);
+            saveMenuItemActionPerformed(evt);
         }
     });
-    jMenu1.add(jMenuItemSave);
+    jMenu1.add(saveMenuItem);
 
     exportMenuItem.setText("Export");
     exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -317,173 +594,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
 
     setJMenuBar(jMenuBar1);
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(2, 2, 2)
-                    .addComponent(jLabel1)
-                    .addGap(390, 390, 390)
-                    .addComponent(jLabel2))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(6, 6, 6)
-                    .addComponent(testButton)
-                    .addGap(6, 6, 6)
-                    .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(setSAJButton)
-                    .addGap(6, 6, 6)
-                    .addComponent(runSAJButton)
-                    .addGap(17, 17, 17)
-                    .addComponent(newMatrixButton))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(jLabel7))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel10)))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(policyComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(episodesJTextField)
-                            .addComponent(epsilonJTextField))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(15, 15, 15)
-                                    .addComponent(jLabel5)))
-                            .addComponent(jLabel3))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(gammaJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(alphaJTextField)
-                            .addComponent(temperatureRateJTextField))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel12))))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(initialStateJTextField)
-                            .addComponent(goalStateJTextField)
-                            .addComponent(algorithmComboBox, 0, 104, Short.MAX_VALUE))
-                        .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(runningJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel9)
-                        .addGap(26, 26, 26))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGap(35, 35, 35))
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel4)
-                    .addGap(15, 15, 15)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(policyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(13, 13, 13)
-                    .addComponent(jLabel10))
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(12, 12, 12)
-                    .addComponent(episodesJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(43, 43, 43)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(temperatureRateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel6)
-                    .addGap(19, 19, 19)
-                    .addComponent(jLabel5))
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(25, 25, 25)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(matrixSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(1, 1, 1)
-                                    .addComponent(jButton1)))
-                            .addGap(6, 6, 6)
-                            .addComponent(jButton3))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jLabel9)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(runningJLabel))
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(12, 12, 12)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(4, 4, 4)
-                            .addComponent(jLabel8)
-                            .addGap(19, 19, 19)
-                            .addComponent(jLabel13)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel12))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(algorithmComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(6, 6, 6)
-                            .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(goalStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(gammaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(7, 7, 7)
-                            .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel1)
-                .addComponent(jLabel2))
-            .addGap(6, 6, 6)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(22, 22, 22)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(testTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(1, 1, 1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton4)
-                        .addComponent(testButton)
-                        .addComponent(setSAJButton)
-                        .addComponent(runSAJButton)
-                        .addComponent(newMatrixButton)))))
-    );
-
     pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -495,16 +605,11 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         
     }//GEN-LAST:event_testTextField2ActionPerformed
 
-    private void testButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testButtonActionPerformed
+    private void interruptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptButtonActionPerformed
         
         learningThread.interrupt();
         setRunningJLabel("");
-        ArrayList<String> l = new ArrayList<>();
-        System.out.println(l.size());
-        int a = 2;
-        double b = 4.0;
-        System.out.println((a*b));
-        System.out.println(new QLearner(rMatrix,qMatrix,1,this).getClass().getName());
+        //System.out.println(new QLearner(rMatrix,qMatrix,1,this).getClass().getName());
         /*
         if(tempLabelFrame != null){
            System.out.println("still ref");
@@ -546,7 +651,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             //System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
             //rMatrix.setModel(new RMatrix());
         
-    }//GEN-LAST:event_testButtonActionPerformed
+    }//GEN-LAST:event_interruptButtonActionPerformed
 
     private void episodesJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_episodesJTextFieldActionPerformed
         // TODO add your handling code here:
@@ -609,14 +714,13 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         if(/*(learningThread.getState()!=Thread.State.TERMINATED && learningThread.getState()!=Thread.State.NEW) ||*/ Integer.parseInt(episodesJTextField.getText()) > 5000){
             return;
         }
-        setRunningJLabel("Running..");
+        setRunningJLabel("");
         switch (getAlgorithm()){
             case "Q-Learning":  QLearner qL =new QLearner(qMatrix, rMatrix,Integer.parseInt(episodesJTextField.getText()),this);
                                 qL.setAlpha(Double.parseDouble(alphaJTextField.getText()));
                                 qL.setGamma(Double.parseDouble(gammaJTextField.getText()));
                                 data.setAlpha(Double.parseDouble(alphaJTextField.getText()));
                                 data.setGamma(Double.parseDouble(gammaJTextField.getText()));
-                                data.setLearner(qL);
                                 learner = qL;
                                 break;
             case "SARSA":       SARSA sa = new SARSA(qMatrix, rMatrix,Integer.parseInt(episodesJTextField.getText()),this);
@@ -624,14 +728,14 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                                 sa.setGamma(Double.parseDouble(gammaJTextField.getText()));
                                 data.setAlpha(Double.parseDouble(alphaJTextField.getText()));
                                 data.setGamma(Double.parseDouble(gammaJTextField.getText()));
-                                data.setLearner(sa);
                                 learner = sa;
                                 break;
         }
         switch(getPolicy()){
             case "ɛ-Greedy":    Policy eG = new EpsilonGreedy(Double.parseDouble(epsilonJTextField.getText()));
                                 learner.setPolicy(eG); 
-                                data.setPolicy(eG);
+                                data.setPolicy(getPolicy());
+                                data.setEpsilon(Double.parseDouble(epsilonJTextField.getText()));
                                 break;
             case "Softmax":     Policy sM = new Softmax(Double.parseDouble(temperatureRateJTextField.getText()));
                                 System.out.println("Sbarz " + Double.parseDouble(temperatureRateJTextField.getText()));
@@ -639,9 +743,11 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
                                 System.out.println("Sbarz " + data.getStepsXEpisode().size()+1);
                                 learner.setPolicy(sM);
                                 data.setTemperatureRate(Double.parseDouble(temperatureRateJTextField.getText()));
-                                data.setPolicy(sM);
+                                data.setPolicy(getPolicy());
                                 break;
         }
+        //data.setRModel((Matrix)rMatrix.getModel());
+        data.setAlgorithm(getAlgorithm());
         learner.setGoalState(goalStateJTextField.getText());
         learner.setInitialState(initialStateJTextField.getText());
         data.setGoalState(goalStateJTextField.getText());
@@ -667,7 +773,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
     }//GEN-LAST:event_initialStateJTextFieldActionPerformed
 
-    private void jMenuItemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSaveActionPerformed
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         if(tempSavingFrame != null && tempSavingFrame.isVisible()){
             //do nothing
         } else if (tempSavingFrame != null && !tempSavingFrame.isVisible()){
@@ -675,8 +781,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         } else {
             createSavingFrame();
         }
-    }//GEN-LAST:event_jMenuItemSaveActionPerformed
-
+    }//GEN-LAST:event_saveMenuItemActionPerformed
     private void createSavingFrame(){
         tempSavingFrame = new JFrame("Save File");
         tempSavingFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -684,42 +789,39 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         tempSavingFrame.pack();
         tempSavingFrame.setVisible(true);
     }
-    
+    //Writes the ExperimentData associated with MainFrame, the states String[], and the reward matrix data String[][].
     protected void saveExperiment(String uri){
-        FileOutputStream out = null;
-        FileInputStream in = null;
+        //FileOutputStream out = null;
+        //FileInputStream in = null;
         try {
-            out = new FileOutputStream(uri);
-            ObjectOutputStream objectOut = new ObjectOutputStream(out);
-            //data.setPolicy(null);
-            objectOut.writeObject(data);
-            
-            in = new FileInputStream(uri);
-            ObjectInputStream objectIn = new ObjectInputStream(in);
-            Object o = objectIn.readObject();
-            if(o instanceof ExperimentData){
-                System.out.println("shit, it actually sorta works.");
-                ExperimentData savedData = (ExperimentData) o;
-                savedData.printSteps();
-            } else {
-                System.out.println("try again");
+            FileOutputStream out = new FileOutputStream(uri);
+            try (ObjectOutputStream objectOut = new ObjectOutputStream(out)) {
+                //data.setPolicy(null);
+                objectOut.writeObject(data);
+                Matrix model = (Matrix) rMatrix.getModel();
+                //states includes the empty first column. Save the array without that column.
+                String[] tempStates = model.getStates();
+                String[] states = new String[model.getStates().length-1];
+                for(int i=0;i<states.length;i++){
+                    states[i] = tempStates[i+1];
+                }
+                String[][] rewardData = model.getData();
+                objectOut.writeObject(states);
+                objectOut.writeObject(rewardData);
+                objectOut.flush();
+                objectOut.close();
+                
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("FileNotFoundException");
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("IOException");
         } finally {
-            try {
-                out.close();
-                //in.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            closeFrame(tempSavingFrame);
+            tempSavingFrame = null;
         }
-        closeFrame(tempSavingFrame);
-        tempSavingFrame = null;
     }
     
     private void policyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_policyComboBoxActionPerformed
@@ -735,7 +837,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             createExportFrame();
         }
     }//GEN-LAST:event_exportMenuItemActionPerformed
-
     private void createExportFrame(){
         tempExportFrame = new JFrame("Export");
         tempExportFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -747,16 +848,16 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     //episode data is added to the same line. New line after every episode data is written
     protected void exportData(String uri){
         ArrayList<double[]> expData = data.getQValuesPerEpisode();
-        
+        FileWriter writer = null;
         try {
-            FileWriter writer = new FileWriter(uri+".csv");
+            writer = new FileWriter(uri+".csv");
             try (BufferedWriter br = new BufferedWriter(writer)) {
                 
                 StringBuilder sb = new StringBuilder();
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Algorithm : ");      sb.append(data.getLearner().getClass()); sb.append(","+nl);
+                sb.append("Algorithm : ");      sb.append(getAlgorithm()); sb.append(","+nl);
                 sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","+nl);
                 switch(getPolicy()){
                     case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
@@ -788,9 +889,17 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             }
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            if(writer!=null){
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            closeFrame(tempExportFrame);
+            tempExportFrame = null;
         }
-        closeFrame(tempExportFrame);
-        tempExportFrame = null;
     }
     
     private void exportMatricesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMatricesMenuItemActionPerformed
@@ -802,83 +911,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             createMatrixExportFrame();
         }
     }//GEN-LAST:event_exportMatricesMenuItemActionPerformed
-
-    private void OpenMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenMenuItemActionPerformed
-        if(tempOpeningFrame != null && tempOpeningFrame.isVisible()){
-            //do nothing
-        } else if (tempOpeningFrame != null && !tempOpeningFrame.isVisible()){
-            createOpeningFrame();
-        } else {
-            createOpeningFrame();
-        }
-    }//GEN-LAST:event_OpenMenuItemActionPerformed
-
-    private void alphaJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alphaJTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_alphaJTextFieldActionPerformed
-    
-    private void createOpeningFrame(){
-        tempOpeningFrame = new JFrame("Open Experiment");
-        tempOpeningFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        tempOpeningFrame.getContentPane().add(new OpeningPanel(this));
-        tempOpeningFrame.pack();
-        tempOpeningFrame.setVisible(true);
-    }
-    
-    protected void openExperiment(String uri){
-        FileInputStream in = null;
-        try {
-            //in = new FileInputStream(uri);
-            //ObjectInputStream objectIn = new ObjectInputStream(in);
-            //BufferedInputStream buffIn = new BufferedInputStream(in);
-            in = new FileInputStream(uri);
-            ObjectInputStream objectIn = new ObjectInputStream(in);
-            Object o = objectIn.readObject();
-            if(o instanceof ExperimentData){
-                System.out.println("shit, it actually sorta works.");
-                ExperimentData savedData = (ExperimentData) o;
-                //data = savedData;
-                episodesJTextField.setText(String.valueOf(data.getStepsXEpisode().size()));
-                policyComboBox.setSelectedItem(data.getPolicy());
-                alphaJTextField.setText(String.valueOf(data.getAlpha()));
-                //data.getAlpha();
-                gammaJTextField.setText(String.valueOf(data.getGamma()));
-                //data.getGamma();
-                goalStateJTextField.setText(data.getGoalState());
-                //data.getGoalState();
-                initialStateJTextField.setText(data.getInitialState());
-                //data.getInitialState();
-                temperatureRateJTextField.setText(String.valueOf(data.getTemperatureRate()));
-                //data.getTemperatureRate();
-                //Learner l = data.getLearner();
-                
-                if(data.getLearner().getClass().getName().equals("learning.QLearner")){
-                    algorithmComboBox.setSelectedItem("Q-Learning");
-                } else if(data.getLearner().getClass().getName().equals("learning.SARSA")){
-                    algorithmComboBox.setSelectedItem("SARSA");
-                }
-                rMatrix.setModel(data.getRModel());
-                rMatrix.repaint();
-            } else {
-                System.out.println("try again");
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                in.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        closeFrame(tempOpeningFrame);
-        tempOpeningFrame = null;
-    }
-    
     private void createMatrixExportFrame(){
         tempExportFrame = new JFrame("Export As Matrices");
         tempExportFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -886,18 +918,18 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         tempExportFrame.pack();
         tempExportFrame.setVisible(true);
     }
-    
     protected void exportDataAsMatrices(String uri){
         ArrayList<double[][]> expData = data.getAllData();
+        FileWriter writer = null;
         try {
-            FileWriter writer = new FileWriter(uri+".csv");
+            writer = new FileWriter(uri+".csv");
             try (BufferedWriter br = new BufferedWriter(writer)) {
                 
                 StringBuilder sb = new StringBuilder();
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Algorithm : ");      sb.append(data.getLearner().getClass()); sb.append(","+nl);
+                sb.append("Algorithm : ");      sb.append(data.getAlgorithm()); sb.append(","+nl);
                 sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","+nl);
                 switch(getPolicy()){
                     case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
@@ -929,10 +961,109 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
             }
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if(writer!=null){
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            closeFrame(tempExportFrame);
+            tempExportFrame = null;
         }
-        closeFrame(tempExportFrame);
-        tempExportFrame = null;
     }
+    
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        if(tempOpeningFrame != null && tempOpeningFrame.isVisible()){
+            //do nothing
+        } else if (tempOpeningFrame != null && !tempOpeningFrame.isVisible()){
+            createOpeningFrame();
+        } else {
+            createOpeningFrame();
+        }
+    }//GEN-LAST:event_openMenuItemActionPerformed
+    private void createOpeningFrame(){
+        tempOpeningFrame = new JFrame("Open Experiment");
+        tempOpeningFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        tempOpeningFrame.getContentPane().add(new OpeningPanel(this));
+        tempOpeningFrame.pack();
+        tempOpeningFrame.setVisible(true);
+    }
+    protected void openExperiment(String uri){
+        FileInputStream in = null;
+        String[] states = null;
+        String[][] rewardData = null;
+        try {
+            //in = new FileInputStream(uri);
+            //ObjectInputStream objectIn = new ObjectInputStream(in);
+            //BufferedInputStream buffIn = new BufferedInputStream(in);
+            in = new FileInputStream(uri);
+            ObjectInputStream objectIn = new ObjectInputStream(in);
+            Object expData = objectIn.readObject();
+            Object s = objectIn.readObject();
+            Object r = objectIn.readObject();
+            
+            System.out.println(data.getClass());
+            System.out.println(s.getClass());
+            System.out.println(r.getClass());
+            
+            if(expData instanceof ExperimentData){
+                System.out.println("Exp Data got");
+                ExperimentData savedData = (ExperimentData) expData;
+                data = savedData;
+            } else {System.out.println("no experiment data"); }
+            if(s instanceof String[]){
+                states = (String[]) s;
+                System.out.println("states got " + states.length);
+            } else{ System.out.println("no states list"); }
+            if(r instanceof String[][]){
+                System.out.println("rewards got");
+                rewardData = (String[][]) r;
+            } else{System.out.println("no rewards data");}
+            
+            resetMatrices(qMatrix,rMatrix,states);
+            Matrix model = (Matrix) rMatrix.getModel();
+            model.setData(rewardData);
+            model.setStates(states);
+            rMatrix.repaint();
+                
+            episodesJTextField.setText(String.valueOf(data.getStepsXEpisode().size()));
+            policyComboBox.setSelectedItem(data.getPolicy());
+            algorithmComboBox.setSelectedItem(data.getAlgorithm());
+            epsilonJTextField.setText(String.valueOf(data.getEpsilon()));
+            System.out.println(data.getEpsilon()+" epsilon");
+            alphaJTextField.setText(String.valueOf(data.getAlpha()));
+            System.out.println(data.getAlpha()+" alpha");
+            gammaJTextField.setText(String.valueOf(data.getGamma()));
+            System.out.println(data.getGamma()+ " gamma");
+            goalStateJTextField.setText(data.getGoalState());
+            System.out.println(data.getGoalState()+" goal S");
+            initialStateJTextField.setText(data.getInitialState());
+            System.out.println(data.getInitialState()+" initial S");
+            temperatureRateJTextField.setText(String.valueOf(data.getTemperatureRate()));
+            System.out.println(String.valueOf(data.getTemperatureRate()) +" temp");
+                
+            } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if(in!=null){
+                    in.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            closeFrame(tempOpeningFrame);
+            tempOpeningFrame = null;
+        }
+    }
+    
+    private void alphaJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alphaJTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_alphaJTextFieldActionPerformed
     
     public void closeFrame(JFrame tempFrame){
         tempFrame.dispose();
@@ -948,13 +1079,15 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
         
         
-        closeFrame(tempLabelFrame);
-        tempLabelFrame = null;
+        if(tempLabelFrame!=null){
+            closeFrame(tempLabelFrame);
+            tempLabelFrame = null;
+        }
+        setRunningJLabel("");
         resetMatrices(qMatrix, rMatrix, states);
     }
     
     public boolean resetMatrices(JTable qMatrix, JTable rMatrix, String[] states){
-        data.resetData();
         int c = 0;
         int r = 0;
         boolean b = false;
@@ -1311,7 +1444,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem OpenMenuItem;
     private javax.swing.JComboBox algorithmComboBox;
     private javax.swing.JTextField alphaJTextField;
     private javax.swing.JTextField episodesJTextField;
@@ -1321,6 +1453,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JTextField gammaJTextField;
     private javax.swing.JTextField goalStateJTextField;
     private javax.swing.JTextField initialStateJTextField;
+    private javax.swing.JButton interruptButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1335,24 +1468,23 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemSave;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField matrixSizeTextField;
     private javax.swing.JButton newMatrixButton;
+    private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JComboBox policyComboBox;
     private javax.swing.JTable qMatrix;
     private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JTable rMatrix;
     private javax.swing.JButton runSAJButton;
     private javax.swing.JLabel runningJLabel;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JButton setSAJButton;
     private javax.swing.JTextField temperatureRateJTextField;
-    private javax.swing.JButton testButton;
     private javax.swing.JTextField testTextField2;
     // End of variables declaration//GEN-END:variables
 }

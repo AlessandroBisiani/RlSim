@@ -128,7 +128,7 @@ public class StateSpacePanel extends javax.swing.JPanel{
         System.out.println(states);
         System.out.println(states.length());
         System.out.println(listOfStates);
-        
+        parentCreator.data.resetData();
         //Create the matrices using static method and ArrayList<String> containing the state names. This method also calls dispose() on the instance of StateSpacePanel.
         parentCreator.createMatrices(listOfStates);
         

@@ -12,7 +12,7 @@ import java.util.HashMap;
  *
  * @author alessandrobisiani
  */
-public class Softmax implements Policy, Serializable{
+public class Softmax implements Policy{
 
     private double temperature;
     private double temperatureDecreaseRate;

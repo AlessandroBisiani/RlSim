@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 
    
-public abstract class Learner implements Runnable, Serializable{
+public abstract class Learner implements Runnable{
    
     
     private MainFrame mainFrame;
@@ -47,7 +47,7 @@ public abstract class Learner implements Runnable, Serializable{
         System.out.println(t +" FINAL TEMPERATURE");//1-(Math.max(mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0)) + " THE TEMPERATURE");
         System.out.println(mainFrame.data.getTemperatureRate());
         System.out.println(numOfEpisodes);
-        mainFrame.setRunningJLabel("");
+        mainFrame.setRunningJLabel("Completed");
     };
     
     public abstract void episode(int episodeNumber);

@@ -25,20 +25,23 @@ public class ExperimentData implements Serializable{
     
     private ArrayList<double[]> qValuesPerEpisode;
     
-    private Policy policy;
+    private String policy;
+    private double epsilon;
     private double gamma;
     private double alpha;
-    private Matrix rModel;
     private String goalState;
     private String initialState;
     private double temperatureRate;
-    private Learner learner;
+    private String algorithm;
     
     public ExperimentData(int numStates, int numEpisodes){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
         allData = new ArrayList<>();
         qValuesPerEpisode = new ArrayList<>();
+        gamma = 0.0;
+        alpha = 0.0;
+        temperatureRate = 0.0;
     }
     
     public void addSteps(int steps){
@@ -98,17 +101,17 @@ public class ExperimentData implements Serializable{
         System.out.println("# Cumulative rewards: "+s);
     }
     
-    public void setPolicy(Policy policy){
+    public void setPolicy(String policy){
         this.policy = policy;
+    }
+    public void setEpsilon(double epsilon){
+        this.epsilon = epsilon;
     }
     public void setGamma(double gamma){
         this.gamma = gamma;
     }
     public void setAlpha(double alpha){
         this.alpha = alpha;
-    }
-    public void setRModel(Matrix rModel){
-        this.rModel = rModel;
     }
     public void setGoalState(String gState){
         goalState = gState;
@@ -119,21 +122,21 @@ public class ExperimentData implements Serializable{
     public void setTemperatureRate(double temp){
         temperatureRate = temp;
     }
-    public void setLearner(Learner learner){
-        this.learner = learner;
+    public void setAlgorithm(String algorithm){
+        this.algorithm = algorithm;
     }
     
-    public Policy getPolicy(){
+    public String getPolicy(){
         return policy;
+    }
+    public double getEpsilon(){
+        return epsilon;
     }
     public double getGamma(){
         return gamma;
     }
     public double getAlpha(){
         return alpha;
-    }
-    public Matrix getRModel(){
-        return rModel;
     }
     public String getGoalState(){
         return goalState;
@@ -144,7 +147,7 @@ public class ExperimentData implements Serializable{
     public double getTemperatureRate(){
         return temperatureRate;
     }
-    public Learner getLearner(){
-        return learner;
+    public String getAlgorithm(){
+        return algorithm;
     }
 }
