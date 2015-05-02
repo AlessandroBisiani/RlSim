@@ -31,16 +31,16 @@ public class SavingPanel extends javax.swing.JPanel {
 
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        saveJButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         jLabel1.setText("Specify File Name Or URI");
 
-        saveJButton.setText("Save File");
-        saveJButton.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setText("Save File");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveJButtonActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
 
@@ -58,7 +58,7 @@ public class SavingPanel extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel3)
                         .addComponent(jLabel4))
-                    .addComponent(saveJButton)
+                    .addComponent(saveButton)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel1)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -72,7 +72,7 @@ public class SavingPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(saveJButton)
+                .addComponent(saveButton)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -81,10 +81,9 @@ public class SavingPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveJButtonActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         mainFrame.saveExperiment(jTextField1.getText());
-        
-    }//GEN-LAST:event_saveJButtonActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -92,6 +91,6 @@ public class SavingPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton saveJButton;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }

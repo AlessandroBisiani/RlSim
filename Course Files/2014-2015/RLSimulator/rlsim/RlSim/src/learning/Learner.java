@@ -39,7 +39,7 @@ public abstract class Learner implements Runnable{
         }
         mainFrame.data.printSteps();
         mainFrame.data.printCumulativeRewards();
-        System.out.println(mainFrame.data.getAllDataArraySize());
+        System.out.println(mainFrame.data.getAllData().size());
         //temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNum,0.0));
         
         double t = 1 - (Math.max((double)mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0));

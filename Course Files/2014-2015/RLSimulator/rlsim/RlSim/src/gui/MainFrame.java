@@ -47,8 +47,8 @@ public class MainFrame extends javax.swing.JFrame {
     private Learner learner;
     private Thread learningThread;
     public ExperimentData data;
-    private String[] POLICIES = {"ɛ-Greedy","Softmax"};
-    private String[] LEARNING_ALGORITHMS;
+    //private String[] POLICIES = {"ɛ-Greedy","Softmax"};
+    //private String[] LEARNING_ALGORITHMS;
     
     
     
@@ -74,10 +74,10 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        rMatrix = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        qMatrixScrollPane = new javax.swing.JScrollPane();
         qMatrix = new javax.swing.JTable();
+        rMatrixScrollPane = new javax.swing.JScrollPane();
+        rMatrix = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -90,16 +90,13 @@ public class MainFrame extends javax.swing.JFrame {
         gammaJTextField = new javax.swing.JTextField();
         alphaJTextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         algorithmComboBox = new javax.swing.JComboBox();
-        testTextField2 = new javax.swing.JTextField();
         interruptButton = new javax.swing.JButton();
         newMatrixButton = new javax.swing.JButton();
         epsilonJTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        runSAJButton = new javax.swing.JButton();
-        setSAJButton = new javax.swing.JButton();
+        runButton = new javax.swing.JButton();
+        resetExperimentButton = new javax.swing.JButton();
         goalStateJTextField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         initialStateJTextField = new javax.swing.JTextField();
@@ -121,22 +118,49 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jScrollPane1.setBorder(null);
+        qMatrixScrollPane.setBorder(null);
 
-        rMatrix.setModel(new Matrix(new String[][] {{"state1","","","","",""},
-            {"state2","","","","",""},
-            {"state3","","","","",""},
-            {"state4","","","","",""},
-            {"state5","","","","",""}},
+        qMatrix.setModel(new Matrix(new String[][] {{"state1","0","0","0","0","0"},
+            {"state2","0","0","0","0","0"},
+            {"state3","0","0","0","0","0"},
+            {"state4","0","0","0","0","0"},
+            {"state5","0","0","0","0","0"}},
         new String[] {"","state1","state2","state3","state4",
-            "state5"}));
+            "state5"})
+    );
+    qMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+    qMatrix.setColumnSelectionAllowed(true);
+    qMatrixScrollPane.setViewportView(qMatrix);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 32;
+    gridBagConstraints.gridwidth = 15;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.ipadx = 506;
+    gridBagConstraints.ipady = 341;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.weighty = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(6, 18, 8, 6);
+    getContentPane().add(qMatrixScrollPane, gridBagConstraints);
+
+    rMatrixScrollPane.setBorder(null);
+
+    rMatrix.setModel(new Matrix(new String[][] {{"state1","","","","",""},
+        {"state2","","","","",""},
+        {"state3","","","","",""},
+        {"state4","","","","",""},
+        {"state5","","","","",""}},
+    new String[] {"","state1","state2","state3","state4",
+        "state5"}));
 /*
 rMatrix.setModel(new javax.swing.table.DefaultTableModel(
 
-    new Object[][]     {{0,0,0,0},
-        {0,0,0,0},
-        {0,0,0,0},
-        {0,0,0,0}},
+new Object[][]     {{0,0,0,0},
+    {0,0,0,0},
+    {0,0,0,0},
+    {0,0,0,0}},
 
     new String[] {"1","2","3","4"}
 
@@ -144,124 +168,97 @@ rMatrix.setModel(new javax.swing.table.DefaultTableModel(
     */
     rMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
     rMatrix.setColumnSelectionAllowed(true);
-    jScrollPane1.setViewportView(rMatrix);
+    rMatrixScrollPane.setViewportView(rMatrix);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 421;
-    gridBagConstraints.gridwidth = 26;
+    gridBagConstraints.gridy = 32;
+    gridBagConstraints.gridwidth = 9;
     gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-    gridBagConstraints.ipadx = 428;
-    gridBagConstraints.ipady = 309;
+    gridBagConstraints.ipadx = 519;
+    gridBagConstraints.ipady = 341;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
-    gridBagConstraints.insets = new java.awt.Insets(6, 2, 0, 0);
-    getContentPane().add(jScrollPane1, gridBagConstraints);
+    gridBagConstraints.insets = new java.awt.Insets(6, 8, 8, 0);
+    getContentPane().add(rMatrixScrollPane, gridBagConstraints);
 
-    jScrollPane2.setBorder(null);
+    jLabel1.setText("Reward Matrix");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 31;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 8, 0, 0);
+    getContentPane().add(jLabel1, gridBagConstraints);
 
-    qMatrix.setModel(new Matrix(new String[][] {{"state1","0","0","0","0","0"},
-        {"state2","0","0","0","0","0"},
-        {"state3","0","0","0","0","0"},
-        {"state4","0","0","0","0","0"},
-        {"state5","0","0","0","0","0"}},
-    new String[] {"","state1","state2","state3","state4",
-        "state5"})
-);
-qMatrix.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-qMatrix.setColumnSelectionAllowed(true);
-jScrollPane2.setViewportView(qMatrix);
+    jLabel2.setText("Q Matrix");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 31;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(12, 18, 0, 0);
+    getContentPane().add(jLabel2, gridBagConstraints);
 
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 58;
-gridBagConstraints.gridy = 421;
-gridBagConstraints.gridwidth = 12;
-gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-gridBagConstraints.ipadx = 495;
-gridBagConstraints.ipady = 309;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.weightx = 1.0;
-gridBagConstraints.weighty = 1.0;
-gridBagConstraints.insets = new java.awt.Insets(6, 4, 0, 35);
-getContentPane().add(jScrollPane2, gridBagConstraints);
+    jLabel4.setText("Episodes");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(18, 10, 0, 0);
+    getContentPane().add(jLabel4, gridBagConstraints);
 
-jLabel1.setText("Reward Matrix");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 0;
-gridBagConstraints.gridy = 420;
-gridBagConstraints.gridwidth = 3;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(18, 2, 0, 0);
-getContentPane().add(jLabel1, gridBagConstraints);
+    jLabel5.setText("Learning Rate");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 5;
+    gridBagConstraints.gridy = 8;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 14;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(0, 92, 0, 0);
+    getContentPane().add(jLabel5, gridBagConstraints);
 
-jLabel2.setText("Q Matrix");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 58;
-gridBagConstraints.gridy = 420;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(18, 4, 0, 0);
-getContentPane().add(jLabel2, gridBagConstraints);
+    jLabel6.setText("Discount Factor");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 5;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(18, 77, 0, 0);
+    getContentPane().add(jLabel6, gridBagConstraints);
 
-jLabel4.setText("Episodes");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 0;
-gridBagConstraints.gridy = 0;
-gridBagConstraints.gridheight = 2;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(18, 10, 0, 0);
-getContentPane().add(jLabel4, gridBagConstraints);
+    jLabel7.setText("Policy");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 8;
+    gridBagConstraints.gridheight = 14;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(0, 29, 0, 0);
+    getContentPane().add(jLabel7, gridBagConstraints);
 
-jLabel5.setText("Learning Rate");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 12;
-gridBagConstraints.gridy = 10;
-gridBagConstraints.gridwidth = 2;
-gridBagConstraints.gridheight = 23;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(0, 85, 0, 0);
-getContentPane().add(jLabel5, gridBagConstraints);
+    jLabel8.setText("Algorithm");
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(16, 44, 0, 0);
+    getContentPane().add(jLabel8, gridBagConstraints);
 
-jLabel6.setText("Discount Factor");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 12;
-gridBagConstraints.gridy = 0;
-gridBagConstraints.gridwidth = 2;
-gridBagConstraints.gridheight = 2;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(18, 70, 0, 0);
-getContentPane().add(jLabel6, gridBagConstraints);
-
-jLabel7.setText("Policy");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 0;
-gridBagConstraints.gridy = 10;
-gridBagConstraints.gridheight = 23;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(0, 29, 0, 0);
-getContentPane().add(jLabel7, gridBagConstraints);
-
-jLabel8.setText("Algorithm");
-gridBagConstraints = new java.awt.GridBagConstraints();
-gridBagConstraints.gridx = 58;
-gridBagConstraints.gridy = 0;
-gridBagConstraints.gridwidth = 2;
-gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-gridBagConstraints.insets = new java.awt.Insets(16, 30, 0, 0);
-getContentPane().add(jLabel8, gridBagConstraints);
-
-matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        matrixSizeTextFieldActionPerformed(evt);
-    }
+    matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            matrixSizeTextFieldActionPerformed(evt);
+        }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 64;
+    gridBagConstraints.gridx = 19;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.gridheight = 6;
+    gridBagConstraints.gridheight = 5;
     gridBagConstraints.ipadx = 40;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(25, 56, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(25, 16, 0, 0);
     getContentPane().add(matrixSizeTextField, gridBagConstraints);
 
     episodesJTextField.setText("10");
@@ -282,9 +279,8 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
 
     gammaJTextField.setText("0.6");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 19;
+    gridBagConstraints.gridx = 7;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.gridwidth = 32;
     gridBagConstraints.gridheight = 4;
     gridBagConstraints.ipadx = 91;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -298,13 +294,12 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 19;
-    gridBagConstraints.gridy = 5;
-    gridBagConstraints.gridwidth = 32;
-    gridBagConstraints.gridheight = 51;
+    gridBagConstraints.gridx = 7;
+    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridheight = 20;
     gridBagConstraints.ipadx = 91;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(7, 6, 0, 0);
     getContentPane().add(alphaJTextField, gridBagConstraints);
 
     jButton1.setText("Update");
@@ -314,24 +309,13 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 65;
+    gridBagConstraints.gridx = 20;
     gridBagConstraints.gridy = 0;
     gridBagConstraints.gridwidth = 3;
-    gridBagConstraints.gridheight = 11;
+    gridBagConstraints.gridheight = 9;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
     gridBagConstraints.insets = new java.awt.Insets(26, 6, 0, 0);
     getContentPane().add(jButton1, gridBagConstraints);
-
-    jButton3.setText("Run");
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 64;
-    gridBagConstraints.gridy = 20;
-    gridBagConstraints.gridwidth = 2;
-    gridBagConstraints.gridheight = 67;
-    gridBagConstraints.ipadx = 64;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(6, 56, 0, 0);
-    getContentPane().add(jButton3, gridBagConstraints);
 
     algorithmComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Q-Learning", "SARSA"}));
     algorithmComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +324,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 60;
+    gridBagConstraints.gridx = 11;
     gridBagConstraints.gridy = 0;
     gridBagConstraints.gridwidth = 4;
     gridBagConstraints.gridheight = 3;
@@ -349,20 +333,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
     getContentPane().add(algorithmComboBox, gridBagConstraints);
 
-    testTextField2.setText("matrix size");
-    testTextField2.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            testTextField2ActionPerformed(evt);
-        }
-    });
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 12;
-    gridBagConstraints.gridy = 422;
-    gridBagConstraints.ipadx = 70;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(22, 6, 0, 0);
-    getContentPane().add(testTextField2, gridBagConstraints);
-
     interruptButton.setText("Interrupt");
     interruptButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,12 +340,12 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 4;
-    gridBagConstraints.gridy = 422;
-    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 29;
+    gridBagConstraints.gridwidth = 3;
     gridBagConstraints.gridheight = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(23, 2, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(22, 36, 0, 0);
     getContentPane().add(interruptButton, gridBagConstraints);
 
     newMatrixButton.setText("New Matrix");
@@ -385,99 +355,82 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 58;
-    gridBagConstraints.gridy = 422;
-    gridBagConstraints.gridwidth = 3;
+    gridBagConstraints.gridx = 5;
+    gridBagConstraints.gridy = 29;
     gridBagConstraints.gridheight = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(23, 17, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(22, 6, 0, 0);
     getContentPane().add(newMatrixButton, gridBagConstraints);
 
     epsilonJTextField.setText("0.35");
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridy = 25;
     gridBagConstraints.gridwidth = 4;
-    gridBagConstraints.gridheight = 266;
+    gridBagConstraints.gridheight = 4;
     gridBagConstraints.ipadx = 99;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(7, 6, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(5, 6, 0, 0);
     getContentPane().add(epsilonJTextField, gridBagConstraints);
 
     jLabel10.setText("Epsilon");
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 86;
-    gridBagConstraints.gridheight = 133;
+    gridBagConstraints.gridy = 25;
+    gridBagConstraints.gridheight = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(13, 20, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(11, 20, 0, 0);
     getContentPane().add(jLabel10, gridBagConstraints);
 
-    jButton4.setText("set test");
-    jButton4.addActionListener(new java.awt.event.ActionListener() {
+    runButton.setText("Run");
+    runButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton4ActionPerformed(evt);
+            runButtonActionPerformed(evt);
+        }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 14;
+    gridBagConstraints.gridy = 29;
+    gridBagConstraints.gridwidth = 5;
+    gridBagConstraints.gridheight = 2;
+    gridBagConstraints.ipadx = 22;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.insets = new java.awt.Insets(22, 18, 0, 0);
+    getContentPane().add(runButton, gridBagConstraints);
+
+    resetExperimentButton.setText("Reset Experiment");
+    resetExperimentButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            resetExperimentButtonActionPerformed(evt);
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 422;
-    gridBagConstraints.gridwidth = 2;
-    gridBagConstraints.gridheight = 2;
-    gridBagConstraints.ipadx = -4;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(23, 0, 0, 0);
-    getContentPane().add(jButton4, gridBagConstraints);
-
-    runSAJButton.setText("Run SA");
-    runSAJButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            runSAJButtonActionPerformed(evt);
-        }
-    });
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 25;
-    gridBagConstraints.gridy = 422;
-    gridBagConstraints.gridwidth = 33;
+    gridBagConstraints.gridy = 29;
+    gridBagConstraints.gridwidth = 3;
     gridBagConstraints.gridheight = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(23, 6, 0, 0);
-    getContentPane().add(runSAJButton, gridBagConstraints);
-
-    setSAJButton.setText("set SA");
-    setSAJButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            setSAJButtonActionPerformed(evt);
-        }
-    });
-    gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 13;
-    gridBagConstraints.gridy = 422;
-    gridBagConstraints.gridwidth = 7;
-    gridBagConstraints.gridheight = 2;
-    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(23, 18, 0, 0);
-    getContentPane().add(setSAJButton, gridBagConstraints);
+    gridBagConstraints.insets = new java.awt.Insets(22, 20, 0, 0);
+    getContentPane().add(resetExperimentButton, gridBagConstraints);
 
     goalStateJTextField.setText("state5");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 60;
-    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridx = 11;
+    gridBagConstraints.gridy = 25;
     gridBagConstraints.gridwidth = 4;
-    gridBagConstraints.gridheight = 199;
+    gridBagConstraints.gridheight = 3;
     gridBagConstraints.ipadx = 90;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(3, 12, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(1, 12, 0, 0);
     getContentPane().add(goalStateJTextField, gridBagConstraints);
 
     jLabel12.setText("Goal State");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 58;
-    gridBagConstraints.gridy = 86;
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 25;
     gridBagConstraints.gridwidth = 2;
-    gridBagConstraints.gridheight = 68;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(9, 30, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(7, 44, 0, 0);
     getContentPane().add(jLabel12, gridBagConstraints);
 
     initialStateJTextField.setText("state1");
@@ -487,10 +440,10 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 60;
+    gridBagConstraints.gridx = 11;
     gridBagConstraints.gridy = 4;
     gridBagConstraints.gridwidth = 4;
-    gridBagConstraints.gridheight = 37;
+    gridBagConstraints.gridheight = 19;
     gridBagConstraints.ipadx = 90;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
     gridBagConstraints.insets = new java.awt.Insets(5, 12, 0, 0);
@@ -498,12 +451,12 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
 
     jLabel13.setText("Initial State");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 58;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridx = 9;
+    gridBagConstraints.gridy = 4;
     gridBagConstraints.gridwidth = 2;
-    gridBagConstraints.gridheight = 16;
+    gridBagConstraints.gridheight = 13;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(4, 22, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(11, 36, 0, 0);
     getContentPane().add(jLabel13, gridBagConstraints);
 
     policyComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ɛ-Greedy", "Softmax" }));
@@ -514,43 +467,41 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridy = 4;
     gridBagConstraints.gridwidth = 4;
-    gridBagConstraints.gridheight = 66;
+    gridBagConstraints.gridheight = 21;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(2, 6, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(9, 6, 0, 0);
     getContentPane().add(policyComboBox, gridBagConstraints);
 
     jLabel3.setText("Temperature Decrease Rate");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 8;
-    gridBagConstraints.gridy = 86;
-    gridBagConstraints.gridwidth = 6;
-    gridBagConstraints.gridheight = 133;
+    gridBagConstraints.gridx = 5;
+    gridBagConstraints.gridy = 25;
+    gridBagConstraints.gridwidth = 2;
+    gridBagConstraints.gridheight = 2;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(13, 6, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(11, 6, 0, 0);
     getContentPane().add(jLabel3, gridBagConstraints);
 
     temperatureRateJTextField.setText("0.005");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 19;
-    gridBagConstraints.gridy = 86;
-    gridBagConstraints.gridwidth = 32;
-    gridBagConstraints.gridheight = 266;
+    gridBagConstraints.gridx = 7;
+    gridBagConstraints.gridy = 25;
+    gridBagConstraints.gridheight = 4;
     gridBagConstraints.ipadx = 91;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(7, 6, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(5, 6, 0, 0);
     getContentPane().add(temperatureRateJTextField, gridBagConstraints);
 
     runningJLabel.setText(" ");
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 64;
-    gridBagConstraints.gridy = 153;
+    gridBagConstraints.gridx = 19;
+    gridBagConstraints.gridy = 29;
     gridBagConstraints.gridwidth = 2;
-    gridBagConstraints.gridheight = 267;
     gridBagConstraints.ipadx = 129;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(6, 62, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(27, 18, 0, 0);
     getContentPane().add(runningJLabel, gridBagConstraints);
 
     jMenu1.setText("File");
@@ -600,10 +551,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private void algorithmComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithmComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_algorithmComboBoxActionPerformed
-
-    private void testTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testTextField2ActionPerformed
-        
-    }//GEN-LAST:event_testTextField2ActionPerformed
 
     private void interruptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptButtonActionPerformed
         
@@ -690,14 +637,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         tempLabelFrame.setVisible(true);
     }
     
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        episodesJTextField.setText("10");
-        gammaJTextField.setText("0.6");
-        alphaJTextField.setText("0.2");
-        epsilonJTextField.setText("0.5");
-        resetQMatrix();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private String getPolicy(){
         return (String) policyComboBox.getSelectedItem();
     }
@@ -706,7 +645,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         return (String) algorithmComboBox.getSelectedItem();
     }
     
-    private void runSAJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runSAJButtonActionPerformed
+    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         //create a fresh learner with ref to the JTables and the experiment size
         //Thread check taken from stack overflow user Joachim Sauer
         //System.out.println(learningThread.getState().toString());
@@ -755,9 +694,9 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         
         learningThread = new Thread(learner);
         learningThread.start();
-    }//GEN-LAST:event_runSAJButtonActionPerformed
+    }//GEN-LAST:event_runButtonActionPerformed
 
-    private void setSAJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setSAJButtonActionPerformed
+    private void resetExperimentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetExperimentButtonActionPerformed
         episodesJTextField.setText("10");
         gammaJTextField.setText("0.6");
         alphaJTextField.setText("0.2");
@@ -767,7 +706,7 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
         temperatureRateJTextField.setText("0.005");
         setSAExperimentMatrices();
         
-    }//GEN-LAST:event_setSAJButtonActionPerformed
+    }//GEN-LAST:event_resetExperimentButtonActionPerformed
 
     private void initialStateJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initialStateJTextFieldActionPerformed
         // TODO add your handling code here:
@@ -1455,8 +1394,6 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JTextField initialStateJTextField;
     private javax.swing.JButton interruptButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1471,20 +1408,19 @@ matrixSizeTextField.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField matrixSizeTextField;
     private javax.swing.JButton newMatrixButton;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JComboBox policyComboBox;
     private javax.swing.JTable qMatrix;
+    private javax.swing.JScrollPane qMatrixScrollPane;
     private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JTable rMatrix;
-    private javax.swing.JButton runSAJButton;
+    private javax.swing.JScrollPane rMatrixScrollPane;
+    private javax.swing.JButton resetExperimentButton;
+    private javax.swing.JButton runButton;
     private javax.swing.JLabel runningJLabel;
     private javax.swing.JMenuItem saveMenuItem;
-    private javax.swing.JButton setSAJButton;
     private javax.swing.JTextField temperatureRateJTextField;
-    private javax.swing.JTextField testTextField2;
     // End of variables declaration//GEN-END:variables
 }

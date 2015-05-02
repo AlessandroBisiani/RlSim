@@ -18,18 +18,18 @@ import javax.swing.JTable;
  */
 public class SARSA extends Learner{
     
-    private JTable qMatrix;
-    private JTable rMatrix;
-    private Matrix qModel;
-    private Matrix rModel;
-    private int stepsPerEpisode;
     private Policy policy;
     private String currentState;
     private String goalState;
     private String initialState;
+    private JTable qMatrix;
+    private JTable rMatrix;
+    private Matrix qModel;
+    private Matrix rModel;
     private double alpha;
     private double gamma;
-
+    private int stepsPerEpisode;
+    
     public SARSA(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
         super(numEpisodes, mFrame);
         qMatrix = q;

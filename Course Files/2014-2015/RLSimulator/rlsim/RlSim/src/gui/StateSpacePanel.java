@@ -18,14 +18,14 @@ public class StateSpacePanel extends javax.swing.JPanel{
 
     private ArrayList<String> listOfStates = new ArrayList<String>();
     //static String stringListOfStates;
-    private MainFrame parentCreator;
+    private MainFrame mainFrame;
     
     /**
      *@param parentFrame    The MainFrame that created the panel
      */
-    public StateSpacePanel(MainFrame parentFrame) {
+    public StateSpacePanel(MainFrame mFrame) {
         initComponents();
-        parentCreator = parentFrame;
+        mainFrame = mFrame;
     }
 
     /**
@@ -128,9 +128,9 @@ public class StateSpacePanel extends javax.swing.JPanel{
         System.out.println(states);
         System.out.println(states.length());
         System.out.println(listOfStates);
-        parentCreator.data.resetData();
+        mainFrame.data.resetData();
         //Create the matrices using static method and ArrayList<String> containing the state names. This method also calls dispose() on the instance of StateSpacePanel.
-        parentCreator.createMatrices(listOfStates);
+        mainFrame.createMatrices(listOfStates);
         
         /**
         Window f = SwingUtilities.windowForComponent(this);

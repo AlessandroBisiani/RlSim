@@ -57,23 +57,6 @@ public class ExperimentData implements Serializable{
         qValuesPerEpisode.add(episodeQs);
     }
     
-    public ArrayList<Integer> getStepsXEpisode(){
-        return stepsXEpisode;
-    }
-    public ArrayList<Double> getRatioOfCumulativeRewards(){
-        return ratioOfCumulativeRewards;
-    }
-    public ArrayList<double[][]> getAllData(){
-        return allData;
-    }
-    public int getAllDataArraySize(){
-        return allData.size();
-    }
-    public ArrayList<double[]> getQValuesPerEpisode(){
-        return qValuesPerEpisode;
-    }
-    
-    
     public void resetData(){
         ratioOfCumulativeRewards.removeAll(ratioOfCumulativeRewards);
         stepsXEpisode.removeAll(stepsXEpisode);
@@ -101,31 +84,19 @@ public class ExperimentData implements Serializable{
         System.out.println("# Cumulative rewards: "+s);
     }
     
-    public void setPolicy(String policy){
-        this.policy = policy;
-    }
-    public void setEpsilon(double epsilon){
-        this.epsilon = epsilon;
-    }
-    public void setGamma(double gamma){
-        this.gamma = gamma;
-    }
-    public void setAlpha(double alpha){
-        this.alpha = alpha;
-    }
-    public void setGoalState(String gState){
-        goalState = gState;
-    }
-    public void setInitialState(String iState){
-        initialState = iState;
-    }
-    public void setTemperatureRate(double temp){
-        temperatureRate = temp;
-    }
-    public void setAlgorithm(String algorithm){
-        this.algorithm = algorithm;
-    }
     
+    public ArrayList<Integer> getStepsXEpisode(){
+        return stepsXEpisode;
+    }
+    public ArrayList<Double> getRatioOfCumulativeRewards(){
+        return ratioOfCumulativeRewards;
+    }
+    public ArrayList<double[][]> getAllData(){
+        return allData;
+    }
+    public ArrayList<double[]> getQValuesPerEpisode(){
+        return qValuesPerEpisode;
+    }
     public String getPolicy(){
         return policy;
     }
@@ -149,5 +120,30 @@ public class ExperimentData implements Serializable{
     }
     public String getAlgorithm(){
         return algorithm;
+    }
+    
+    public void setPolicy(String policy){
+        this.policy = policy;
+    }
+    public void setEpsilon(double epsilon){
+        this.epsilon = epsilon;
+    }
+    public void setGamma(double gamma){
+        this.gamma = gamma;
+    }
+    public void setAlpha(double alpha){
+        this.alpha = alpha;
+    }
+    public void setGoalState(String gState){
+        goalState = gState;
+    }
+    public void setInitialState(String iState){
+        initialState = iState;
+    }
+    public void setTemperatureRate(double temp){
+        temperatureRate = temp;
+    }
+    public void setAlgorithm(String algorithm){
+        this.algorithm = algorithm;
     }
 }

@@ -19,27 +19,16 @@ import javax.swing.JTable;
 public class QLearner extends Learner {
     
     private Policy policy;
-    //private ExperimentData data;
     private String currentState;
     private String goalState;
     private String initialState;
-    
     private JTable qMatrix;
     private JTable rMatrix;
-    
     private Matrix qModel;
-    private Matrix rModel;
-    
     private double gamma;
     private double alpha;
-    
     private int stepsPerEpisode;
     
-    //private int numEpisodes;
-    
-    //private MainFrame mainFrame;
-    
-    //public String[] stateSpace = {"s1", "s2"};
     
     public QLearner(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
         super(numEpisodes,mFrame);
@@ -55,7 +44,7 @@ public class QLearner extends Learner {
         gamma = 0.7;
         
         qModel = (Matrix) q.getModel();
-        rModel = (Matrix) r.getModel();
+        
     }
     
     @Override
@@ -74,7 +63,7 @@ public class QLearner extends Learner {
         System.out.println(stepsPerEpisode);
     }
     
-    public void step(int episodeNumber){
+    private void step(int episodeNumber){
         HashMap m = getAvailableActions();
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
 
@@ -238,7 +227,6 @@ public class QLearner extends Learner {
     @Override
     public void setModels(Matrix q, Matrix r){
         qModel = q;
-        rModel = r;
     }
     
     public String getGoalState(){
