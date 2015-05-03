@@ -51,7 +51,9 @@ public class MainFrame extends javax.swing.JFrame {
     //private String[] LEARNING_ALGORITHMS;
     
     
-    
+    /**
+     * @version v1.0 - May 2015
+    */
     public MainFrame() {
         initComponents();
         learner = null;
@@ -552,10 +554,13 @@ new Object[][]     {{0,0,0,0},
         // TODO add your handling code here:
     }//GEN-LAST:event_algorithmComboBoxActionPerformed
 
+    
     private void interruptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptButtonActionPerformed
         
         learningThread.interrupt();
         setRunningJLabel("");
+        Matrix m = (Matrix)rMatrix.getModel();
+        System.out.println(m.getStatesLength()+" va la");
         //System.out.println(new QLearner(rMatrix,qMatrix,1,this).getClass().getName());
         /*
         if(tempLabelFrame != null){
@@ -728,7 +733,13 @@ new Object[][]     {{0,0,0,0},
         tempSavingFrame.pack();
         tempSavingFrame.setVisible(true);
     }
-    //Writes the ExperimentData associated with MainFrame, the states String[], and the reward matrix data String[][].
+    
+    /**
+     * Writes the ExperimentData object associated with MainFrame, the states String[], and the reward matrix data String[][], to a file in this order.
+     * Simply specifying a file name creates the new file in the directory RLSim is launched from.
+     * Specifying the name of an existing file overwrites the file without warning.
+     * @param uri    The URI of the file being saved to.
+     */
     protected void saveExperiment(String uri){
         //FileOutputStream out = null;
         //FileInputStream in = null;
@@ -737,16 +748,19 @@ new Object[][]     {{0,0,0,0},
             try (ObjectOutputStream objectOut = new ObjectOutputStream(out)) {
                 //data.setPolicy(null);
                 objectOut.writeObject(data);
-                Matrix model = (Matrix) rMatrix.getModel();
+                Matrix rModel = (Matrix) rMatrix.getModel();
+                Matrix qModel = (Matrix) qMatrix.getModel();
                 //states includes the empty first column. Save the array without that column.
-                String[] tempStates = model.getStates();
-                String[] states = new String[model.getStates().length-1];
+                String[] tempStates = rModel.getStates();
+                String[] states = new String[rModel.getStates().length-1];
                 for(int i=0;i<states.length;i++){
                     states[i] = tempStates[i+1];
                 }
-                String[][] rewardData = model.getData();
+                String[][] rewardData = rModel.getData();
+                String[][] qData = qModel.getData();
                 objectOut.writeObject(states);
                 objectOut.writeObject(rewardData);
+                objectOut.writeObject(qData);
                 objectOut.flush();
                 objectOut.close();
                 
@@ -783,8 +797,15 @@ new Object[][]     {{0,0,0,0},
         tempExportFrame.pack();
         tempExportFrame.setVisible(true);
     }
-    //Exports all q value data to a .csv file
-    //episode data is added to the same line. New line after every episode data is written
+    
+    /**
+     * Exports all experiment parameters and Q values per episode to a .csv file specified by uri.
+     * Q values exported are those saved in the ExperimentData referred to by public field data in MainFrame.
+     * All data per episode is added to the same line. New line inserted after data of every episode is written.
+     * Simply specifying a file name creates the new file in the directory RLSim is launched from.
+     * Specifying the name of an existing file overwrites the file without warning.
+     * @param uri    The URI of the file being saved to.
+     */
     protected void exportData(String uri){
         ArrayList<double[]> expData = data.getQValuesPerEpisode();
         FileWriter writer = null;
@@ -857,6 +878,13 @@ new Object[][]     {{0,0,0,0},
         tempExportFrame.pack();
         tempExportFrame.setVisible(true);
     }
+    /**
+     * Exports all experiment parameters and the entire Q matrix per episode to a .csv file specified by uri.
+     * QMatrix data is exported in the format in which it appears, in the matrix.
+     * Simply specifying a file name creates the new file in the directory RLSim is launched from.
+     * Specifying the name of an existing file overwrites the file without warning.
+     * @param uri    The URI of the file being saved to.
+     */
     protected void exportDataAsMatrices(String uri){
         ArrayList<double[][]> expData = data.getAllData();
         FileWriter writer = null;
@@ -929,10 +957,15 @@ new Object[][]     {{0,0,0,0},
         tempOpeningFrame.pack();
         tempOpeningFrame.setVisible(true);
     }
+    /**
+     * Takes any file and attempts to read experiment information from it, and set MainFrame to display it.
+     * @param uri   The URI of the file being saved to.
+     */
     protected void openExperiment(String uri){
         FileInputStream in = null;
         String[] states = null;
         String[][] rewardData = null;
+        String[][] qData = null;
         try {
             //in = new FileInputStream(uri);
             //ObjectInputStream objectIn = new ObjectInputStream(in);
@@ -942,6 +975,7 @@ new Object[][]     {{0,0,0,0},
             Object expData = objectIn.readObject();
             Object s = objectIn.readObject();
             Object r = objectIn.readObject();
+            Object q = objectIn.readObject();
             
             System.out.println(data.getClass());
             System.out.println(s.getClass());
@@ -954,18 +988,25 @@ new Object[][]     {{0,0,0,0},
             } else {System.out.println("no experiment data"); }
             if(s instanceof String[]){
                 states = (String[]) s;
+                /*String[] tempStates = (String[]) s;
+                states = new String[tempStates.length+1]; states[0] = "";
+                System.arraycopy(tempStates, 0, states, 1, tempStates.length);*/
                 System.out.println("states got " + states.length);
             } else{ System.out.println("no states list"); }
             if(r instanceof String[][]){
                 System.out.println("rewards got");
                 rewardData = (String[][]) r;
             } else{System.out.println("no rewards data");}
+            if(q instanceof String[][]){
+                System.out.println("Qs got");
+                qData = (String[][]) q;
+            } else{System.out.println("no q data");}
             
             resetMatrices(qMatrix,rMatrix,states);
-            Matrix model = (Matrix) rMatrix.getModel();
-            model.setData(rewardData);
-            model.setStates(states);
-            rMatrix.repaint();
+            Matrix rModel = (Matrix) rMatrix.getModel();
+            Matrix qModel = (Matrix) qMatrix.getModel();
+            rModel.setData(rewardData);
+            qModel.setData(qData);
                 
             episodesJTextField.setText(String.valueOf(data.getStepsXEpisode().size()));
             policyComboBox.setSelectedItem(data.getPolicy());
@@ -1004,11 +1045,18 @@ new Object[][]     {{0,0,0,0},
         // TODO add your handling code here:
     }//GEN-LAST:event_alphaJTextFieldActionPerformed
     
+    /**
+     * Calls dispose() on any JFrame it is passed.
+     * @param tempFrame Any JFrame
+     */
     public void closeFrame(JFrame tempFrame){
         tempFrame.dispose();
     }
     
-    //takes the states input as an ArrayList and calls the R and Q matrix constructors, discarding the old matrices and setting the new ones to be visible.
+    /**
+     * Creates new reward and Q matrices with the list of states this method is passed.
+     * @param statesList    A list of states in the order they should appear in the domain matrices.
+     */
     public void createMatrices(ArrayList<String> statesList){
         int s = statesList.size();
         String[] states = new String[s];
@@ -1026,7 +1074,7 @@ new Object[][]     {{0,0,0,0},
         resetMatrices(qMatrix, rMatrix, states);
     }
     
-    public boolean resetMatrices(JTable qMatrix, JTable rMatrix, String[] states){
+    private boolean resetMatrices(JTable qMatrix, JTable rMatrix, String[] states){
         int c = 0;
         int r = 0;
         boolean b = false;
@@ -1128,7 +1176,7 @@ new Object[][]     {{0,0,0,0},
         return b;
     }
     
-    public void resetQMatrix(){
+    private void resetQMatrix(){
         data.resetData();
         String[] states = stateSpace;
         int l = states.length;
@@ -1146,6 +1194,10 @@ new Object[][]     {{0,0,0,0},
         qMatrix.repaint();
     }
     
+    /**
+     * Set the runningJLabel to indicate the state of the experiment.
+     * @param label The text to set the JLabel to.
+     */
     public void setRunningJLabel(String label){
         runningJLabel.setText(label);
     }

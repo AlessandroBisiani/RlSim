@@ -122,8 +122,6 @@ public class StateSpacePanel extends javax.swing.JPanel{
             }
         }
         
-        //MainFrame.createMatrices(listOfStates);
-
         //Tests of the state of the fields after harvesting the information from JTextArea
         System.out.println(states);
         System.out.println(states.length());
@@ -131,19 +129,7 @@ public class StateSpacePanel extends javax.swing.JPanel{
         mainFrame.data.resetData();
         //Create the matrices using static method and ArrayList<String> containing the state names. This method also calls dispose() on the instance of StateSpacePanel.
         mainFrame.createMatrices(listOfStates);
-        
-        /**
-        Window f = SwingUtilities.windowForComponent(this);
-        f.removeAll();
-        
-        JFrame t = null;
-        Container temp = this;
-        while(temp.getParent() != null){
-            temp = temp.getParent();
-            if (temp.getParent() instanceof JFrame){
-                temp.getParent().removeAll();
-            }
-        }  */      
+             
     }//GEN-LAST:event_createJButtonActionPerformed
 
     

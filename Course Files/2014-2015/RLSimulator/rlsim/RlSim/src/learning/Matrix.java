@@ -70,6 +70,9 @@ public class Matrix extends AbstractTableModel{
     public String getColumnName(int columnIndex){
         return states[columnIndex];
     }
+    public int getStatesLength(){
+       return states.length;
+    }
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex){
         if(columnIndex==0){
