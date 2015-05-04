@@ -9,7 +9,8 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author alessandrobisiani
+ * @author Alessandro Bisiani
+ * @version v1.0 - 1 May 2015
  */
 public class Matrix extends AbstractTableModel{
     
@@ -45,15 +46,31 @@ public class Matrix extends AbstractTableModel{
     
     }
     */
+    /**
+     * Get an internal representation of the state space.
+     * @return  A representation of the state space.
+     */
     public String[] getStates(){
         return states;
     }
+    /**
+     * Get current model data, equivalent to the state of the matrix.
+     * @return  All matrix data excluding state names.
+     */
     public String[][] getData(){
         return matrix;
     }
+    /**
+     * Update the state names
+     * @param states    An array of states matching that of the displayed columns in content and order.
+     */
     public void setStates(String[] states){
         this.states = states;
     }
+    /**
+     * Update the model data.
+     * @param data  The matrix content.
+     */
     public void setData(String[][] data){
         matrix = data;
     }
@@ -69,9 +86,6 @@ public class Matrix extends AbstractTableModel{
     @Override
     public String getColumnName(int columnIndex){
         return states[columnIndex];
-    }
-    public int getStatesLength(){
-       return states.length;
     }
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex){
@@ -101,7 +115,12 @@ public class Matrix extends AbstractTableModel{
         }
         return -1;
     }
-    
+    /**
+     * Get the value at coordinates in the matrix as a double.
+     * @param rowIndex      Index of the matrix row.
+     * @param columnIndex   Index of the matrix column.
+     * @return              The value of the matrix at the indeces passed.
+     */
     public double getDoubleAt(int rowIndex, int columnIndex){
         return Double.parseDouble(matrix[rowIndex][columnIndex]);
     }

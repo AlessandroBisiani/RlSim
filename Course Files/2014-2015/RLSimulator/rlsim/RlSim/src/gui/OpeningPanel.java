@@ -14,6 +14,7 @@ public class OpeningPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     /**
      * Creates new form OpenPanel
+     * @param mFrame    The MainFrame instance that created the OpeningPanel instance.
      */
     public OpeningPanel(MainFrame mFrame) {
         mainFrame = mFrame;

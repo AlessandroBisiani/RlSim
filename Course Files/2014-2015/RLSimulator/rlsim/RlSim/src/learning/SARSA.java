@@ -14,7 +14,8 @@ import javax.swing.JTable;
 
 /**
  *
- * @author alessandrobisiani
+ * @author AlessandroBisiani
+ * @version v1.0 - 1 May 2015
  */
 public class SARSA extends Learner{
     
@@ -70,9 +71,11 @@ public class SARSA extends Learner{
         currentState = nextState;
     //pick the next action
         HashMap m = getAvailableActions();
+        System.out.println(m+" Available Actions");
         nextState = policy.next(m, episodeNumber);
         //System.out.println("state selected by qlearner: " + nextState);
     //Get reward for the transition from stateS to currentState
+        //GETTING THE VALUE FOR CURRENTSTATE FROM M IS EQUIVALENT TO GETTING THE TRANSITION FROM CURRENTSTATE TO ITSELF.
         String r = (String) m.get(currentState);
         double reward = Double.parseDouble(r);
     //Get the Q to update
@@ -220,11 +223,11 @@ public class SARSA extends Learner{
         initialState = is;
     }
     //Sets the pointers to QLearner's model fields to the parameters taken
-    @Override
-    public void setModels(Matrix q, Matrix r){
+    /*@Override
+    private void setModels(Matrix q, Matrix r){
         qModel = q;
         rModel = r;
-    }
+    }*/
     
     public void setAlpha(double alpha){
         this.alpha = alpha;

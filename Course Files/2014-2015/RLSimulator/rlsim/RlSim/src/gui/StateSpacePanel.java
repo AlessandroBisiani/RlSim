@@ -21,7 +21,7 @@ public class StateSpacePanel extends javax.swing.JPanel{
     private MainFrame mainFrame;
     
     /**
-     *@param parentFrame    The MainFrame that created the panel
+     *@param mFrame    The MainFrame instance that created the StateSpacePanel instance
      */
     public StateSpacePanel(MainFrame mFrame) {
         initComponents();

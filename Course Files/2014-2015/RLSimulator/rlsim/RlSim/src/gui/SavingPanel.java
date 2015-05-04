@@ -14,9 +14,10 @@ public class SavingPanel extends javax.swing.JPanel {
     private final MainFrame mainFrame;
     /**
      * Creates new form savingPanel
+     * @param mFrame    The MainFrame instance that created the SavingPanel instance.
      */
-    public SavingPanel(MainFrame m) {
-        mainFrame = m;
+    public SavingPanel(MainFrame mFrame) {
+        mainFrame = mFrame;
         initComponents();
     }
 

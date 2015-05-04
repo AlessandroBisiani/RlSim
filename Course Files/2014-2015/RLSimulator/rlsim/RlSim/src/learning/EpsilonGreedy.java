@@ -11,7 +11,8 @@ import java.util.HashMap;
 
 /**
  *
- * @author alessandrobisiani
+ * @author Alessandro Bisiani
+ * @version v1.0 - 1 May 2015
  */
 public class EpsilonGreedy implements Policy, Serializable{
 
@@ -22,11 +23,22 @@ public class EpsilonGreedy implements Policy, Serializable{
         this.epsilon = epsilon;
     }
     
+    /**
+     * Sets the Epsilon value 
+     * @param epsilon   A constant in the range 0-1. A measure of randomness of choice where 1 = always random.
+     */
     public void setEpsilon(double epsilon){
         this.epsilon = epsilon;
     }
            
-    //With HashMap of available actions and their rewards in String form, decides whether to choose randomly or greedily and returns name of next action.
+    
+    /**
+     * Selects the next action based on available action-reward pairs and epsilon.
+     * With HashMap of available next states and the rewards for those transitions in String form, decides whether to choose randomly or greedily and returns String representing next state.
+     * @param stateRewardMap    A HashMap of available next states mapped to their rewards.
+     * @param episodeNumber     The number of episodes for which the experiment has run +1. Not used here.
+     * @return                  The selected action in the form of a String representing the state it leads to.
+     */
     @Override
     public String next(HashMap stateRewardMap, int episodeNumber) {
         String nextState = null;

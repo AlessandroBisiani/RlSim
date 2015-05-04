@@ -12,10 +12,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author alessandrobisiani
+ * @author Alessandro Bisiani
+ * @version v1.0 - 1 May 2015
  */
-
-   
 public abstract class Learner implements Runnable{
    
     
@@ -27,7 +26,10 @@ public abstract class Learner implements Runnable{
         numOfEpisodes = numEpisodes;
     }
     
-    
+    /**
+     * Performs the experiment and saves the data output. Relies on episode().
+     * @throws InterruptedException 
+     */
     public  void experiment() throws InterruptedException{
         for(int i=0;i<numOfEpisodes;i++){
             episode(mainFrame.data.getStepsXEpisode().size()+1);
@@ -40,7 +42,6 @@ public abstract class Learner implements Runnable{
         mainFrame.data.printSteps();
         mainFrame.data.printCumulativeRewards();
         System.out.println(mainFrame.data.getAllData().size());
-        //temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNum,0.0));
         
         double t = 1 - (Math.max((double)mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0));
         
@@ -50,26 +51,60 @@ public abstract class Learner implements Runnable{
         mainFrame.setRunningJLabel("Completed");
     };
     
+    /**
+     * Performs a single episode.
+     * @param episodeNumber     The number of episodes completed in the experiment +1.
+     */
     public abstract void episode(int episodeNumber);
     
+    /**
+     * Get the number of steps taken to complete the current episode.
+     * @return  Number of steps taken to completion of the current episode.
+     */
     public abstract int getStepsPerEpisode();
     
+    /**
+     * Calculates weighted cumulative Q value for the current episode.
+     * All updated Q values are divided my the highest Q value and multiplied by 100.
+     * @return  Weighted cumulative Q value for the current episode.
+     */
     public abstract double calculateCumulativeQ();
     
+    /**
+     * Set the policy object with which the learner will function.
+     * @param p     The new policy to associate with an instance of learner.
+     */
     public abstract void setPolicy(Policy p);
     
+    /**
+     * Set the goal state for this experiment.
+     * @param gs    The name of the goal state.
+     */
     public abstract void setGoalState(String gs);
     
+    /**
+     * Set the initial state for this experiment.
+     * @param is    The name of the initial state.
+     */
     public abstract void setInitialState(String is);
-    //Sets the pointers to QLearner's model fields to the parameters taken
-    public abstract void setModels(Matrix q, Matrix r);
     
-    
+    /**
+     * Get all Q matrix data for the current episode.
+     * @return  The Q matrix data.
+     */
     public abstract double[][] getAllEpisodeData();
     
+    /**
+     * Get all updated Q values for the current episode.
+     * @return  A collection of updated q values.
+     */
     public abstract double[] getQValues();
     
    
+    /**
+     * Calls Learner.experiment().
+     * Overriding this method should always at the very least either call this method with super.run(), or simply call experiment().
+     */
     @Override
     public void run(){
         try {

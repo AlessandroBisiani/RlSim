@@ -10,13 +10,14 @@ import java.util.HashMap;
 
 /**
  *
- * @author alessandrobisiani
+ * @author Alessandro Bisiani
+ * @version v1.0 - 1 May 2015
  */
 public class Softmax implements Policy{
 
     private double temperature;
     private double temperatureDecreaseRate;
-    private int episodeNum;
+    
     
     public Softmax(double temperatureRate){
         temperature = 0;
@@ -24,8 +25,15 @@ public class Softmax implements Policy{
         this.temperatureDecreaseRate = (temperatureRate);
     }
     
+    /**
+     * Selects the next action based on available action-reward pairs and how many episodes have already completed.
+     * With HashMap of available next states and the rewards for those transitions in String form, decides whether to choose randomly or greedily and returns String representing next state.
+     * @param stateRewardMap    A HashMap of available next states mapped to their rewards.
+     * @param episodeNumber     The number of episodes for which the experiment has run +1.
+     * @return                  The selected action in the form of a String representing the state it leads to.
+     */
     @Override
-    public String next(HashMap stateRewardMap, int episodeNum) {
+    public String next(HashMap stateRewardMap, int episodeNumber) {
         String nextState = null;
         String[] keySet = new String[stateRewardMap.size()];
         stateRewardMap.keySet().toArray(keySet);
@@ -49,7 +57,7 @@ public class Softmax implements Policy{
             double value = Double.parseDouble(v);
             
             //Vary temperature
-            temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNum,0.0));
+            temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNumber,0.0));
             
             //prob[i] = Math.exp(value);
             prob[i] = (Math.exp(value))/temperature;
@@ -79,8 +87,5 @@ public class Softmax implements Policy{
     }
     public void setTemperature(double temperature){
         this.temperature = temperature;
-    }
-    public double getTemperature(){
-        return temperature;
     }
 }

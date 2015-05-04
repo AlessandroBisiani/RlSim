@@ -8,13 +8,12 @@ package learning;
 import gui.MainFrame;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /** 
  *
- * @author alessandrobisiani
+ * @author Alessandro Bisiani
+ * @version v1.0 - 1 May 2015
  */
 public class QLearner extends Learner {
     
@@ -135,8 +134,11 @@ public class QLearner extends Learner {
     }
     
     
-    
-    //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
+    /**
+     * Searches for available state transitions and returns a map of transitions mapped to their rewards.
+     * Available transitions are represented by the states to which they lead - these are the Keys.
+     * @return      A HashMap of <statesAvailableToTransitionTo , rewardForThatTransition>
+     */
     public HashMap getAvailableActions(){
         
         HashMap available = new HashMap((rMatrix.getRowCount()),1);
@@ -157,6 +159,11 @@ public class QLearner extends Learner {
         return available;
     }
     
+    /**
+     * Find the highest Q value that can be reached from a state.
+     * @param state     The state from which to search for the highest Q.
+     * @return          The highest Q value.
+     */
     public double getMaxQ(String state){
         double max = 0;
         String maxS = "";
@@ -180,6 +187,12 @@ public class QLearner extends Learner {
         return max;
     }
     
+    /**
+     * Find the Q value for the specified transition.
+     * @param state             A state from which to transition.
+     * @param nextStateIndex    Column index of the next state.
+     * @return                  Q value for the specified transition.
+     */
     public double getCurrentQ(String state, int nextStateIndex){
         int c = nextStateIndex;
         double q = 0;
@@ -192,6 +205,12 @@ public class QLearner extends Learner {
         return q;
     }
     
+    /**
+     * Update a Q value.
+     * @param state             State the transition is from. The y-axis value.
+     * @param nextStateIndex    Column index of the next state.
+     * @param q                 New Q value.
+     */
     public void setQ(String state, int nextStateIndex, double q){
         int c = nextStateIndex;
         for(int i=0;i<qMatrix.getRowCount();i++){
@@ -205,12 +224,22 @@ public class QLearner extends Learner {
         }
     }
     
+    /**
+     * Set the value of gamma.
+     * @param g     New value of gamma.
+     */
     public void setGamma(double g){
         gamma = g;
     }
+    
+    /**
+     * Set the value of alpha.
+     * @param a     New value of alpha.
+     */
     public void setAlpha(double a){
         alpha = a;
     }
+    
     @Override
     public void setPolicy(Policy p){
         policy = p;
@@ -223,12 +252,11 @@ public class QLearner extends Learner {
     public void setInitialState(String is){
         initialState = is;
     }
-    //Sets the pointers to QLearner's model fields to the parameters taken
-    @Override
-    public void setModels(Matrix q, Matrix r){
-        qModel = q;
-    }
     
+    /**
+     * Get the current goal state.
+     * @return  The goal state name.
+     */
     public String getGoalState(){
         return goalState;
     }
@@ -261,6 +289,7 @@ public class QLearner extends Learner {
         return epData;
     }
 
+    
     @Override
     public void run() {
         super.run();

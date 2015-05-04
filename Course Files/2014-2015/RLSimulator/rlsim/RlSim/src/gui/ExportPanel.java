@@ -17,6 +17,7 @@ public class ExportPanel extends javax.swing.JPanel {
     private MainFrame mainFrame;
     /**
      * Creates new form ExportPanel
+     * @param mFrame    The MainFrame instance that created the ExportPanel instance
      */
     public ExportPanel(MainFrame mFrame) {
         mainFrame = mFrame;
