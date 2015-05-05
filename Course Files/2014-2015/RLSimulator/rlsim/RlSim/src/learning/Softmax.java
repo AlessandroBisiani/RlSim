@@ -42,8 +42,8 @@ public class Softmax implements Policy{
         } else if(keySet.length==1){
             nextState = keySet[0];
         }
-        System.out.println(keySet.length + " NUMBER OF KEYS");
-        //Adapted from RLearner.java (on Desktop)------------------------------
+        //TEST
+        //System.out.println(keySet.length + " NUMBER OF KEYS");
         double[] prob = new double[keySet.length];
         double denominator = 0.0;
         
@@ -57,14 +57,14 @@ public class Softmax implements Policy{
             double value = Double.parseDouble(v);
             
             //Vary temperature
-            temperature = 1-(Math.max((double)temperatureDecreaseRate*episodeNumber,0.0));
+            temperature = 1-((double)temperatureDecreaseRate*episodeNumber);
             
-            //prob[i] = Math.exp(value);
+            if(temperature==0.0)temperature = 0.000000001;
             prob[i] = (Math.exp(value))/temperature;
             denominator += prob[i];
         } 
-        System.out.println(temperature + " Find Temp");
-       //System.out.println(denominator + " DENOMINATOR");
+        //System.out.println(temperature + " Find Temp");
+        //System.out.println(denominator + " DENOMINATOR");
         
         for(int i=0;i<keySet.length;i++) {
             prob[i] /= denominator;

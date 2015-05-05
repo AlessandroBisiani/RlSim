@@ -64,24 +64,29 @@ public class QLearner extends Learner {
     
     private void step(int episodeNumber){
         HashMap m = getAvailableActions();
+        //TEST
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
 
         String nextState = policy.next(m, episodeNumber);
 
+        //TEST
         //System.out.println("state selected by qlearner: " + nextState);
         String r = (String) m.get(nextState);
         double reward = Double.parseDouble(r);
 
         double maxQ = getMaxQ(nextState);
+        //TEST
         //System.out.println("Max Q value found: "+maxQ);
 
         int nextStateIndex = qModel.findColumn(nextState);
         double currentQ = getCurrentQ(currentState, nextStateIndex);
+        //TEST
         //System.out.println("Current Q value found: "+currentQ);
 
         double td = (reward+(gamma*maxQ))-currentQ;
         double newQ = currentQ + (alpha*(td));
 
+        //TEST
         //System.out.println("New Q value found for "+currentState +": "+newQ);
 
         setQ(currentState,nextStateIndex,newQ);
@@ -145,11 +150,13 @@ public class QLearner extends Learner {
         
         for(int i=0;i<rMatrix.getRowCount();i++){
             if(currentState.equals(rMatrix.getValueAt(i,0))){
-                System.out.println("currentStateFound");
+                //TEST
+                //System.out.println("currentStateFound");
                 for(int c=1;c<=rMatrix.getRowCount();c++){
                     if(!rMatrix.getValueAt(i,c).equals("")){
                         available.put(rMatrix.getColumnName(c) , rMatrix.getValueAt(i,c));
-                        System.out.println(rMatrix.getColumnName(c));
+                        //TEST
+                        //System.out.println(rMatrix.getColumnName(c));
                     }
                 }
                 return available;

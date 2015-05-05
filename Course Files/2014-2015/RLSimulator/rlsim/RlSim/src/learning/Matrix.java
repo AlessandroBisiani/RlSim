@@ -115,6 +115,15 @@ public class Matrix extends AbstractTableModel{
         }
         return -1;
     }
+    public int findRow(String rowName){
+        for(int i=0;i<getRowCount();i++){
+            String name = (String)getValueAt(i,0);
+            if(rowName.equals(name)){
+                return i;
+            }
+        }
+        return -1;
+    }
     /**
      * Get the value at coordinates in the matrix as a double.
      * @param rowIndex      Index of the matrix row.

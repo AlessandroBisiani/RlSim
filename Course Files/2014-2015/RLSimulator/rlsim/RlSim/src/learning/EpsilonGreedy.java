@@ -17,7 +17,6 @@ import java.util.HashMap;
 public class EpsilonGreedy implements Policy, Serializable{
 
     private double epsilon;
-    private Learner learner;
     
     public EpsilonGreedy(double epsilon){
         this.epsilon = epsilon;
@@ -63,7 +62,6 @@ public class EpsilonGreedy implements Policy, Serializable{
                     
                     if(tempR > maxReward){
                         maxReward = tempR;
-                        //nextState = set[i];
                         equivalentKeys = new ArrayList<>();
                         equivalentKeys.add(set[i]);
                     } else if(tempR==maxReward){
@@ -77,7 +75,8 @@ public class EpsilonGreedy implements Policy, Serializable{
                 } else if(equivalentKeys.size()==1){
                     nextState = equivalentKeys.get(0);
                 }
-                System.out.println("Greedy action selected" + maxReward);
+                //TEST
+                //System.out.println("Greedy action selected" + maxReward);
                 return nextState;
             //Else pick randomly
             } else{
@@ -89,7 +88,7 @@ public class EpsilonGreedy implements Policy, Serializable{
         } else if(stateRewardMap.size()==1){
                 nextState = set[0];
                 return nextState;
-        //returns null throing NullPointerException down the line.
+        //returns null throwing NullPointerException down the line.
         } else{
             return nextState;
         }

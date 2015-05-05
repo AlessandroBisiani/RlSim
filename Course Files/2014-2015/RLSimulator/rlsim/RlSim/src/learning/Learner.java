@@ -37,6 +37,7 @@ public abstract class Learner implements Runnable{
             mainFrame.data.addEpisode(getAllEpisodeData());
             mainFrame.data.addQValues(getQValues());
             mainFrame.data.addReward(calculateCumulativeQ());
+            System.out.println(mainFrame.data.getStepsXEpisode().size()+1);
             Thread.sleep(1);
         }
         mainFrame.data.printSteps();
@@ -45,8 +46,9 @@ public abstract class Learner implements Runnable{
         
         double t = 1 - (Math.max((double)mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0));
         
-        System.out.println(t +" FINAL TEMPERATURE");//1-(Math.max(mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0)) + " THE TEMPERATURE");
-        System.out.println(mainFrame.data.getTemperatureRate());
+        //TEST
+        //System.out.println(t +" FINAL TEMPERATURE");//1-(Math.max(mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0)) + " THE TEMPERATURE");
+        //System.out.println(mainFrame.data.getTemperatureRate());
         System.out.println(numOfEpisodes);
         mainFrame.setRunningJLabel("Completed");
     };

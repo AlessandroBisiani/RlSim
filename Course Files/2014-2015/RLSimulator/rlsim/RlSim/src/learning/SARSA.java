@@ -50,20 +50,59 @@ public class SARSA extends Learner{
         
         while(!currentState.equals(goalState)){
             nextState = step(nextState, episodeNumber);
-            stepsPerEpisode++;// = stepsPerEpisode+1;
+            stepsPerEpisode++;
         }
         if(currentState.equals(goalState)){
             step(nextState,episodeNumber);
-            stepsPerEpisode++;// = stepsPerEpisode+1;
+            stepsPerEpisode++;
         }
         qMatrix.repaint();
         System.out.println(stepsPerEpisode);
     }
-    public String step(String s, int episodeNumber){
-        //HashMap m = getAvailableActions();
+    public String step(String nextState, int episodeNumber){
+        //HashMap available = getAvailableActions();
+        //TEST
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
+        String s1 = currentState;
+        String a1 = nextState;
+        String s2;
+        String a2;
+        double reward = 0;
+        int s1RowIndex;
+        int a1ColumnIndex;
+        int s2RowIndex;
+        int a2ColumnIndex;
         
-        String stateS = null;
+        //get the reward for the transition from s1 to s2
+        for(int row=0;row<rMatrix.getRowCount();row++){
+            if(rMatrix.getValueAt(row,0).equals(currentState)){
+                int column = rModel.findColumn(nextState);
+                String r = (String) rMatrix.getValueAt(row,column);
+                reward = Double.parseDouble(r);
+            }
+        }
+        //"make the transition"
+        currentState = a1;
+        s2 = a1;
+        HashMap available = getAvailableActions();
+        nextState = policy.next(available,episodeNumber);
+        a2 = nextState;
+        
+        s2RowIndex = qModel.findRow(s2);
+        a2ColumnIndex = qModel.findColumn(a2);
+        String s2a2QString = (String)qMatrix.getValueAt(s2RowIndex, a2ColumnIndex);
+        double s2a2QValue = Double.parseDouble(s2a2QString);
+        
+        s1RowIndex = qModel.findRow(s1);
+        a1ColumnIndex = qModel.findColumn(a1);
+        String s1a1QString = (String) qMatrix.getValueAt(s1RowIndex, a1ColumnIndex);
+        double s1a1QValue = Double.parseDouble(s1a1QString);
+        
+        double td = (reward+(gamma*s2a2QValue))-s1a1QValue;
+        double newQ =  s1a1QValue + (alpha*(td));
+        setQ(s1,a1ColumnIndex,newQ);
+        
+        /*String stateS = null;
     //Pick next state
         String nextState = s;
     //Move there and save previous state
@@ -92,7 +131,7 @@ public class SARSA extends Learner{
         //System.out.println("New Q value found for "+currentState +": "+newQ);
 
         setQ(stateS,currentStateIndex,newQ);
-        
+        */
         return nextState;
 
         //currentState = nextState;
@@ -128,11 +167,13 @@ public class SARSA extends Learner{
         
         for(int i=0;i<rMatrix.getRowCount();i++){
             if(currentState.equals(rMatrix.getValueAt(i,0))){
-                System.out.println("currentStateFound");
+                //TEST
+                //System.out.println("currentStateFound");
                 for(int c=1;c<=rMatrix.getRowCount();c++){
                     if(!rMatrix.getValueAt(i,c).equals("")){
                         available.put(rMatrix.getColumnName(c) , rMatrix.getValueAt(i,c));
-                        System.out.println(rMatrix.getColumnName(c));
+                        //TEST
+                        //System.out.println(rMatrix.getColumnName(c));
                     }
                 }
                 return available;
@@ -159,8 +200,8 @@ public class SARSA extends Learner{
         for(int i=0;i<qMatrix.getRowCount();i++){
             if(state.equals(qMatrix.getValueAt(i,0))){
                 qMatrix.setValueAt(q, i, c);
-                System.out.println(qMatrix.getValueAt(i, i+1));
-                
+                //TEST
+                //System.out.println(qMatrix.getValueAt(i, i+1));
                 //qMatrix.repaint();
                 return;
             }
