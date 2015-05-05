@@ -6,7 +6,6 @@
 package learning;
 
 import gui.MainFrame;
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,11 +41,10 @@ public abstract class Learner implements Runnable{
         }
         mainFrame.data.printSteps();
         mainFrame.data.printCumulativeRewards();
-        System.out.println(mainFrame.data.getAllData().size());
-        
-        double t = 1 - (Math.max((double)mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0));
         
         //TEST
+        //System.out.println(mainFrame.data.getAllData().size());
+        //double t = 1 - (Math.max((double)mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0));
         //System.out.println(t +" FINAL TEMPERATURE");//1-(Math.max(mainFrame.data.getTemperatureRate()*numOfEpisodes,0.0)) + " THE TEMPERATURE");
         //System.out.println(mainFrame.data.getTemperatureRate());
         System.out.println(numOfEpisodes);

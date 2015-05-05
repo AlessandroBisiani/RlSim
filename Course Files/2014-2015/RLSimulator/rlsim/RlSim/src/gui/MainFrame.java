@@ -54,12 +54,33 @@ public class MainFrame extends javax.swing.JFrame implements Runnable{
     public MainFrame() {
         initComponents();
         learner = null;
-        data = new ExperimentData(stateSpace.length, 0);
-        //learningThread = new Thread();
-        
-        tempLabelFrame  = new JFrame();
+        data = new ExperimentData();
+        /*tempLabelFrame  = new JFrame();
         tempSavingFrame = new JFrame();
-        tempExportFrame = new JFrame();
+        tempExportFrame = new JFrame();*/
+        
+        //Resize events trigger an evaluation of whether to use AUTO_RESIZE or not. 
+        //The result is the table fills the JScrollPane until it won't fit, then assumes the preferred size and creates a scroll bar.
+        rMatrix.getParent().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e) {
+                if (rMatrix.getPreferredSize().width < rMatrix.getParent().getWidth()) {
+                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+            }
+        });
+        qMatrix.getParent().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e) {
+                if (qMatrix.getPreferredSize().width < qMatrix.getParent().getWidth()) {
+                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+                } else {
+                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                }
+            }
+        });
     }
 
     /**
@@ -501,7 +522,7 @@ new Object[][]     {{0,0,0,0},
         
         learningThread.interrupt();
         setRunningJLabel("");
-        Matrix m = (Matrix)rMatrix.getModel();
+        //Matrix m = (Matrix)rMatrix.getModel();
         //System.out.println(m.getStatesLength()+" va la");
         //System.out.println(new QLearner(rMatrix,qMatrix,1,this).getClass().getName());
         /*
@@ -580,9 +601,9 @@ new Object[][]     {{0,0,0,0},
     
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         //create a fresh learner with ref to the JTables and the experiment size
-        //Thread check taken from stack overflow user Joachim Sauer
+        //TEST
         //System.out.println(learningThread.getState().toString());
-        System.out.println("Find This Mark");
+        //System.out.println("Find This Mark");
         if(/*(learningThread.getState()!=Thread.State.TERMINATED && learningThread.getState()!=Thread.State.NEW) ||*/ Integer.parseInt(episodesJTextField.getText()) > 5000){
             return;
         }
@@ -676,13 +697,9 @@ new Object[][]     {{0,0,0,0},
      * @param uri    The URI of the file being saved to.
      */
     protected void saveExperiment(String uri){
-        //FileOutputStream out = null;
-        //FileInputStream in = null;
         try {
             FileOutputStream out = new FileOutputStream(uri);
             try (ObjectOutputStream objectOut = new ObjectOutputStream(out)) {
-                //data.setPolicy(null);
-                objectOut.writeObject(data);
                 Matrix rModel = (Matrix) rMatrix.getModel();
                 Matrix qModel = (Matrix) qMatrix.getModel();
                 //states includes the empty first column. Save the array without that column.
@@ -693,12 +710,12 @@ new Object[][]     {{0,0,0,0},
                 }
                 String[][] rewardData = rModel.getData();
                 String[][] qData = qModel.getData();
+                objectOut.writeObject(data);
                 objectOut.writeObject(states);
                 objectOut.writeObject(rewardData);
                 objectOut.writeObject(qData);
                 objectOut.flush();
                 objectOut.close();
-                
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -902,9 +919,6 @@ new Object[][]     {{0,0,0,0},
         String[][] rewardData = null;
         String[][] qData = null;
         try {
-            //in = new FileInputStream(uri);
-            //ObjectInputStream objectIn = new ObjectInputStream(in);
-            //BufferedInputStream buffIn = new BufferedInputStream(in);
             in = new FileInputStream(uri);
             ObjectInputStream objectIn = new ObjectInputStream(in);
             Object expData = objectIn.readObject();
@@ -939,6 +953,8 @@ new Object[][]     {{0,0,0,0},
                 qData = (String[][]) q;
             } else{System.out.println("no Q data");}
             
+            objectIn.close();
+            
             resetMatrices(states);
             Matrix rModel = (Matrix) rMatrix.getModel();
             Matrix qModel = (Matrix) qMatrix.getModel();
@@ -966,6 +982,7 @@ new Object[][]     {{0,0,0,0},
             temperatureRateJTextField.setText(String.valueOf(data.getTemperatureRate()));
             //TEST
             //System.out.println(String.valueOf(data.getTemperatureRate()) +" temp");
+            
                 
             } catch (FileNotFoundException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1073,30 +1090,7 @@ new Object[][]     {{0,0,0,0},
         rMatrix.setPreferredScrollableViewportSize(new Dimension(400,400));
         qMatrix.setPreferredScrollableViewportSize(new Dimension(400,400));
         
-        //Resize events trigger an evaluation of whether to use AUTO_RESIZE or not. 
-        //The result is he table fills the JScrollPane until it won't fit, then assumes the preferred size and creates a scroll bar.
-        rMatrix.getParent().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(final ComponentEvent e) {
-                if (rMatrix.getPreferredSize().width < rMatrix.getParent().getWidth()) {
-                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-                } else {
-                    rMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-                }
-            }
-        });
-        qMatrix.getParent().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(final ComponentEvent e) {
-                if (qMatrix.getPreferredSize().width < qMatrix.getParent().getWidth()) {
-                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-                } else {
-                    qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-                }
-            }
-        });
-        
-        //When first creating the matrices also evaluate whether either should use AUTO_RESIZE.
+        //When first creating the matrices evaluate whether either should use AUTO_RESIZE.
         if (qMatrix.getPreferredSize().width < qMatrix.getParent().getWidth()) {
                     qMatrix.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                 } else {
@@ -1116,7 +1110,7 @@ new Object[][]     {{0,0,0,0},
         }
         
         stateSpace = states;
-        //TEST
+        //TEST - if b is true the matrices are the correct size
         //System.out.println("Matrices reset");
         if((c/l)==r){
             b=true;
@@ -1373,22 +1367,13 @@ new Object[][]     {{0,0,0,0},
         }
         //</editor-fold>
 
-        
         Thread RLSim = new Thread(new MainFrame());
         RLSim.start();
-        
-        /* Create and display the form 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
-        });*/
     }
     
     @Override
     public void run() {
-        new MainFrame().setVisible(true);
+        this.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

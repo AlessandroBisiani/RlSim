@@ -61,17 +61,6 @@ public class Agent {
                 left();
                 break;
         } 
-        /**
-        if(actionSelected.equals("up")){
-            up();
-        } else if(actionSelected.equals("down")){
-            down();
-        } else if(actionSelected.equals("right")){
-            right();
-        }else if(actionSelected.equals("left")){
-            left();
-        }
-        */
     }
     
     //E-Greedy action selection
@@ -82,7 +71,7 @@ public class Agent {
         if(Math.random()>epsilon){
             //find and select greedy action
             double reward = 0;
-            //WHY DID I TELL IT TO DETERMINE THE REWARD FOR THE NEW ACTION HERE?--------------------------------------!
+            
             if(actions.get("up").equals(1)){
                 if(reward < qMatrix.getValueAt(location[0],location[1]-1)){
                     reward = qMatrix.getValueAt(location[0],location[1]-1);

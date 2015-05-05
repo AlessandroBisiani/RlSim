@@ -17,13 +17,11 @@ public class ExperimentData implements Serializable{
     
     //size is the number of episodes, it relates the number of the episode with the number of steps it took.
     private ArrayList<Integer> stepsXEpisode;
-    
     //size is number of ep. Relates the episode w the normalized cumulative reward.
     private ArrayList<Double> ratioOfCumulativeRewards;
-    
-    //all q matrix data for every episode. Should probably not include the zeros.
+    //all q matrix data for every episode.
     private ArrayList<double[][]> allData;
-    
+    //all q values updated during that experiment.
     private ArrayList<double[]> qValuesPerEpisode;
     
     private String policy;
@@ -35,7 +33,7 @@ public class ExperimentData implements Serializable{
     private double temperatureRate;
     private String algorithm;
     
-    public ExperimentData(int numStates, int numEpisodes){
+    public ExperimentData(){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
         allData = new ArrayList<>();
@@ -76,10 +74,10 @@ public class ExperimentData implements Serializable{
      * Resets the accumulated experiment data.
      */
     public void resetData(){
-        ratioOfCumulativeRewards.removeAll(ratioOfCumulativeRewards);
-        stepsXEpisode.removeAll(stepsXEpisode);
-        allData = new ArrayList<>();
-        qValuesPerEpisode = new ArrayList<>();
+        ratioOfCumulativeRewards.clear();
+        stepsXEpisode.clear();
+        allData.clear();
+        qValuesPerEpisode.clear();
     }
     
     /**

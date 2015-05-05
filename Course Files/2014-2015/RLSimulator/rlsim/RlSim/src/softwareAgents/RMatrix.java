@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 public class RMatrix {
     
     
-    private final double[][] matrix = {{1,2,3,4,5,6,7,8,9,10}, 
-                                    {11,12,13,0,0,0,0,0,0,0}, 
-                                    {14,15,16,0,0,0,0,0,0,0},
+    private final double[][] matrix = {{0,0,0,0,0,0,0,0,0,0}, 
+                                    {0,0,0,0,0,0,0,0,0,0}, 
+                                    {0,0,0,0,0,0,0,0,0,0},
                                     {0,0,0,0,0,0,0,0,0,0},
                                     {0,0,0,0,0,0,0,0,0,0},
                                     {0,0,0,0,0,0,0,0,0,0},
@@ -27,14 +27,7 @@ public class RMatrix {
                                     {0,0,0,0,0,0,0,0,0,0}};
     
     public RMatrix(){
-        System.out.println(matrix[0][2] + "this test");
-        System.out.println(matrix[1][1]);
-        System.out.println(matrix[2][2]);
-        System.out.println(getValueAt(0,0));
-        System.out.println(getValueAt(1,1));
-        System.out.println(getValueAt(2,2));
-        System.out.println(getValueAt(2,0) + " - Rmatrix");
-        System.out.println(matrix);
+        
     }
     
     public double getValueAt(int x, int y){

@@ -94,10 +94,8 @@ public class StateSpacePanel extends javax.swing.JPanel{
         String states = stateSpace.getText();
         String word = "";
         int lengthOfStates = states.length();
-        //CharSequence sepChar = System.getProperty("line.separator");
         
         for(int i=0; i<lengthOfStates; i++){
-            
             if(i==lengthOfStates-1 && states.charAt(i)==' '){
                 listOfStates.add(word);
             } else if(i==lengthOfStates-1){
@@ -105,21 +103,21 @@ public class StateSpacePanel extends javax.swing.JPanel{
                 listOfStates.add(word);
             } else if(states.charAt(i) ==' '){
                 listOfStates.add(word);
-                System.out.println(word);                //A test to check whether the loop cycles through each word
+                //TEST - check whether the loop cycles through each word
+                //System.out.println(word);           
                 word = "";
             } else {
                 word = word + states.charAt(i);
             }
         }
         
-        //Tests of the state of the fields after harvesting the information from JTextArea
-        System.out.println(states);
-        System.out.println(states.length());
-        System.out.println(listOfStates);
+        //TEST - Tests of the state of the fields after harvesting the information from JTextArea
+        //System.out.println(states);
+        //System.out.println(states.length());
+        //System.out.println(listOfStates);
         mainFrame.data.resetData();
         //Create the matrices using static method and ArrayList<String> containing the state names. This method also calls dispose() on the instance of StateSpacePanel.
         mainFrame.createMatrices(listOfStates);
-             
     }//GEN-LAST:event_createJButtonActionPerformed
 
     
