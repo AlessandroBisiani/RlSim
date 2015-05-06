@@ -17,11 +17,12 @@ public class Softmax implements Policy{
 
     private double temperature;
     private double temperatureDecreaseRate;
+    private double initialTemp;
     
     
-    public Softmax(double temperatureRate){
+    public Softmax(double temperatureRate, double initialTemp){
+        this.initialTemp = initialTemp;
         temperature = 0;
-       
         this.temperatureDecreaseRate = (temperatureRate);
     }
     
@@ -47,28 +48,33 @@ public class Softmax implements Policy{
         double[] prob = new double[keySet.length];
         double denominator = 0.0;
         
-        //for every element in the keySet, in the order of keySet, take the corresponding q value from the stateRewardMap, put it through
-        //the exponent function, divide that by the temperature, and put it in the prob array which will contain the probabilities for each action. 
-        //At every step the denominator is itself added to the next element of prob[].
+        //for every element in the keySet, in the order of keySet, take the corresponding q value from the stateRewardMap, 
+        //divide it by the temperature, put it through the exponent function, and put it in the prob array which 
+        //will contain the probabilities for each action. At every step the denominator is itself added to the next element of prob[].
         //The probabilities array is then iterated over once the denominator is found to divide each numerator (in prob[]) by the denominator.
         //prob[] now contains the probabilities for each action in the order of keySet[].
         for (int i=0;i<keySet.length;i++) {
             String v = (String) stateRewardMap.get(keySet[i]);
-            double value = Double.parseDouble(v);
+            double qValue = Double.parseDouble(v);
             
             //Vary temperature
-            temperature = 1-((double)temperatureDecreaseRate*episodeNumber);
+            temperature = initialTemp-((double)temperatureDecreaseRate*episodeNumber);
+            if(temperature==0.0)temperature = 0.01;
+            //TEST
+            System.out.println(temperature);
             
-            if(temperature==0.0)temperature = 0.000000001;
-            prob[i] = (Math.exp(value))/temperature;
+            prob[i] = (Math.exp(qValue/temperature));
             denominator += prob[i];
         } 
+        
+        //TEST
         //System.out.println(temperature + " Find Temp");
         //System.out.println(denominator + " DENOMINATOR");
         
         for(int i=0;i<keySet.length;i++) {
             prob[i] /= denominator;
-            //System.out.println(prob[i] + " prob " + i);
+            //TEST
+            System.out.println(prob[i] + " prob " + i);
         }
         //pick an action based on the prob just calculated.
         double rand = Math.random();
@@ -84,8 +90,5 @@ public class Softmax implements Policy{
             lowerBound += prob[i];
         }
         return nextState;
-    }
-    public void setTemperature(double temperature){
-        this.temperature = temperature;
     }
 }

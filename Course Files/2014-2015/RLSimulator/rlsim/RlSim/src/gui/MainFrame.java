@@ -124,6 +124,8 @@ public class MainFrame extends javax.swing.JFrame implements Runnable{
         initialStateJTextField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         goalStateJTextField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        initialTempJTextField = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -156,12 +158,12 @@ public class MainFrame extends javax.swing.JFrame implements Runnable{
     gridBagConstraints.gridy = 4;
     gridBagConstraints.gridwidth = 5;
     gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-    gridBagConstraints.ipadx = 524;
-    gridBagConstraints.ipady = 451;
+    gridBagConstraints.ipadx = 692;
+    gridBagConstraints.ipady = 455;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
-    gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 10);
     getContentPane().add(qMatrixScrollPane, gridBagConstraints);
 
     rMatrixScrollPane.setBorder(null);
@@ -194,8 +196,8 @@ new Object[][]     {{0,0,0,0},
     gridBagConstraints.gridy = 4;
     gridBagConstraints.gridwidth = 4;
     gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-    gridBagConstraints.ipadx = 530;
-    gridBagConstraints.ipady = 451;
+    gridBagConstraints.ipadx = 729;
+    gridBagConstraints.ipady = 455;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
@@ -215,7 +217,7 @@ new Object[][]     {{0,0,0,0},
     gridBagConstraints.gridx = 4;
     gridBagConstraints.gridy = 3;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(18, 12, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 0);
     getContentPane().add(jLabel2, gridBagConstraints);
 
     interruptButton.setText("Interrupt");
@@ -260,7 +262,7 @@ new Object[][]     {{0,0,0,0},
     gridBagConstraints.gridheight = 2;
     gridBagConstraints.ipadx = 22;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(6, 18, 0, 0);
     getContentPane().add(runButton, gridBagConstraints);
 
     resetExperimentButton.setText("Reset Experiment");
@@ -350,118 +352,122 @@ new Object[][]     {{0,0,0,0},
 
     goalStateJTextField.setText("state5");
 
+    jLabel9.setText("Initial Temperature");
+
+    initialTempJTextField.setText("10");
+
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel2Layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(4, 4, 4)
-                    .addComponent(jLabel4)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel4))
                     .addGap(6, 6, 6)
-                    .addComponent(episodesJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(epsilonJTextField)
+                        .addComponent(episodesJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(23, 23, 23)
-                    .addComponent(jLabel7)
-                    .addGap(6, 6, 6)
-                    .addComponent(policyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addComponent(jLabel10)
-                    .addGap(6, 6, 6)
-                    .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(18, 18, 18)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(56, 56, 56)
-                    .addComponent(jLabel6)
-                    .addGap(6, 6, 6)
-                    .addComponent(gammaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(69, 69, 69)
-                    .addComponent(jLabel5)
-                    .addGap(6, 6, 6)
-                    .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addComponent(jLabel3)
-                    .addGap(6, 6, 6)
-                    .addComponent(temperatureRateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(18, 18, 18)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addComponent(jLabel13)
-                    .addGap(6, 6, 6)
-                    .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(8, 8, 8)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addGap(6, 6, 6))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel8)
-                            .addGap(6, 6, 6)
-                            .addComponent(algorithmComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel12)
-                            .addGap(6, 6, 6)
-                            .addComponent(goalStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-            .addContainerGap(456, Short.MAX_VALUE))
+                            .addGap(3, 3, 3)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(policyComboBox, 0, 113, Short.MAX_VALUE)
+                        .addComponent(algorithmComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(58, 58, 58)
+                    .addComponent(jLabel9)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(initialTempJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel5))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(gammaJTextField)
+                            .addComponent(temperatureRateJTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel12)
+                .addComponent(jLabel13))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(goalStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(799, Short.MAX_VALUE))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel2Layout.createSequentialGroup()
-            .addContainerGap()
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(6, 6, 6)
-                    .addComponent(jLabel4))
-                .addComponent(episodesJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(6, 6, 6)
-                    .addComponent(jLabel6))
-                .addComponent(gammaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(4, 4, 4)
-                    .addComponent(jLabel8))
-                .addComponent(algorithmComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(5, 5, 5)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(5, 5, 5)
-                    .addComponent(jLabel7))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(1, 1, 1)
-                    .addComponent(policyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(8, 8, 8)
-                    .addComponent(jLabel5))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(2, 2, 2)
-                    .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(6, 6, 6)
-                    .addComponent(jLabel13))
-                .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(6, 6, 6)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(temperatureRateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(goalStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(6, 6, 6)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel10)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel12))))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(44, 44, 44)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addComponent(jLabel7))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(policyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(temperatureRateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel12)
+                                    .addComponent(goalStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(initialTempJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel13)
+                                .addComponent(initialStateJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(epsilonJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(jLabel10))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gammaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))))
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(algorithmComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(episodesJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(alphaJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)))
+            .addContainerGap(9, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.gridwidth = 10;
-    gridBagConstraints.ipadx = 450;
+    gridBagConstraints.gridwidth = 9;
+    gridBagConstraints.ipadx = 793;
+    gridBagConstraints.ipady = 3;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-    gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
+    gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 10);
     getContentPane().add(jPanel2, gridBagConstraints);
 
     jMenu1.setText("File");
@@ -630,12 +636,13 @@ new Object[][]     {{0,0,0,0},
                                 data.setPolicy(getPolicy());
                                 data.setEpsilon(Double.parseDouble(epsilonJTextField.getText()));
                                 break;
-            case "Softmax":     Policy sM = new Softmax(Double.parseDouble(temperatureRateJTextField.getText()));
+            case "Softmax":     Policy sM = new Softmax(Double.parseDouble(temperatureRateJTextField.getText()), Double.parseDouble(initialTempJTextField.getText()));
                                 //TEST
                                 //System.out.println("Sbarz " + Double.parseDouble(temperatureRateJTextField.getText()));
                                 //System.out.println("Sbarz " + data.getStepsXEpisode());
                                 //System.out.println("Sbarz " + data.getStepsXEpisode().size()+1);
                                 learner.setPolicy(sM);
+                                data.setInitialTemperature(Double.parseDouble(initialTempJTextField.getText()));
                                 data.setTemperatureRate(Double.parseDouble(temperatureRateJTextField.getText()));
                                 data.setPolicy(getPolicy());
                                 break;
@@ -656,13 +663,14 @@ new Object[][]     {{0,0,0,0},
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void resetExperimentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetExperimentButtonActionPerformed
-        episodesJTextField.setText("10");
+        /*episodesJTextField.setText("10");
         gammaJTextField.setText("0.8");
         alphaJTextField.setText("0.5");
         epsilonJTextField.setText("0.35");
+        temperatureRateJTextField.setText("0.005");*/
         goalStateJTextField.setText("25");
         initialStateJTextField.setText("1");
-        temperatureRateJTextField.setText("0.005");
+        
         setSAExperimentMatrices();
         resetQMatrix();
         data.resetData();
@@ -760,36 +768,46 @@ new Object[][]     {{0,0,0,0},
      */
     protected void exportData(String uri){
         ArrayList<double[]> expData = data.getQValuesPerEpisode();
+        ArrayList<Double>   ratioOfQ = data.getRatioOfCumulativeRewards();
+        ArrayList<Integer>  stepsXEpisode = data.getStepsXEpisode();
         FileWriter writer = null;
         try {
             writer = new FileWriter(uri+".csv");
             try (BufferedWriter br = new BufferedWriter(writer)) {
                 
                 StringBuilder sb = new StringBuilder();
-                int matrixSize = expData.get(0).length;
+                //int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Algorithm : ");      sb.append(getAlgorithm()); sb.append(","+nl);
-                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","+nl);
+                sb.append("Algorithm : ");      sb.append(getAlgorithm()); sb.append(","); sb.append(nl);
+                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","); sb.append(nl);
                 switch(getPolicy()){
-                    case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
+                    case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); 
+                                        sb.append(","); sb.append(nl);
                                         break;
-                    case "Softmax":     sb.append("Temperature Decrease Rate: "); sb.append(data.getTemperatureRate()); sb.append(","+nl);
+                    case "Softmax":     sb.append("Initial Temperature: "); sb.append(data.getInitialTemperature());
+                                        sb.append(","); sb.append(nl);
+                                        sb.append("Temperature Decrease Rate: "); sb.append(data.getTemperatureRate()); 
+                                        sb.append(","); sb.append(nl);
                                         break;
                 }
-                sb.append("Alpha : ");          sb.append(data.getAlpha());              sb.append(","+nl);
-                sb.append("Initial State : ");  sb.append(data.getInitialState());       sb.append(","+nl);
-                sb.append("Goal State : ");     sb.append(data.getGoalState());          sb.append(","+nl);
+                sb.append("Alpha : ");          sb.append(data.getAlpha());              sb.append(","); sb.append(nl);
+                sb.append("Initial State : ");  sb.append(data.getInitialState());       sb.append(","); sb.append(nl);
+                sb.append("Goal State : ");     sb.append(data.getGoalState());          sb.append(","); sb.append(nl);
                 
                 sb.append("States:,");
                 for(String state : stateSpace){
                     sb.append(state); sb.append(",");
                 }
-                sb.append(nl+nl);
+                sb.append(nl); sb.append(nl);
+                //sb.append(nl+nl);
                 
-                sb.append("Episode #," + nl);
+                sb.append("Episode #,");    sb.append("Steps Per Episode,");  sb.append("Cumulative Weighted Q");
+                sb.append(nl);
                 for(int i=0;i<expData.size();i++){
-                    sb.append((i+1)+",");
+                    sb.append((i+1));                   sb.append(",");  
+                    sb.append(stepsXEpisode.get(i));    sb.append(",");
+                    sb.append(ratioOfQ.get(i));         sb.append(",");
                     double[] ep = expData.get(i);
                     for(int j=0;j<ep.length;j++){
                         sb.append(ep[j]);
@@ -839,6 +857,8 @@ new Object[][]     {{0,0,0,0},
      */
     protected void exportDataAsMatrices(String uri){
         ArrayList<double[][]> expData = data.getAllData();
+        ArrayList<Double>   ratioOfQ = data.getRatioOfCumulativeRewards();
+        ArrayList<Integer>  stepsXEpisode = data.getStepsXEpisode();
         FileWriter writer = null;
         try {
             writer = new FileWriter(uri+".csv");
@@ -848,17 +868,22 @@ new Object[][]     {{0,0,0,0},
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Algorithm : ");      sb.append(data.getAlgorithm()); sb.append(","+nl);
-                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","+nl);
+                sb.append("Algorithm : ");      sb.append(data.getAlgorithm()); sb.append(",");      sb.append(nl);
+                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","); sb.append(nl);
                 switch(getPolicy()){
-                    case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","+nl);
+                    case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","); sb.append(nl);
                                         break;
-                    case "Softmax":     sb.append("Temperature Decrease Rate: "); sb.append(data.getTemperatureRate()); sb.append(","+nl);
+                    case "Softmax":     sb.append("Initial Temperature: ");     sb.append(data.getInitialTemperature());
+                                        sb.append(","); sb.append(nl);
+                                        sb.append("Temperature Decrease Rate: "); sb.append(data.getTemperatureRate()); sb.append(",");
+                                        sb.append(nl);
                                         break;
                 }
-                sb.append("Alpha : ");          sb.append(data.getAlpha());              sb.append(","+nl);
-                sb.append("Initial State : ");  sb.append(data.getInitialState());       sb.append(","+nl);
-                sb.append("Goal State : ");     sb.append(data.getGoalState());          sb.append(","+nl); sb.append(nl);
+                sb.append("Alpha : ");          sb.append(data.getAlpha());              sb.append(","); sb.append(nl);
+                sb.append("Initial State : ");  sb.append(data.getInitialState());       sb.append(","); sb.append(nl);
+                sb.append("Goal State : ");     sb.append(data.getGoalState());          sb.append(","); sb.append(nl);
+                sb.append(nl);
+                
                 
                 for(int i=0;i<expData.size();i++){
                     sb.append("Episode # "); sb.append(i+1); sb.append(",");
@@ -874,6 +899,15 @@ new Object[][]     {{0,0,0,0},
                         }
                         sb.append(nl);
                     }
+                    sb.append(nl); sb.append(nl); sb.append(nl);
+                }
+                
+                sb.append("Episode #,"); sb.append("Steps Per Episode,");  sb.append("Cumulative Weighted Q,");
+                sb.append(nl);
+                for(int i=0;i<ratioOfQ.size();i++){
+                    sb.append(i);                       sb.append(",");
+                    sb.append(stepsXEpisode.get(i));    sb.append(",");
+                    sb.append(ratioOfQ.get(i));         sb.append(",");
                     sb.append(nl);
                 }
                 br.write(sb.toString());
@@ -979,6 +1013,9 @@ new Object[][]     {{0,0,0,0},
             initialStateJTextField.setText(data.getInitialState());
             //TEST
             //System.out.println(data.getInitialState()+" initial S");
+            initialTempJTextField.setText(String.valueOf(data.getInitialTemperature()));
+            //TEST
+            //System.out.println(data.getInitialTemperature()+" initial temp");
             temperatureRateJTextField.setText(String.valueOf(data.getTemperatureRate()));
             //TEST
             //System.out.println(String.valueOf(data.getTemperatureRate()) +" temp");
@@ -1103,10 +1140,10 @@ new Object[][]     {{0,0,0,0},
                 }
         
         for(int y=0 ; y<=l ; y++){
-                rMatrix.getColumnModel().getColumn(y).setMinWidth(40);
-                rMatrix.getColumnModel().getColumn(y).setPreferredWidth(40);
-                qMatrix.getColumnModel().getColumn(y).setMinWidth(40);
-                qMatrix.getColumnModel().getColumn(y).setPreferredWidth(40);
+                rMatrix.getColumnModel().getColumn(y).setMinWidth(45);
+                rMatrix.getColumnModel().getColumn(y).setPreferredWidth(45);
+                qMatrix.getColumnModel().getColumn(y).setMinWidth(45);
+                qMatrix.getColumnModel().getColumn(y).setPreferredWidth(45);
         }
         
         stateSpace = states;
@@ -1386,6 +1423,7 @@ new Object[][]     {{0,0,0,0},
     private javax.swing.JTextField gammaJTextField;
     private javax.swing.JTextField goalStateJTextField;
     private javax.swing.JTextField initialStateJTextField;
+    private javax.swing.JTextField initialTempJTextField;
     private javax.swing.JButton interruptButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1398,6 +1436,7 @@ new Object[][]     {{0,0,0,0},
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

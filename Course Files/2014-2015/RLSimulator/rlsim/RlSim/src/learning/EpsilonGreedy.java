@@ -23,7 +23,7 @@ public class EpsilonGreedy implements Policy, Serializable{
     }
     
     /**
-     * Sets the Epsilon value 
+     * Sets the value of epsilon.
      * @param epsilon   A constant in the range 0-1. A measure of randomness of choice where 1 = always random.
      */
     public void setEpsilon(double epsilon){

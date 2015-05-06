@@ -30,6 +30,7 @@ public class ExperimentData implements Serializable{
     private double alpha;
     private String goalState;
     private String initialState;
+    private double initialTemp;
     private double temperatureRate;
     private String algorithm;
     
@@ -176,6 +177,13 @@ public class ExperimentData implements Serializable{
         return initialState;
     }
     /**
+     * 
+     * @return  The initial temperature.
+     */
+    public double getInitialTemperature(){
+        return initialTemp;
+    }
+    /**
      * Get the temperature decrease per episode value associated with the experiment data.
      * @return  The latest temperature decrease per episode value associated with the experiment data.
      */
@@ -231,6 +239,9 @@ public class ExperimentData implements Serializable{
      */
     public void setInitialState(String iState){
         initialState = iState;
+    }
+    public void setInitialTemperature(double initialTemperature){
+        initialTemp = initialTemperature;
     }
     /**
      * Set the temperature decrease per episode value associated with the experiment data.

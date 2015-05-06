@@ -53,6 +53,7 @@ public abstract class Learner implements Runnable{
     
     /**
      * Performs a single episode.
+     * All algorithm Q updates and episode termination code should be included here.
      * @param episodeNumber     The number of episodes completed in the experiment +1.
      */
     public abstract void episode(int episodeNumber);

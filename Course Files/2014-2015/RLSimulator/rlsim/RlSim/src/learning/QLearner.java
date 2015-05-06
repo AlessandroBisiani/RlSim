@@ -118,7 +118,8 @@ public class QLearner extends Learner {
         
         qS = new double[qValues.size()];
         
-        //Find max value
+        //Find max value and populate qS with Strings parsed to doubles. 
+        //maxQ is not the actual max at first; it is only initialized with the first element of qValues.
         double maxQ = Double.parseDouble(qValues.get(0));
         qS[0] = maxQ;
         for(int x=1;x<qValues.size();x++){
@@ -132,8 +133,8 @@ public class QLearner extends Learner {
         for(int q=0;q<qS.length;q++){
             double normalized = ((qS[q])/maxQ)*100;
             normalizedQ = normalizedQ + normalized;
-            //normalizedQs[q] = normalized;
-            System.out.println("Normalized Q value: "+normalized);
+            //TEST            
+            //System.out.println("Normalized Q value: "+normalized);
         }
         return normalizedQ;
     }
