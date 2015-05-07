@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package learning;
 
@@ -38,14 +35,24 @@ public class ExperimentData implements Serializable{
     private double temperatureRate;
     private String algorithm;
     
+    /**
+     * Constructs an ExperimentData object and initializes all experiment parameters
+     * to 0 or empty String.
+     */
     public ExperimentData(){
         stepsXEpisode = new ArrayList<>();
         ratioOfCumulativeRewards = new ArrayList<>();
         allData = new ArrayList<>();
         qValuesPerEpisode = new ArrayList<>();
+        policy = "";
+        epsilon = 0.0;
         gamma = 0.0;
         alpha = 0.0;
+        goalState = "";
+        initialState = "";
+        initialTemp = 0.0;
         temperatureRate = 0.0;
+        algorithm = "";
     }
     /**
      * Adds the number of steps executed in an episode to collected experiment data.
@@ -86,7 +93,7 @@ public class ExperimentData implements Serializable{
     }
     
     /**
-     * Print the number of steps per episode and number of data points collected to the current output.
+     * Prints the number of steps per episode and number of data points collected to the current output.
      */
     public void printSteps(){
         int s = stepsXEpisode.size();
@@ -98,7 +105,7 @@ public class ExperimentData implements Serializable{
         System.out.println("# Steps Data Points: "+s);
     }
     /**
-     * Print the collected cumulative rewards and number of cumulative rewards collected to the current output.
+     * Prints the collected cumulative rewards and number of cumulative rewards collected to the current output.
      */
     public void printCumulativeRewards(){
         int s = ratioOfCumulativeRewards.size();
@@ -111,91 +118,91 @@ public class ExperimentData implements Serializable{
     }
     
     /**
-     * Get the data collected on the number of steps taken per episode throughout the latest experiment.
+     * Gets the data collected on the number of steps taken per episode throughout the latest experiment.
      * @return      A list of steps taken per episode with index 0 corresponding to the first episode.
      */
     public ArrayList<Integer> getStepsXEpisode(){
         return stepsXEpisode;
     }
     /**
-     * Get the data collected on amount of expected return (cumulative Q) per episode throughout the latest experiment.
+     * Gets the data collected on amount of expected return (cumulative Q) per episode throughout the latest experiment.
      * @return      A list of cumulative weighted Q values per episode with index 0 corresponding to the first episode.
      */
     public ArrayList<Double> getRatioOfCumulativeRewards(){
         return ratioOfCumulativeRewards;
     }
     /**
-     * Get the Q matrices collected at episode termination throughout the latest experiment.
+     * Gets the Q matrices collected at episode termination throughout the latest experiment.
      * @return      A list containing all Q matrices at the end of each episode, with index 0 corresponding to the first episode.
      */
     public ArrayList<double[][]> getAllData(){
         return allData;
     }
     /**
-     * Get the updated Q values per episode throughout the latest experiment.
+     * Gets the updated Q values per episode throughout the latest experiment.
      * @return      A list containing updated Q values at the end of each episode, with index 0 corresponding to the first episode.
      */
     public ArrayList<double[]> getQValuesPerEpisode(){
         return qValuesPerEpisode;
     }
     /**
-     * Get the policy name associated with the latest experiment.
+     * Gets the policy name associated with the latest experiment.
      * @return  The name of the experiment policy.
      */
     public String getPolicy(){
         return policy;
     }
     /**
-     * Get the epsilon value associated with the experiment data.
+     * Gets the epsilon value associated with the experiment data.
      * @return  The latest epsilon value associated with the experiment data.
      */
     public double getEpsilon(){
         return epsilon;
     }
     /**
-     * Get the gamma value associated with the experiment data.
+     * Gets the gamma value associated with the experiment data.
      * @return  The latest gamma value associated with the experiment data.
      */
     public double getGamma(){
         return gamma;
     }
     /**
-     * Get the alpha value associated with the experiment data.
+     * Gets the alpha value associated with the experiment data.
      * @return  The latest alpha value associated with the experiment data.
      */
     public double getAlpha(){
         return alpha;
     }
     /**
-     * Get the coal state associated with the experiment data.
+     * Gets the coal state associated with the experiment data.
      * @return  The goal state associated with the experiment data.
      */
     public String getGoalState(){
         return goalState;
     }
     /**
-     * Get the initial state associated with the experiment data.
+     * Gets the initial state associated with the experiment data.
      * @return  The initialState associated with the experiment data.
      */
     public String getInitialState(){
         return initialState;
     }
     /**
-     * 
+     * Gets initial temperature associated with the experiment data.
      * @return  The initial temperature.
      */
     public double getInitialTemperature(){
         return initialTemp;
     }
     /**
-     * Get the temperature decrease per episode value associated with the experiment data.
+     * Gets the temperature decrease per episode value associated with the experiment data.
      * @return  The latest temperature decrease per episode value associated with the experiment data.
      */
     public double getTemperatureRate(){
         return temperatureRate;
     }
     /**
-     * Get the learning algorithm name associated with the experiment data.
+     * Gets the learning algorithm name associated with the experiment data.
      * @return  The latest learning algorithm name associated with the experiment data.
      */
     public String getAlgorithm(){
@@ -203,42 +210,42 @@ public class ExperimentData implements Serializable{
     }
     
     /**
-     * Set the policy name associated with the experiment data.
+     * Sets the policy name associated with the experiment data.
      * @param policy    The policy name.
      */
     public void setPolicy(String policy){
         this.policy = policy;
     }
     /**
-     * Set the epsilon value associated with the experiment data.
+     * Sets the epsilon value associated with the experiment data.
      * @param epsilon   The new value for epsilon.
      */
     public void setEpsilon(double epsilon){
         this.epsilon = epsilon;
     }
     /**
-     * Set the gamma value associated with the experiment data.
+     * Sets the gamma value associated with the experiment data.
      * @param gamma   The new value for gamma.
      */
     public void setGamma(double gamma){
         this.gamma = gamma;
     }
     /**
-     * Set the alpha value associated with the experiment data.
+     * Sets the alpha value associated with the experiment data.
      * @param alpha   The new value for alpha.
      */
     public void setAlpha(double alpha){
         this.alpha = alpha;
     }
     /**
-     * Set the goal state associated with the experiment data.
+     * Sets the goal state associated with the experiment data.
      * @param gState   The new name for experiment goal state.
      */
     public void setGoalState(String gState){
         goalState = gState;
     }
     /**
-     * Set the initial state name associated with the experiment data.
+     * Sets the initial state name associated with the experiment data.
      * @param iState   The new name for experiment initial state.
      */
     public void setInitialState(String iState){
@@ -248,14 +255,14 @@ public class ExperimentData implements Serializable{
         initialTemp = initialTemperature;
     }
     /**
-     * Set the temperature decrease per episode value associated with the experiment data.
+     * Sets the temperature decrease per episode value associated with the experiment data.
      * @param temp   The new value for temperature decrease per episode.
      */
     public void setTemperatureRate(double temp){
         temperatureRate = temp;
     }
     /**
-     * Set the learning algorithm name associated with the experiment data.
+     * Sets the learning algorithm name associated with the experiment data.
      * @param algorithm   The new algorithm name.
      */
     public void setAlgorithm(String algorithm){

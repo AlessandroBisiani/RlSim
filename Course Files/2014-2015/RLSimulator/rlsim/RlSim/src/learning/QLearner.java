@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package learning;
 
@@ -32,22 +29,20 @@ public class QLearner extends Learner {
     private double alpha;
     private int stepsPerEpisode;
     
-    
+    /**
+     * Creates a QLearner passing numEpisodes and mFrame to superclass 
+     * constructor Learner(int numEpisodes, MainFrame mFrame) and initializing 
+     * fields.
+     * @param q             JTable containing the Q matrix.
+     * @param r             JTable containing the Reward matrix.
+     * @param numEpisodes   The number of episodes the experiment should run for.
+     * @param mFrame        The instance of MainFrame from which the experiment is run.
+     */
     public QLearner(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
         super(numEpisodes,mFrame);
-        //mainFrame = mFrame;
-        //data = new ExperimentData(r.getRowCount(), numEpisodes);
-        //this.numEpisodes = numEpisodes;
         qMatrix = q;
         rMatrix = r;
-        
-        //policy = new EpsilonGreedy(this,0.3);
-        
-        alpha = 0.5;
-        gamma = 0.7;
-        
         qModel = (Matrix) q.getModel();
-        
     }
     
     @Override
@@ -172,7 +167,7 @@ public class QLearner extends Learner {
     }
     
     /**
-     * Find the highest Q value that can be reached from a state.
+     * Finds the highest Q value that can be reached from a state.
      * @param state     The state from which to search for the highest Q.
      * @return          The highest Q value.
      */
@@ -200,7 +195,7 @@ public class QLearner extends Learner {
     }
     
     /**
-     * Find the Q value for the specified transition.
+     * Finds the Q value for the specified transition.
      * @param state             A state from which to transition.
      * @param nextStateIndex    Column index of the next state.
      * @return                  Q value for the specified transition.
@@ -218,7 +213,7 @@ public class QLearner extends Learner {
     }
     
     /**
-     * Update a Q value.
+     * Sets a Q value.
      * @param state             State the transition is from. The y-axis value.
      * @param nextStateIndex    Column index of the next state.
      * @param q                 New Q value.
@@ -237,19 +232,19 @@ public class QLearner extends Learner {
     }
     
     /**
-     * Set the value of gamma.
-     * @param g     New value of gamma.
+     * Sets the value of gamma.
+     * @param gamma     New value of gamma.
      */
-    public void setGamma(double g){
-        gamma = g;
+    public void setGamma(double gamma){
+        this.gamma = gamma;
     }
     
     /**
-     * Set the value of alpha.
-     * @param a     New value of alpha.
+     * Sets the value of alpha.
+     * @param alpha     New value of alpha.
      */
-    public void setAlpha(double a){
-        alpha = a;
+    public void setAlpha(double alpha){
+        this.alpha = alpha;
     }
     
     @Override
@@ -266,7 +261,7 @@ public class QLearner extends Learner {
     }
     
     /**
-     * Get the current goal state.
+     * Gets the current goal state.
      * @return  The goal state name.
      */
     public String getGoalState(){

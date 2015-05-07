@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package learning;
 
@@ -35,6 +32,15 @@ public class SARSA extends Learner{
     private double gamma;
     private int stepsPerEpisode;
     
+    /**
+     * Creates an instance of SARSA passing numEpisodes and mFrame to superclass 
+     * constructor Learner(int numEpisodes, MainFrame mFrame) and initializing 
+     * fields.
+     * @param q             JTable containing the Q matrix.
+     * @param r             JTable containing the Reward matrix.
+     * @param numEpisodes   The number of episodes the experiment should run for.
+     * @param mFrame        The instance of MainFrame from which the experiment is run.
+     */
     public SARSA(JTable q, JTable r, int numEpisodes, MainFrame mFrame){
         super(numEpisodes, mFrame);
         qMatrix = q;
@@ -63,7 +69,7 @@ public class SARSA extends Learner{
         qMatrix.repaint();
         System.out.println(stepsPerEpisode);
     }
-    public String step(String nextState, int episodeNumber){
+    private String step(String nextState, int episodeNumber){
         //HashMap available = getAvailableActions();
         //TEST
         //System.out.println("This is the size - " + m.size() + " " + m.keySet() + " " + m.values());
@@ -166,8 +172,11 @@ public class SARSA extends Learner{
         currentState = nextState;*/
     }
     
-
-    //finds the current state String in the first rMatrix column and returns a HashMap(reward,statename) containing the rewards associated with names of available next states.
+    /**
+     * Searches for available state transitions and returns a map of transitions mapped to their rewards.
+     * Available transitions are represented by the states to which they lead - these are the Keys.
+     * @return      A HashMap of statesAvailableToTransitionTo(Key) , rewardForThatTransition(Value)
+     */
     public HashMap getAvailableActions(){
         
         HashMap available = new HashMap((rMatrix.getRowCount()),1);
@@ -190,8 +199,14 @@ public class SARSA extends Learner{
         return available;
     }
     
-    public double getCurrentQ(String state, int followingStateIndex){
-        int c = followingStateIndex;
+    /**
+     * Finds the Q value for the specified transition.
+     * @param state             A state from which to transition.
+     * @param nextStateIndex    Column index of the next state.
+     * @return                  Q value for the specified transition.
+     */
+    public double getCurrentQ(String state, int nextStateIndex){
+        int c = nextStateIndex;
         double q = 0;
         for(int i=0;i<qMatrix.getRowCount();i++){
             if(state.equals(qMatrix.getValueAt(i,0))){
@@ -202,6 +217,12 @@ public class SARSA extends Learner{
         return q;
     }
     
+    /**
+     * Sets a Q value.
+     * @param state             State the transition is from. The y-axis value.
+     * @param nextStateIndex    Column index of the next state.
+     * @param q                 New Q value.
+     */
     public void setQ(String state, int nextStateIndex, double q){
         int c = nextStateIndex;
         for(int i=0;i<qMatrix.getRowCount();i++){
@@ -277,9 +298,17 @@ public class SARSA extends Learner{
         rModel = r;
     }*/
     
+    /**
+     * Sets the value of alpha.
+     * @param alpha     New value of alpha.
+     */
     public void setAlpha(double alpha){
         this.alpha = alpha;
     }
+    /**
+     * Sets the value of gamma.
+     * @param gamma     New value of gamma.
+     */
     public void setGamma(double gamma){
         this.gamma = gamma;
     }

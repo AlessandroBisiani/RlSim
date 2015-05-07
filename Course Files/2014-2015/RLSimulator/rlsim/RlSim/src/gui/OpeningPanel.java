@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package gui;
 
@@ -13,7 +10,7 @@ public class OpeningPanel extends javax.swing.JPanel {
 
     private MainFrame mainFrame;
     /**
-     * Creates new form OpenPanel
+     * Creates new OpeningPanel calling initComponents().
      * @param mFrame    The MainFrame instance that created the OpeningPanel instance.
      */
     public OpeningPanel(MainFrame mFrame) {

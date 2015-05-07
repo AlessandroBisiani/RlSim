@@ -2,7 +2,6 @@
  */
 package learning;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -20,7 +19,12 @@ public class Softmax implements Policy{
     private double temperatureDecreaseRate;
     private double initialTemp;
     
-    
+    /**
+     * Creates an instance of Softmax initializing the temperature and setting 
+     * the parameters temperatureRate and initialTemp.
+     * @param temperatureRate   The size of temperature decrease per episode.
+     * @param initialTemp       The initial temperature.
+     */
     public Softmax(double temperatureRate, double initialTemp){
         this.initialTemp = initialTemp;
         temperature = 0;

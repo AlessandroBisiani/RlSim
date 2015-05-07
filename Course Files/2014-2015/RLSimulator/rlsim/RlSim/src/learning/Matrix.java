@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package learning;
 
@@ -35,11 +32,17 @@ public class Matrix extends AbstractTableModel{
                                                             {"state9","0","0","0","0","0","0","0","0","0"}};
     
     
-    
+    /**
+     * Constructs an instance of Matrix setting its internal state to reflect the 
+     * data and states parameters.
+     * @param data
+     * @param states 
+     */
     public Matrix(String[][] data, String[] states){
         matrix = data;
         this.states = states;
-        System.out.println("Custom model created");
+        //TEST
+        //System.out.println("Custom model created");
     }
     
     /*
@@ -56,46 +59,66 @@ public class Matrix extends AbstractTableModel{
     }
     */
     /**
-     * Get an internal representation of the state space.
+     * Gets an internal representation of the state space.
      * @return  A representation of the state space.
      */
     public String[] getStates(){
         return states;
     }
     /**
-     * Get current model data, equivalent to the state of the matrix.
+     * Gets current model data, equivalent to the state of the matrix.
      * @return  All matrix data excluding state names.
      */
     public String[][] getData(){
         return matrix;
     }
     /**
-     * Update the state names
+     * Sets the internal states field.
      * @param states    An array of states matching that of the displayed columns in content and order.
      */
     public void setStates(String[] states){
         this.states = states;
     }
     /**
-     * Update the model data.
+     * Sets the internal data field.
      * @param data  The matrix content.
      */
     public void setData(String[][] data){
         matrix = data;
     }
-
+    /**
+     * Gets the number of rows in this model.
+     * @return  The number of rows in this model.
+     */
     @Override
     public int getRowCount() {
         return matrix.length;
     }
+    /**
+     * Gets the number of columns in this model. 
+     * Note: This includes the first column populated by row headers.
+     * @return  The number of columns.
+     */
     @Override
     public int getColumnCount() {
         return matrix[0].length;
     }
+    /**
+     * Gets the name of the column at the specified index.
+     * @param columnIndex   Index of the desired column.
+     * @return              Name of the desired column.
+     */
     @Override
     public String getColumnName(int columnIndex){
         return states[columnIndex];
     }
+    /**
+     * Checks whether a cell is editable.
+     * Returns true for all cells not in the first column.
+     * @param rowIndex      Index of the cell row.
+     * @param columnIndex   Index of the cell column.
+     * @return  true for editable cells.
+     */
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex){
         if(columnIndex==0){
@@ -104,15 +127,32 @@ public class Matrix extends AbstractTableModel{
             return true;
         }
     }
+    /**
+     * Gets the Object stored at the specified indices.
+     * @param rowIndex      Index of the desired row.
+     * @param columnIndex   Index of the desired column.
+     * @return  The Object at (rowIndex,columnIndex)
+     */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return matrix[rowIndex][columnIndex];
     }
+    /**
+     * Sets the Object at the specified indices.
+     * @param o             Object to set at (rowIndex, columnIndex).
+     * @param rowIndex      Index of the desired row.
+     * @param columnIndex   Index of the desired column.
+     */
     @Override
     public void setValueAt(Object o, int rowIndex, int columnIndex){
             String s = String.valueOf(o);
             matrix[rowIndex][columnIndex] = s;
     }
+    /**
+     * Gets the column index of the column with the specified name.
+     * @param columnName    Name of the desired column.
+     * @return              Index of the desired column.
+     */
     @Override
     public int findColumn(String columnName){
         int count = getColumnCount();
@@ -140,7 +180,7 @@ public class Matrix extends AbstractTableModel{
         return -1;
     }
     /**
-     * Get the value at coordinates in the matrix as a double.
+     * Gets the value at coordinates in the matrix as a double.
      * @param rowIndex      Index of the matrix row.
      * @param columnIndex   Index of the matrix column.
      * @return              The value of the matrix at the indeces passed.

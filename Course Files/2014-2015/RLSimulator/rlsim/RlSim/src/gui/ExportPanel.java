@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package gui;
 
@@ -16,7 +13,7 @@ public class ExportPanel extends javax.swing.JPanel {
 
     private MainFrame mainFrame;
     /**
-     * Creates new form ExportPanel
+     * Creates new ExportPanel calling initComponents().
      * @param mFrame    The MainFrame instance that created the ExportPanel instance
      */
     public ExportPanel(MainFrame mFrame) {

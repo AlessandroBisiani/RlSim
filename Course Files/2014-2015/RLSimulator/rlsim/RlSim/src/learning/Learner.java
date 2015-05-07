@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package learning;
 
@@ -28,6 +25,11 @@ public abstract class Learner implements Runnable{
     private MainFrame mainFrame;
     private int numOfEpisodes;
     
+    /**
+     * Sets internal fields to the parameters numEpisodes and mFrame.
+     * @param numEpisodes   The number of episodes the experiment should run for.
+     * @param mFrame        The MainFrame from which the experiment is run.
+     */
     public Learner(int numEpisodes, MainFrame mFrame){
         mainFrame = mFrame;
         numOfEpisodes = numEpisodes;
@@ -68,7 +70,7 @@ public abstract class Learner implements Runnable{
     public abstract void episode(int episodeNumber);
     
     /**
-     * Get the number of steps taken to complete the current episode.
+     * Gets the number of steps taken to complete the current episode.
      * @return  Number of steps taken to completion of the current episode.
      */
     public abstract int getStepsPerEpisode();
@@ -81,31 +83,31 @@ public abstract class Learner implements Runnable{
     public abstract double calculateCumulativeQ();
     
     /**
-     * Set the policy object with which the learner will function.
+     * Sets the policy object with which the learner will function.
      * @param p     The new policy to associate with an instance of learner.
      */
     public abstract void setPolicy(Policy p);
     
     /**
-     * Set the goal state for this experiment.
+     * Sets the goal state for this experiment.
      * @param gs    The name of the goal state.
      */
     public abstract void setGoalState(String gs);
     
     /**
-     * Set the initial state for this experiment.
+     * Sets the initial state for this experiment.
      * @param is    The name of the initial state.
      */
     public abstract void setInitialState(String is);
     
     /**
-     * Get all Q matrix data for the current episode.
+     * Gets all Q matrix data for the current episode.
      * @return  The Q matrix data.
      */
     public abstract double[][] getAllEpisodeData();
     
     /**
-     * Get all updated Q values for the current episode.
+     * Gets all updated Q values for the current episode.
      * @return  A collection of updated q values.
      */
     public abstract double[] getQValues();

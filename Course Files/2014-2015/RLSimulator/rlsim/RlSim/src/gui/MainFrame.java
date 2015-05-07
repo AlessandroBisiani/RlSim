@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package gui;
 
@@ -35,7 +32,7 @@ import learning.Softmax;
 
 /**
  * MainFrame is the principal user interface for running RlSim.
- * It provides a main method and all hookups for experiments functionality.
+ * It provides a main method and all hookups for experiment functionality.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */
@@ -48,11 +45,18 @@ public class MainFrame extends javax.swing.JFrame implements Runnable{
     private String[] stateSpace = {"state1","state2","state3","state4","state5"};
     private Learner learner;
     private Thread learningThread;
+    /**
+     * The ExperimentData object used to collect experiment data from an instance of MainFrame.
+     */
     public ExperimentData data;
     private final String[] POLICIES = {"ɛ-Greedy","Softmax","Random"};
     private final String[] LEARNING_ALGORITHMS = {"Q-Learning", "SARSA"};
     
-    
+    /**
+     * Constructs an instance of MainFrame.
+     * Calls initComponents(), initializes new ExperimentData object, and adds 
+     * component listeners to the matrices' JScrollPanes for appropriate of table resizing.
+     */
     public MainFrame() {
         initComponents();
         learner = null;
@@ -527,53 +531,8 @@ new Object[][]     {{0,0,0,0},
 
     
     private void interruptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interruptButtonActionPerformed
-        
         learningThread.interrupt();
         setRunningJLabel("");
-        //Matrix m = (Matrix)rMatrix.getModel();
-        //System.out.println(m.getStatesLength()+" va la");
-        //System.out.println(new QLearner(rMatrix,qMatrix,1,this).getClass().getName());
-        /*
-        if(tempLabelFrame != null){
-           System.out.println("still ref");
-        } else {
-           System.out.println("nothing to see here");
-        }
-        
-            File f = new File(".");
-            System.out.println(f.getAbsolutePath());
-        
-            qLearner.setTDThreshold(Double.parseDouble(tdThresholdJTextField.getText()));
-            qLearner.setPolicy(new EpsilonGreedy(qLearner,Double.parseDouble(epsilonJTextField.getText())));
-            qLearner.setAlpha(Double.parseDouble(alphaJTextField.getText()));
-            qLearner.setGamma(Double.parseDouble(gammaJTextField.getText()));
-            int ep = Integer.parseInt(episodesJTextField.getText());
-            for(int i=0;i<ep;i++){
-            resetQMatrix();
-            qLearner.episode();
-            }
-            
-            System.out.println(rMatrix.getModel().getValueAt(0,0));
-            System.out.println(rMatrix.getModel().getValueAt(1,1));
-            System.out.println(rMatrix.getModel().getValueAt(2,2));
-            Object o = rMatrix.getModel().getValueAt(2,2);
-            String s = "";
-            int i = 0;
-            if(o instanceof Integer){
-            i = (Integer)rMatrix.getModel().getValueAt(2,2) + (Integer)rMatrix.getModel().getValueAt(2,2);
-            System.out.println(i);
-            } else if(o instanceof String){
-            s = (String)rMatrix.getModel().getValueAt(2,2) + (String)rMatrix.getModel().getValueAt(2,2);
-            System.out.println(s);
-            }
-            System.out.println(o.getClass());
-            */
-            
-            //rMatrix.setModel(new DefaultTableModel(new Object[][] {{1,2,3},{4,5,6}}, new String[] {"s1","s2","s3"}));
-            //System.out.println(qMatrix.getValueAt(0,0));        //Test of whether getValueAt() returns the value displayed by the table which may be arbitrarily modified.
-            //System.out.println(qMatrix.getModel().getValueAt(0,0));//Test that the TableModel assoc with the JTable is updated alongside the graphical representation.
-            //rMatrix.setModel(new RMatrix());
-        
     }//GEN-LAST:event_interruptButtonActionPerformed
 
     private void episodesJTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_episodesJTextFieldActionPerformed
@@ -665,14 +624,8 @@ new Object[][]     {{0,0,0,0},
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void resetExperimentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetExperimentButtonActionPerformed
-        /*episodesJTextField.setText("10");
-        gammaJTextField.setText("0.8");
-        alphaJTextField.setText("0.5");
-        epsilonJTextField.setText("0.35");
-        temperatureRateJTextField.setText("0.005");*/
         goalStateJTextField.setText("25");
         initialStateJTextField.setText("1");
-        
         setSAExperimentMatrices();
         resetQMatrix();
         data.resetData();
@@ -1175,7 +1128,7 @@ new Object[][]     {{0,0,0,0},
     }
     
     /**
-     * Set the runningJLabel.
+     * Sets the runningJLabel.
      * This is used to indicate the state of the experiment when it has completed execution.
      * Pass "Completed" for a terminated experiment, and "" for an experiment being executed.
      * @param label The text to set the JLabel to.

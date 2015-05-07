@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package gui;
 
@@ -21,6 +18,7 @@ public class StateSpacePanel extends javax.swing.JPanel{
     private MainFrame mainFrame;
     
     /**
+     * Creates new StateSpacePanel calling initComponents().
      *@param mFrame    The MainFrame instance that created the StateSpacePanel instance
      */
     public StateSpacePanel(MainFrame mFrame) {
