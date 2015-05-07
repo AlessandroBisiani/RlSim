@@ -9,7 +9,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
+ * An structure for experiment data collection.
+ * It collects experiment raw data, Q matrix states per episode, and experiment 
+ * metrics steps per episode, and cumulative weighted non-zero Q values per episode.
+ * It is intended to preserve collected data across experiment executions. resetData() is provided for
+ * resetting the accumulated data. Note: this does not affect experiment parameters.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */

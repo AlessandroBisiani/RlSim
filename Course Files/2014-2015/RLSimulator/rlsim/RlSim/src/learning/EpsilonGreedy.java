@@ -10,14 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * An straightforward implementation of the epsilon-greedy action selection policy.
+ * Note: if, when selecting greedily, multiple actions yield equal max reward, it will choose randomly between them.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */
-public class EpsilonGreedy implements Policy, Serializable{
+public class EpsilonGreedy implements Policy{
 
     private double epsilon;
     
+    /**
+     * Constructs an EpsilonGreedy
+     * @param epsilon The value of epsilon.
+     */
     public EpsilonGreedy(double epsilon){
         this.epsilon = epsilon;
     }

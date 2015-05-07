@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
- *
+ * A custom JPanel for harvesting a state space specification for use by gui.MainFrame.
  * @author alessandrobisiani
  */
 public class StateSpacePanel extends javax.swing.JPanel{

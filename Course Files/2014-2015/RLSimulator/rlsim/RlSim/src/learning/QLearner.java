@@ -11,7 +11,11 @@ import java.util.HashMap;
 import javax.swing.JTable;
 
 /** 
- *
+ * An implementation of the Q-learning algorithm for use by gui.MainFrame.
+ * See extended class Learner for details of algorithm execution by mainFrame.
+ * Public method episode(int episodeNumber), and private method step(int episodeNumber)
+ * implement all behavior unique to q-learning.
+ * QLearner.run() simply calls Learner.run(). Use this implementation by calling its run() method.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */
@@ -143,7 +147,7 @@ public class QLearner extends Learner {
     /**
      * Searches for available state transitions and returns a map of transitions mapped to their rewards.
      * Available transitions are represented by the states to which they lead - these are the Keys.
-     * @return      A HashMap of <statesAvailableToTransitionTo , rewardForThatTransition>
+     * @return      A HashMap of statesAvailableToTransitionTo(Key) , rewardForThatTransition(Value)
      */
     public HashMap getAvailableActions(){
         

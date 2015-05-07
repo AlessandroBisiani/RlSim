@@ -6,7 +6,7 @@
 package gui;
 
 /**
- *
+ * A custom JPanel for saving an experiment through gui.MainFrame.
  * @author alessandrobisiani
  */
 public class SavingPanel extends javax.swing.JPanel {

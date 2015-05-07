@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * A custom JPanel for exporting experiment data through gui.MainFrame.
  * @author alessandrobisiani
  */
 public class ExportPanel extends javax.swing.JPanel {

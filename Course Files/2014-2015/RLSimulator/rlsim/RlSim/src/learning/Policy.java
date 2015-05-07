@@ -8,7 +8,9 @@ package learning;
 import java.util.HashMap;
 
 /**
- *
+ * An action selection policy for use by learning.Learner.
+ * It simply guarantees that implementing classes provide an implementation for 
+ * String next(HashMap stateRewardMap, int episodeNumber).
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */

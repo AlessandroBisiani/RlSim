@@ -10,7 +10,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Learner is intended for extension when implementing learning algorithms to be used with gui.MainFrame.
+ * The Learner abstract class implements the Runnable interface so that Learning algorithms can be interrupted 
+ * separately from the rest of the application. Implementing episode(int episodeNumber), setPolicy(Policy p),
+ * setGoalState(String gs), setInitialState(String is), getQValues(), and run() is sufficient to satisfy a call to 
+ * experiment() from MainFrame.
+ * Note: Extending classes are required to override Run(). The implementation should always either call super() at 
+ * the end or in case special behavior is necessary, execute experiment().
+ * Learner guarantees that implementing classes will call Thread.sleep(1) after each episode, giving the thread 
+ * a chance to throw an InterruptedException if the interrupted flag is set. Experiments can be interrupted this way.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */
@@ -26,8 +34,9 @@ public abstract class Learner implements Runnable{
     }
     
     /**
-     * Performs the experiment and saves the data output. Relies on episode().
-     * @throws InterruptedException 
+     * Performs the experiment and saves the data output.
+     * Relies on episode().
+     * @throws InterruptedException After each episode execution Thread.sleep() provides the opportunity to throw an interrupted exception if the interrupted flag was set.
      */
     public  void experiment() throws InterruptedException{
         for(int i=0;i<numOfEpisodes;i++){

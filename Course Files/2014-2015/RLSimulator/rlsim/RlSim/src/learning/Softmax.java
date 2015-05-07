@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package learning;
 
@@ -9,7 +6,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- *
+ * An implementation of Softmax action selection for use by gui.MainFrame.
+ * For a description of how action probabilities are calculated see 
+ * Reinforcement Learning: An Introduction By Sutton & Barto, Chapter I,2.3
+ * Temperature is varied by a diminished by a fixed about per episode given by 
+ * constructor parameter temperatureRate.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */

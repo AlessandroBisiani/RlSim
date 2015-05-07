@@ -34,6 +34,8 @@ import learning.SARSA;
 import learning.Softmax;
 
 /**
+ * MainFrame is the principal user interface for running RlSim.
+ * It provides a main method and all hookups for experiments functionality.
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */
@@ -780,7 +782,7 @@ new Object[][]     {{0,0,0,0},
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
                 sb.append("Algorithm : ");      sb.append(getAlgorithm()); sb.append(","); sb.append(nl);
-                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","); sb.append(nl);
+                sb.append("Policy : ");         sb.append(data.getPolicy());  sb.append(","); sb.append(nl);
                 switch(getPolicy()){
                     case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); 
                                         sb.append(","); sb.append(nl);
@@ -868,8 +870,8 @@ new Object[][]     {{0,0,0,0},
                 int matrixSize = expData.get(0).length;
                 String nl = System.getProperty("line.separator");
                 //add experiment parameters
-                sb.append("Algorithm : ");      sb.append(data.getAlgorithm()); sb.append(",");      sb.append(nl);
-                sb.append("Policy : ");         sb.append(data.getPolicy().getClass());  sb.append(","); sb.append(nl);
+                sb.append("Algorithm : ");      sb.append(data.getAlgorithm()); sb.append(",");     sb.append(nl);
+                sb.append("Policy : ");         sb.append(data.getPolicy());  sb.append(",");       sb.append(nl);
                 switch(getPolicy()){
                     case "ɛ-Greedy":    sb.append("Gamma : "); sb.append(data.getGamma()); sb.append(","); sb.append(nl);
                                         break;
@@ -1173,7 +1175,9 @@ new Object[][]     {{0,0,0,0},
     }
     
     /**
-     * Set the runningJLabel to indicate the state of the experiment.
+     * Set the runningJLabel.
+     * This is used to indicate the state of the experiment when it has completed execution.
+     * Pass "Completed" for a terminated experiment, and "" for an experiment being executed.
      * @param label The text to set the JLabel to.
      */
     public void setRunningJLabel(String label){
@@ -1408,6 +1412,9 @@ new Object[][]     {{0,0,0,0},
         RLSim.start();
     }
     
+    /**
+     * Calls setVisible(true) on the instance of MainFrame.
+     */
     @Override
     public void run() {
         this.setVisible(true);

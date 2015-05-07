@@ -13,7 +13,11 @@ import java.util.logging.Logger;
 import javax.swing.JTable;
 
 /**
- *
+ * An implementation of the Sarsa learning algorithm for use by gui.MainFrame.
+ * See extended class Learner for details of algorithm execution by mainFrame.
+ * Public method episode(int episodeNumber), and private method step(String nextState, int episodeNumber)
+ * implement all behavior unique to Sarsa.
+ * SARSA.run() simply calls Learner.run(). Use this implementation by calling its run() method.
  * @author AlessandroBisiani
  * @version v1.0 - 1 May 2015
  */
@@ -102,7 +106,10 @@ public class SARSA extends Learner{
         double newQ =  s1a1QValue + (alpha*(td));
         setQ(s1,a1ColumnIndex,newQ);
         
-        /*String stateS = null;
+        return nextState;
+        
+        /*
+        String stateS = null;
     //Pick next state
         String nextState = s;
     //Move there and save previous state
@@ -131,11 +138,11 @@ public class SARSA extends Learner{
         //System.out.println("New Q value found for "+currentState +": "+newQ);
 
         setQ(stateS,currentStateIndex,newQ);
-        */
-        return nextState;
-
-        //currentState = nextState;
         
+        return nextState;
+        */
+        
+        //currentState = nextState;
         /*//Pick next state
         String nextState = policy.next(m);
         //System.out.println("state selected by qlearner: " + nextState);

@@ -6,7 +6,7 @@
 package gui;
 
 /**
- *
+ * A custom JPanel for opening and experiment through gui.MainFrame.
  * @author alessandrobisiani
  */
 public class OpeningPanel extends javax.swing.JPanel {

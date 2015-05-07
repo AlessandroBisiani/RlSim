@@ -8,7 +8,16 @@ package learning;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
+ * Custom table model for use in gui.MainFrame. 
+ * It is used in both reward and Q matrices of gui.MainFrame. The first column is used
+ * as the x-axis for specifying states.
+ * Specialized behavior in this version:
+ *   -getStates() returns the list of states in the order they are displayed.
+ *   -getData() returns the double[][] containing matrix data.
+ *   -setStates(String[] states) sets the state space. 
+ *   -setData(String[][] data) sets matrix content.
+ *   -findRow(String rowName) returns the index of the specified row.
+ *   -getDoubleAt(int rowIndex, int columnIndex) returns a value from the matrix parsed to Double. 
  * @author Alessandro Bisiani
  * @version v1.0 - 1 May 2015
  */
@@ -115,6 +124,12 @@ public class Matrix extends AbstractTableModel{
         }
         return -1;
     }
+    /**
+     * Returns the index of the specified row.
+     * Used for implementations of a JTable as a matrix where the first column contains row headers.
+     * @param rowName   Name of the row header found in column 0.
+     * @return          Index of the specified row, or -1 if that row does not exist.
+     */
     public int findRow(String rowName){
         for(int i=0;i<getRowCount();i++){
             String name = (String)getValueAt(i,0);
